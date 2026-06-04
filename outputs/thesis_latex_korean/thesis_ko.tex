@@ -1,0 +1,291 @@
+%% thesis_ko.tex — 한국어 졸업논문 메인 파일
+%% 기업 지식 관리를 위한 적응형 검색 계획: 합성 기업 지식 데이터셋(SEKD)에 대한 통제 실험 평가
+%%
+%% 작성자: 한양대학교 정보시스템학과 졸업논문 (캡스톤 디자인)
+%% 날짜: 2026년 6월
+%% 컴파일: xelatex thesis_ko.tex && bibtex thesis_ko && xelatex thesis_ko.tex && xelatex thesis_ko.tex
+
+\documentclass[12pt, a4paper, twoside]{report}
+
+%% ────────────── 한국어 지원 ──────────────
+\usepackage{kotex}
+\usepackage{fontspec}
+\setmainfont{AppleMyungjo}
+\setsansfont{AppleGothic}
+\setmonofont[Scale=0.9]{Courier New}
+
+%% ────────────── 인코딩 및 폰트 ──────────────
+\usepackage{microtype}
+
+%% ────────────── 페이지 레이아웃 ──────────────
+\usepackage[
+  a4paper,
+  top=30mm,
+  bottom=30mm,
+  inner=35mm,
+  outer=25mm,
+  headheight=15pt
+]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ────────────── 수식 ──────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+%% ────────────── 표 ──────────────
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{tabularx}
+
+%% ────────────── 그림 ──────────────
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{font=small, labelfont=bf}
+
+%% ────────────── 색상 ──────────────
+\usepackage[dvipsnames]{xcolor}
+
+%% ────────────── 하이퍼링크 ──────────────
+\usepackage[
+  colorlinks=true,
+  linkcolor=NavyBlue,
+  citecolor=OliveGreen,
+  urlcolor=MidnightBlue,
+  pdfauthor={한양대학교 정보시스템학과},
+  pdftitle={기업 지식 관리를 위한 적응형 검색 계획},
+  pdfsubject={정보시스템, 검색 증강 생성, 기업 검색},
+  pdfkeywords={BM25, Dense Retrieval, Hybrid RRF, 적응형 계획, GPT-5, Enterprise RAG, 에이전틱 RAG, LangGraph, 재검색}
+]{hyperref}
+
+%% ────────────── 코드 ──────────────
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny
+}
+
+%% ────────────── 참고문헌 ──────────────
+\usepackage[round,authoryear]{natbib}
+\bibliographystyle{plainnat}
+
+%% ────────────── 기타 서식 ──────────────
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{enumitem}
+\setlist[description]{leftmargin=2em, labelindent=0em, style=nextline}
+\usepackage{placeins}
+\clubpenalty=10000
+\widowpenalty=10000
+
+%% ────────────── 장 제목 스타일 ──────────────
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}
+  {제 \thechapter\ 장}
+  {20pt}
+  {\Huge}
+\titlespacing*{\chapter}{0pt}{30pt}{20pt}
+
+%% ────────────── 국문초록 환경 ──────────────
+\newenvironment{abstractko}{
+  \clearpage
+  \chapter*{국문초록}
+  \addcontentsline{toc}{chapter}{국문초록}
+}{}
+
+%% ────────────── 그림 경로 ──────────────
+\graphicspath{{../final_report/figures/}}
+
+%% ─────────────────────────────────────────────────────────────────────────────
+\begin{document}
+
+%% ────────────── 표지 ──────────────
+\begin{titlepage}
+\centering
+\vspace*{1.5cm}
+
+{\Large\textbf{한양대학교}}\\[0.5em]
+{\large 정보시스템학과}\\[3em]
+
+\rule{\textwidth}{1.5pt}\\[0.5em]
+{\huge\bfseries 기업 지식 관리를 위한 적응형 검색 계획:\\[0.3em]
+합성 기업 지식 데이터셋(SEKD)에 대한\\[0.3em]
+통제 실험 평가}\\[0.5em]
+\rule{\textwidth}{1.5pt}\\[2em]
+
+{\large Adaptive Retrieval Planning for Enterprise Knowledge Management:\\
+A Controlled Evaluation on the Synthetic Enterprise Knowledge Dataset (SEKD)}\\[3em]
+
+{\large 정보시스템학종합설계 졸업논문}\\[2em]
+
+{\large\bfseries 신원영 (Shin, Won Young)}\\[0.3em]
+{\large 정보시스템학종합설계}\\[1em]
+{\large pingu090@hanyang.ac.kr}\\[4em]
+
+\vfill
+
+{\large 2026년 6월}\\[1em]
+
+{\normalsize
+한양대학교 정보시스템학과\\
+학사 학위 요건의 일부로 제출함\\[1em]
+지도교수: 이욱 교수님 (Prof. Ook Lee)
+}
+
+\end{titlepage}
+
+%% ────────────── 전문 ──────────────
+\pagenumbering{roman}
+
+\input{abstract_ko}
+
+\clearpage
+\tableofcontents
+
+\clearpage
+\listoffigures
+\addcontentsline{toc}{chapter}{그림 목차}
+
+\clearpage
+\listoftables
+\addcontentsline{toc}{chapter}{표 목차}
+
+%% ────────────── 약어 목록 ──────────────
+\clearpage
+\chapter*{약어 및 기호 목록}
+\addcontentsline{toc}{chapter}{약어 및 기호 목록}
+
+\begin{table}[H]
+\caption*{}
+\begin{tabular}{ll}
+\toprule
+\textbf{약어} & \textbf{의미} \\
+\midrule
+AA      & 응답 에이전트 (Answer Agent) \\
+ANN     & 근사 최근접 이웃 (Approximate Nearest Neighbor) \\
+API     & 응용 프로그래밍 인터페이스 (Application Programming Interface) \\
+BM25    & Best Match 25 (Okapi BM25 검색 함수) \\
+Dense   & 밀집 임베딩 기반 검색 (Dense Embedding Retrieval) \\
+DPR     & 밀집 구절 검색 (Dense Passage Retrieval) \\
+HR      & 인사 (Human Resources) \\
+IR      & 정보 검색 (Information Retrieval) \\
+LLM     & 대규모 언어 모델 (Large Language Model) \\
+MCP     & 모델 컨텍스트 프로토콜 (Model Context Protocol) \\
+MRR     & 평균 역순위 (Mean Reciprocal Rank) \\
+nDCG    & 정규화 할인 누적 이득 (Normalized Discounted Cumulative Gain) \\
+PA      & 계획 에이전트 (Planning Agent) \\
+QAA     & 질의 분석 에이전트 (Query Analysis Agent) \\
+RA      & 검색 에이전트 (Retrieval Agent) \\
+RAG     & 검색 증강 생성 (Retrieval-Augmented Generation) \\
+RRF     & 상호 순위 융합 (Reciprocal Rank Fusion) \\
+SEKD    & 합성 기업 지식 데이터셋 (Synthetic Enterprise Knowledge Dataset) \\
+SSA     & 전략 선택 정확도 (Strategy Selection Accuracy) \\
+TF-IDF  & 단어 빈도-역문서 빈도 (Term Frequency-Inverse Document Frequency) \\
+VA      & 검증 에이전트 (Validation Agent) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ────────────── 본문 ──────────────
+\pagenumbering{arabic}
+
+\input{introduction_ko}
+\input{literature_review_ko}
+\input{methodology_ko}
+\input{results_ko}
+\input{discussion_ko}
+\input{conclusion_ko}
+\input{v2_methodology_ko}
+\input{v2_results_ko}
+
+%% ────────────── 부록 ──────────────
+\appendix
+
+\chapter{SEKD 코퍼스: 문서 범주 및 질의 예시}
+\label{app:sekd_ko}
+
+\section{문서 범주 요약}
+
+SEKD 코퍼스는 6개 범주에 걸쳐 120개의 문서(범주당 20개)를 포함한다. 각 문서는 Jinja2 템플릿 파이프라인을 사용하여 생성되었으며, 프로젝트명, 직원 ID, API 엔드포인트 경로, 정책 섹션 코드 등의 무작위 엔티티 값이 포함되어 있다.
+
+\begin{table}[H]
+\centering
+\caption{SEKD 문서 범주별 특성}
+\label{tab:app_categories_ko}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{범주} & \textbf{문서 수} & \textbf{평균 섹션 수} & \textbf{평균 청크 수} & \textbf{질의 수} \\
+\midrule
+API 문서               & 20 & 8.2  & 16.4 & 68  \\
+인사(HR) 정책           & 20 & 6.1  & 12.3 & 54  \\
+프로젝트 회의록          & 20 & 5.4  & 10.8 & 100 \\
+보안 정책               & 20 & 7.3  & 14.6 & 64  \\
+시스템 설계 문서          & 20 & 5.6  & 11.2 & 45  \\
+출장 정책               & 20 & 6.0  & 12.0 & 49  \\
+\midrule
+\textbf{합계}           & \textbf{120} & \textbf{6.5} & \textbf{12.9} & \textbf{380} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{추론 유형별 질의 예시}
+
+\begin{description}
+    \item[단일 홉 (single\_hop)] ``출장 비용 정책에서 허용되는 최대 일일 호텔 비용은 얼마인가?''
+    \item[다중 홉 (multi\_hop)] ``시스템 설계 문서에 기술된 데이터 내보내기 서비스와 동일한 인증 방식을 사용하는 API 엔드포인트는 무엇인가?''
+    \item[집계 (aggregation)] ``2단계 인증을 의무화하는 모든 보안 정책 섹션을 나열하라.''
+    \item[비교 (comparison)] ``인사 정책에 따른 선임 엔지니어와 주니어 엔지니어의 연차 휴가 권한을 비교하라.''
+    \item[예외 (exception)] ``어떤 조건에서 직원은 표준 경비 사전 승인 요건에서 면제되는가?''
+    \item[시간적 (temporal)] ``2024년 3분기 인증 시스템 개편 이전에 출시된 API 버전은 무엇인가?''
+\end{description}
+
+\chapter{GPT-5 구조화 프롬프트 템플릿}
+\label{app:prompt_ko}
+
+GPT-5 검색 계획 평가에 사용된 구조화 프롬프트 템플릿은 다음과 같다.
+
+\begin{lstlisting}[language={},caption={GPT-5 구조화 검색 계획 프롬프트}]
+You are a retrieval strategy planner for an enterprise knowledge
+management system. Given a query and its metadata, select the
+optimal retrieval strategy.
+
+STRATEGIES:
+- bm25: exact keyword matching, date sequences, version numbers
+- dense: semantic similarity, exception clauses, paraphrased queries
+- hybrid: multi-hop queries, aggregation, mixed signals
+
+GUIDANCE:
+- temporal -> bm25
+- exception -> dense
+- multi_hop -> hybrid
+- aggregation -> hybrid
+
+QUERY: {query_text}
+REASONING TYPE: {reasoning_type}
+DIFFICULTY FACTORS: {difficulty_factors}
+DOCUMENT CATEGORY: {document_category}
+
+Respond with valid JSON only:
+{"strategy": "<bm25|dense|hybrid>", "rationale": "<one sentence>"}
+\end{lstlisting}
+
+%% ────────────── 참고문헌 ──────────────
+\cleardoublepage
+\bibliography{../thesis_latex/references}
+\addcontentsline{toc}{chapter}{참고문헌}
+
+\end{document}

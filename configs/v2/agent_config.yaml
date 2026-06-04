@@ -1,0 +1,45 @@
+# V2 Agent Configuration
+# All values tunable without code changes.
+
+# ── Index paths (override with environment variables) ──────────────────────────
+indexes:
+  bm25_dir: "outputs/evaluation/bm25/index"
+  dense_dir: "outputs/evaluation/dense/index"
+
+# ── Validation Agent ───────────────────────────────────────────────────────────
+validation:
+  relevance_threshold: 0.3          # minimum chunk relevance score to pass
+  min_passed_chunks: 3              # minimum passing chunks to proceed to Answer Agent
+  scorer: "rank_proxy"              # rank_proxy | bm25_proxy | llm (Phase 12C)
+  max_loops: 3                      # maximum re-retrieval loops
+
+# ── Planning Agent ─────────────────────────────────────────────────────────────
+planning:
+  default_top_k: 10
+  planner_dispatch:
+    rule_types:                     # reasoning types handled by rule planner
+      - temporal
+      - exception
+      - multi_hop
+      - aggregation
+    llm_fallback_model: "gpt-4o-mini"   # used for ambiguous single_hop/comparison
+
+# ── Retrieval Agent ────────────────────────────────────────────────────────────
+retrieval:
+  hybrid_rrf_k: 10                  # V1 best-performing value
+  candidate_k: 100                  # candidates per method before RRF fusion
+
+# ── Answer Agent ───────────────────────────────────────────────────────────────
+answer:
+  model: "gpt-4o-mini"
+  max_evidence_chunks: 5
+  temperature: 0.0
+
+# ── Empirical oracle strategy mapping (from V1 Phase 5–7) ─────────────────────
+empirical_oracle:
+  temporal: bm25
+  exception: dense
+  multi_hop: hybrid
+  aggregation: hybrid
+  comparison: hybrid
+  single_hop: hybrid

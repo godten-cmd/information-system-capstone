@@ -1,0 +1,449 @@
+{
+  "method": "v2_heuristic",
+  "description": "V2 heuristic QA + adaptive scorer + re-retrieval (ablation)",
+  "timestamp": "2026-06-04T06:42:50.674688+00:00",
+  "config": {
+    "use_oracle": false,
+    "scorer": "adaptive",
+    "max_loops": 3,
+    "k": 10
+  },
+  "overall": {
+    "k1": {
+      "n_queries": 380,
+      "recall": 0.368,
+      "precision": 0.4053,
+      "mrr": 0.5295,
+      "ndcg": 0.4053,
+      "hit_rate": 0.4053
+    },
+    "k3": {
+      "n_queries": 380,
+      "recall": 0.5689,
+      "precision": 0.2132,
+      "mrr": 0.5295,
+      "ndcg": 0.5006,
+      "hit_rate": 0.6132
+    },
+    "k5": {
+      "n_queries": 380,
+      "recall": 0.6228,
+      "precision": 0.1421,
+      "mrr": 0.5295,
+      "ndcg": 0.5247,
+      "hit_rate": 0.6632
+    },
+    "k10": {
+      "n_queries": 380,
+      "recall": 0.7447,
+      "precision": 0.0863,
+      "mrr": 0.5295,
+      "ndcg": 0.5664,
+      "hit_rate": 0.7974
+    }
+  },
+  "by_reasoning_type": {
+    "k1": {
+      "aggregation": {
+        "n_queries": 35,
+        "recall": 0.581,
+        "precision": 0.6,
+        "mrr": 0.7683,
+        "ndcg": 0.6,
+        "hit_rate": 0.6
+      },
+      "comparison": {
+        "n_queries": 33,
+        "recall": 0.5606,
+        "precision": 0.6667,
+        "mrr": 0.746,
+        "ndcg": 0.6667,
+        "hit_rate": 0.6667
+      },
+      "exception": {
+        "n_queries": 34,
+        "recall": 0.0882,
+        "precision": 0.0882,
+        "mrr": 0.1522,
+        "ndcg": 0.0882,
+        "hit_rate": 0.0882
+      },
+      "multi_hop": {
+        "n_queries": 53,
+        "recall": 0.1887,
+        "precision": 0.3774,
+        "mrr": 0.4907,
+        "ndcg": 0.3774,
+        "hit_rate": 0.3774
+      },
+      "single_hop": {
+        "n_queries": 220,
+        "recall": 0.4,
+        "precision": 0.4,
+        "mrr": 0.5383,
+        "ndcg": 0.4,
+        "hit_rate": 0.4
+      },
+      "temporal": {
+        "n_queries": 5,
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.02,
+        "ndcg": 0.0,
+        "hit_rate": 0.0
+      }
+    },
+    "k3": {
+      "aggregation": {
+        "n_queries": 35,
+        "recall": 0.8762,
+        "precision": 0.3048,
+        "mrr": 0.7683,
+        "ndcg": 0.7736,
+        "hit_rate": 0.9143
+      },
+      "comparison": {
+        "n_queries": 33,
+        "recall": 0.7273,
+        "precision": 0.3333,
+        "mrr": 0.746,
+        "ndcg": 0.6965,
+        "hit_rate": 0.8485
+      },
+      "exception": {
+        "n_queries": 34,
+        "recall": 0.1471,
+        "precision": 0.049,
+        "mrr": 0.1522,
+        "ndcg": 0.1215,
+        "hit_rate": 0.1471
+      },
+      "multi_hop": {
+        "n_queries": 53,
+        "recall": 0.3113,
+        "precision": 0.2075,
+        "mrr": 0.4907,
+        "ndcg": 0.3217,
+        "hit_rate": 0.5283
+      },
+      "single_hop": {
+        "n_queries": 220,
+        "recall": 0.6364,
+        "precision": 0.2121,
+        "mrr": 0.5383,
+        "ndcg": 0.5408,
+        "hit_rate": 0.6364
+      },
+      "temporal": {
+        "n_queries": 5,
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.02,
+        "ndcg": 0.0,
+        "hit_rate": 0.0
+      }
+    },
+    "k5": {
+      "aggregation": {
+        "n_queries": 35,
+        "recall": 0.8762,
+        "precision": 0.1829,
+        "mrr": 0.7683,
+        "ndcg": 0.7736,
+        "hit_rate": 0.9143
+      },
+      "comparison": {
+        "n_queries": 33,
+        "recall": 0.8333,
+        "precision": 0.2424,
+        "mrr": 0.746,
+        "ndcg": 0.7517,
+        "hit_rate": 0.9091
+      },
+      "exception": {
+        "n_queries": 34,
+        "recall": 0.1765,
+        "precision": 0.0353,
+        "mrr": 0.1522,
+        "ndcg": 0.1329,
+        "hit_rate": 0.1765
+      },
+      "multi_hop": {
+        "n_queries": 53,
+        "recall": 0.3679,
+        "precision": 0.1472,
+        "mrr": 0.4907,
+        "ndcg": 0.3516,
+        "hit_rate": 0.5849
+      },
+      "single_hop": {
+        "n_queries": 220,
+        "recall": 0.6955,
+        "precision": 0.1391,
+        "mrr": 0.5383,
+        "ndcg": 0.5653,
+        "hit_rate": 0.6955
+      },
+      "temporal": {
+        "n_queries": 5,
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.02,
+        "ndcg": 0.0,
+        "hit_rate": 0.0
+      }
+    },
+    "k10": {
+      "aggregation": {
+        "n_queries": 35,
+        "recall": 0.9143,
+        "precision": 0.1029,
+        "mrr": 0.7683,
+        "ndcg": 0.7907,
+        "hit_rate": 1.0
+      },
+      "comparison": {
+        "n_queries": 33,
+        "recall": 0.8485,
+        "precision": 0.1242,
+        "mrr": 0.746,
+        "ndcg": 0.7583,
+        "hit_rate": 0.9091
+      },
+      "exception": {
+        "n_queries": 34,
+        "recall": 0.4118,
+        "precision": 0.0412,
+        "mrr": 0.1522,
+        "ndcg": 0.2112,
+        "hit_rate": 0.4118
+      },
+      "multi_hop": {
+        "n_queries": 53,
+        "recall": 0.5189,
+        "precision": 0.1038,
+        "mrr": 0.4907,
+        "ndcg": 0.4101,
+        "hit_rate": 0.7925
+      },
+      "single_hop": {
+        "n_queries": 220,
+        "recall": 0.8227,
+        "precision": 0.0823,
+        "mrr": 0.5383,
+        "ndcg": 0.6065,
+        "hit_rate": 0.8227
+      },
+      "temporal": {
+        "n_queries": 5,
+        "recall": 0.1,
+        "precision": 0.02,
+        "mrr": 0.02,
+        "ndcg": 0.0354,
+        "hit_rate": 0.2
+      }
+    }
+  },
+  "by_category": {
+    "k1": {
+      "API Documentation": {
+        "n_queries": 68,
+        "recall": 0.6176,
+        "precision": 0.6765,
+        "mrr": 0.8358,
+        "ndcg": 0.6765,
+        "hit_rate": 0.6765
+      },
+      "HR Policies": {
+        "n_queries": 54,
+        "recall": 0.1204,
+        "precision": 0.1481,
+        "mrr": 0.2768,
+        "ndcg": 0.1481,
+        "hit_rate": 0.1481
+      },
+      "Project Meeting Notes": {
+        "n_queries": 100,
+        "recall": 0.2633,
+        "precision": 0.33,
+        "mrr": 0.4696,
+        "ndcg": 0.33,
+        "hit_rate": 0.33
+      },
+      "Security Policies": {
+        "n_queries": 64,
+        "recall": 0.3125,
+        "precision": 0.3125,
+        "mrr": 0.4267,
+        "ndcg": 0.3125,
+        "hit_rate": 0.3125
+      },
+      "System Design Documents": {
+        "n_queries": 45,
+        "recall": 0.2,
+        "precision": 0.2,
+        "mrr": 0.3043,
+        "ndcg": 0.2,
+        "hit_rate": 0.2
+      },
+      "Travel Policies": {
+        "n_queries": 49,
+        "recall": 0.7347,
+        "precision": 0.7755,
+        "mrr": 0.8465,
+        "ndcg": 0.7755,
+        "hit_rate": 0.7755
+      }
+    },
+    "k3": {
+      "API Documentation": {
+        "n_queries": 68,
+        "recall": 0.9779,
+        "precision": 0.3578,
+        "mrr": 0.8358,
+        "ndcg": 0.8592,
+        "hit_rate": 1.0
+      },
+      "HR Policies": {
+        "n_queries": 54,
+        "recall": 0.2963,
+        "precision": 0.1235,
+        "mrr": 0.2768,
+        "ndcg": 0.2296,
+        "hit_rate": 0.3519
+      },
+      "Project Meeting Notes": {
+        "n_queries": 100,
+        "recall": 0.4367,
+        "precision": 0.1833,
+        "mrr": 0.4696,
+        "ndcg": 0.3908,
+        "hit_rate": 0.55
+      },
+      "Security Policies": {
+        "n_queries": 64,
+        "recall": 0.4922,
+        "precision": 0.1719,
+        "mrr": 0.4267,
+        "ndcg": 0.4185,
+        "hit_rate": 0.5
+      },
+      "System Design Documents": {
+        "n_queries": 45,
+        "recall": 0.3333,
+        "precision": 0.1111,
+        "mrr": 0.3043,
+        "ndcg": 0.2783,
+        "hit_rate": 0.3333
+      },
+      "Travel Policies": {
+        "n_queries": 49,
+        "recall": 0.8878,
+        "precision": 0.3197,
+        "mrr": 0.8465,
+        "ndcg": 0.8369,
+        "hit_rate": 0.898
+      }
+    },
+    "k5": {
+      "API Documentation": {
+        "n_queries": 68,
+        "recall": 1.0,
+        "precision": 0.2235,
+        "mrr": 0.8358,
+        "ndcg": 0.8709,
+        "hit_rate": 1.0
+      },
+      "HR Policies": {
+        "n_queries": 54,
+        "recall": 0.463,
+        "precision": 0.1185,
+        "mrr": 0.2768,
+        "ndcg": 0.3054,
+        "hit_rate": 0.5
+      },
+      "Project Meeting Notes": {
+        "n_queries": 100,
+        "recall": 0.4667,
+        "precision": 0.118,
+        "mrr": 0.4696,
+        "ndcg": 0.4042,
+        "hit_rate": 0.59
+      },
+      "Security Policies": {
+        "n_queries": 64,
+        "recall": 0.5234,
+        "precision": 0.1094,
+        "mrr": 0.4267,
+        "ndcg": 0.4306,
+        "hit_rate": 0.5312
+      },
+      "System Design Documents": {
+        "n_queries": 45,
+        "recall": 0.3889,
+        "precision": 0.08,
+        "mrr": 0.3043,
+        "ndcg": 0.3014,
+        "hit_rate": 0.4
+      },
+      "Travel Policies": {
+        "n_queries": 49,
+        "recall": 0.9388,
+        "precision": 0.2041,
+        "mrr": 0.8465,
+        "ndcg": 0.8598,
+        "hit_rate": 0.9388
+      }
+    },
+    "k10": {
+      "API Documentation": {
+        "n_queries": 68,
+        "recall": 1.0,
+        "precision": 0.1118,
+        "mrr": 0.8358,
+        "ndcg": 0.8709,
+        "hit_rate": 1.0
+      },
+      "HR Policies": {
+        "n_queries": 54,
+        "recall": 0.5648,
+        "precision": 0.0704,
+        "mrr": 0.2768,
+        "ndcg": 0.3403,
+        "hit_rate": 0.5926
+      },
+      "Project Meeting Notes": {
+        "n_queries": 100,
+        "recall": 0.615,
+        "precision": 0.08,
+        "mrr": 0.4696,
+        "ndcg": 0.4568,
+        "hit_rate": 0.78
+      },
+      "Security Policies": {
+        "n_queries": 64,
+        "recall": 0.7266,
+        "precision": 0.075,
+        "mrr": 0.4267,
+        "ndcg": 0.4965,
+        "hit_rate": 0.7344
+      },
+      "System Design Documents": {
+        "n_queries": 45,
+        "recall": 0.6111,
+        "precision": 0.0733,
+        "mrr": 0.3043,
+        "ndcg": 0.3778,
+        "hit_rate": 0.6444
+      },
+      "Travel Policies": {
+        "n_queries": 49,
+        "recall": 1.0,
+        "precision": 0.1082,
+        "mrr": 0.8465,
+        "ndcg": 0.8812,
+        "hit_rate": 1.0
+      }
+    }
+  }
+}

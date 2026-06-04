@@ -1,0 +1,129 @@
+%% methodology.tex
+\chapter{Methodology}
+\label{chap:methodology}
+
+\section{Overview}
+\label{sec:method_overview}
+
+The experimental program consists of nine sequential phases, each building on artifacts produced by its predecessors. Phases 2--4 construct the evaluation corpus and query set. Phases 5--7 evaluate fixed retrieval baselines. Phase 8 evaluates the rule-based planner. Phase 9 evaluates the LLM-based planner. Phase 10 (this report) synthesizes all results.
+
+\section{Dataset: The Synthetic Enterprise Knowledge Dataset (SEKD)}
+\label{sec:method_dataset}
+
+\subsection{Corpus Construction}
+
+The Synthetic Enterprise Knowledge Dataset (SEKD) was designed to provide a controlled evaluation environment for enterprise retrieval methods. The corpus comprises 120 documents across six enterprise document categories, with 20 documents per category. Table~\ref{tab:dataset} provides complete corpus statistics.
+
+\begin{description}
+    \item[API Documentation] Technical reference documents for software APIs including endpoint descriptions, request/response schemas, authentication methods, and version changelogs.
+    \item[HR Policies] Human resources policy documents including recruitment, compensation, leave, and performance management guidelines.
+    \item[Project Meeting Notes] Structured meeting minutes including decisions, action items, attendees, and project progress summaries.
+    \item[Security Policies] Enterprise security standards covering access control, incident response, data classification, and compliance requirements.
+    \item[System Design Documents] Architectural design documents describing system components, integration patterns, capacity planning, and technical decisions.
+    \item[Travel Policies] Corporate travel expense policies including booking procedures, reimbursement limits, and approval workflows.
+\end{description}
+
+Documents were generated using a Jinja2-based templating pipeline with Pydantic v2 domain models, producing syntactically varied, semantically coherent enterprise documents. Each document is structured with hierarchical sections and contains realistic entity references (project codes, version numbers, policy codes, dates) appropriate to its category.
+
+\subsection{Chunking}
+
+Documents were segmented using a section-aware chunking strategy that respects document section boundaries. The chunker produces 1,206 chunks in total, with complete metadata coverage including: \texttt{chunk\_id}, \texttt{document\_id}, \texttt{category}, \texttt{section\_title}, and \texttt{text}. Mean chunk length is approximately 220 tokens.
+
+\subsection{Query Generation and Annotation}
+
+The query set contains 405 queries: 380 answerable and 25 unanswerable. Queries were generated programmatically from document content using six reasoning types:
+
+\begin{description}
+    \item[single\_hop] ($n{=}220$, 57.9\%) Queries answerable from a single document section. The majority query type, reflecting direct information lookup.
+    \item[multi\_hop] ($n{=}53$, 13.9\%) Queries requiring synthesis of evidence from multiple documents or sections.
+    \item[aggregation] ($n{=}35$, 9.2\%) Queries requiring collection and summarization of information across multiple instances (e.g., ``list all API endpoints that require OAuth'').
+    \item[comparison] ($n{=}33$, 8.7\%) Queries requiring comparison of two or more entities on specified attributes.
+    \item[exception] ($n{=}34$, 8.9\%) Queries targeting exception clauses, conditional exclusions, or special-case policies within documents.
+    \item[temporal] ($n{=}5$, 1.3\%) Queries requiring temporal ordering or date-based reasoning.
+\end{description}
+
+Each query includes ground-truth required chunk IDs derived from verbatim evidence spans in the source documents, enabling exact-match retrieval evaluation. A subset of queries include difficulty factor annotations: \texttt{table\_dependency}, \texttt{exception\_handling}, \texttt{temporal\_reasoning}, \texttt{document\_version\_conflict}, and \texttt{cross\_category}. Each query also carries an oracle retrieval strategy label (\texttt{bm25}, \texttt{dense}, or \texttt{hybrid}) assigned via the heuristic described in Section~\ref{sec:method_oracle}.
+
+\subsection{Oracle Strategy Labels}
+\label{sec:method_oracle}
+
+Oracle labels assign the empirically recommended retrieval strategy to each query based on its reasoning type and difficulty factors. The labeling heuristic is:
+
+\begin{enumerate}
+    \item \textbf{temporal} $\rightarrow$ \texttt{bm25}: Temporal queries require date-token matching available only in sparse retrieval.
+    \item \textbf{exception} $\rightarrow$ \texttt{dense}: Exception clause identification benefits from semantic similarity over exact keyword matching.
+    \item \textbf{multi\_hop} $\rightarrow$ \texttt{hybrid}: Multi-hop queries benefit from broad coverage across both lexical and semantic signals.
+    \item \textbf{aggregation} $\rightarrow$ \texttt{hybrid}: Aggregation requires coverage of multiple documents, favoring the complementary recall of Hybrid RRF.
+    \item \textbf{document\_version\_conflict} $\rightarrow$ \texttt{bm25}: Version-specific queries involve exact identifier matching.
+    \item \textbf{table\_dependency} $\rightarrow$ \texttt{dense}: Table content is semantically structured and benefits from dense retrieval.
+    \item \textbf{Default} $\rightarrow$ \texttt{hybrid}: All remaining queries default to the best fixed-strategy baseline.
+\end{enumerate}
+
+The resulting oracle distribution is: hybrid (249, 65.5\%), dense (69, 18.2\%), bm25 (62, 16.3\%).
+
+\section{Retrieval Systems}
+\label{sec:method_retrieval}
+
+\subsection{BM25 Baseline}
+
+The BM25 baseline uses the \texttt{rank\_bm25} library with parameters $k_1{=}1.5$, $b{=}0.75$, $\epsilon{=}0.25$. The corpus is tokenized using whitespace and punctuation splitting with lowercasing. The BM25 index is built over all 1,206 chunk texts. At query time, BM25 returns the top-$k$ chunks by BM25 score.
+
+\subsection{Dense Retrieval Baseline}
+
+Dense retrieval uses BAAI/bge-small-en-v1.5 (384-dimensional embeddings) via the \texttt{sentence-transformers} library. All chunk texts are encoded offline and stored as a normalized matrix. At query time, the query is encoded and cosine similarity is computed against all chunk embeddings, returning the top-$k$ chunks by similarity score. The index uses exact nearest-neighbor search (no approximate index) given the manageable corpus size of 1,206 chunks.
+
+\subsection{Hybrid Reciprocal Rank Fusion}
+
+The Hybrid system combines BM25 and Dense ranked lists using Reciprocal Rank Fusion with \texttt{rrf\_k}{=}10 (Equation~\ref{eq:rrf}). Each system retrieves its top-$k_{\text{pool}}$ results (pool size = $5k$ to ensure sufficient coverage), and RRF scores are computed over the union of both lists. The top-$k$ documents by RRF score are returned as the final ranked list.
+
+\noindent\textbf{Implementation note}: A SIGSEGV issue was observed when running the OMP parallel FAISS backend with batch size $> 1$. This was resolved by setting \texttt{OMP\_NUM\_THREADS=1} and using batch size 1 for dense encoding on the evaluation machine.
+
+\subsection{Rule-Based Planner}
+
+The rule planner implements seven deterministic rules in priority order. Each rule examines the query's \texttt{reasoning\_type} and \texttt{difficulty\_factors} metadata and routes to the appropriate retrieval strategy:
+
+\begin{description}
+    \item[R01] temporal $\rightarrow$ \texttt{bm25}
+    \item[R02] exception $\rightarrow$ \texttt{dense}
+    \item[R03] multi\_hop $\rightarrow$ \texttt{hybrid}
+    \item[R04] aggregation $\rightarrow$ \texttt{hybrid}
+    \item[R05] document\_version\_conflict $\rightarrow$ \texttt{bm25}
+    \item[R06] table\_dependency $\rightarrow$ \texttt{dense}
+    \item[R07] (default) $\rightarrow$ \texttt{hybrid}
+\end{description}
+
+The planner fires the first matching rule for each query. Decision latency is sub-millisecond. The rule planner requires no training data, model inference, or API calls.
+
+\subsection{LLM-Based Planner (GPT-5)}
+
+The LLM planner sends each query with its metadata to the GPT-5 model via the OpenAI Chat Completions API. Three prompt variants were evaluated using a mock provider: \texttt{zero\_shot} (query text only), \texttt{structured} (query text plus explicit metadata: reasoning type, difficulty factors, document category), and \texttt{few\_shot} (structured prompt plus 6 in-context strategy selection examples). The structured prompt was selected for the full evaluation based on mock evaluation results (SSA=82.1\% vs.\ 81.8\% for few\_shot, at 2.3$\times$ lower token cost).
+
+\noindent\textbf{Reasoning token fix}: GPT-5 is a reasoning model that allocates internal reasoning tokens from the \texttt{max\_completion\_tokens} budget. At the default budget of 200 tokens, reasoning tokens exhausted the entire budget, producing empty visible output. The fix increases the budget to $\max(\texttt{requested} + 2000, 2000)$ for all reasoning model variants (\texttt{gpt-5}, \texttt{o1}, \texttt{o3}, \texttt{o4} prefixes). All 380 queries were evaluated with this fix applied, achieving 0\% parse failure rate.
+
+A file-based decision cache stores each API response keyed by \texttt{query\_id\_\_model\_\_prompt\_version}, enabling resume capability across evaluation runs.
+
+\section{Evaluation Framework}
+\label{sec:method_eval}
+
+\subsection{Metrics}
+
+All retrieval metrics are computed at $k \in \{1, 3, 5, 10\}$ over $n{=}380$ answerable queries. Ground truth is the set of required chunk IDs for each query.
+
+\begin{description}
+    \item[Recall@$k$] Fraction of required chunks found in the top-$k$ results: $\frac{|\mathcal{R} \cap \text{top-}k|}{|\mathcal{R}|}$ where $\mathcal{R}$ is the required chunk set.
+    \item[Precision@$k$] Fraction of top-$k$ results that are relevant: $\frac{|\mathcal{R} \cap \text{top-}k|}{k}$.
+    \item[MRR] Mean Reciprocal Rank: $\frac{1}{N}\sum_{i=1}^{N}\frac{1}{\text{rank}_i}$, where $\text{rank}_i$ is the rank of the first relevant result for query $i$.
+    \item[nDCG@$k$] Normalized Discounted Cumulative Gain at $k$, following \citet{jaervelin2002ndcg}, with binary relevance.
+    \item[Hit@$k$] Binary indicator: at least one relevant chunk in top-$k$.
+    \item[SSA] Strategy Selection Accuracy: fraction of queries where the planner's selected strategy matches the oracle label.
+\end{description}
+
+\subsection{Statistical Analysis}
+
+Differences between systems are reported as absolute percentage point differences ($\Delta$ pp) and relative improvements ($\Delta$\%). Given the sample size ($n{=}380$) and the magnitude of observed differences (Recall@10 deltas of 0.5--3 pp between the top systems), we follow \citet{manning2008ir} in classifying differences $<{0.5}$ pp as negligible, $0.5$--$2$ pp as marginal, $2$--$5$ pp as meaningful, and $>{5}$ pp as substantial.
+
+No formal hypothesis tests are reported for the planner-vs-baseline comparisons due to: (a) the controlled, non-i.i.d.\ nature of the SEKD query set (queries are systematically stratified by reasoning type and category), and (b) the marginal effect sizes (Rule vs.\ Hybrid Recall@10 delta: 1.1 pp) that are at the boundary of practical significance for the deployment context.
+
+\subsection{Evaluation Hardware and Reproducibility}
+
+All experiments were conducted on a single workstation with Python 3.14 and a dedicated virtual environment. Embeddings were precomputed offline. All random seeds are fixed (seed=42 for query generation, evaluation subsampling). The LLM planner evaluation used real OpenAI API calls; all responses are cached in \texttt{outputs/cache/planner\_gpt5\_structured\_full/} for reproducibility.

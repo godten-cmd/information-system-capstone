@@ -1,0 +1,34 @@
+Statistic,Value
+Corpus,SEKD (Synthetic Enterprise Knowledge Dataset)
+Total Documents,120
+Document Categories,6
+Total Chunks (section_aware),1206
+Total Queries,405
+Answerable Queries,380
+Unanswerable Queries,25
+Multi-hop Queries,53
+Temporal Queries,5
+Aggregation Queries,35
+Comparison Queries,33
+Exception Queries,34
+Single-hop Queries,220
+Categories - API Documentation,68 queries
+Categories - HR Policies,54 queries
+Categories - Project Meeting Notes,100 queries
+Categories - Security Policies,64 queries
+Categories - System Design Documents,45 queries
+Categories - Travel Policies,49 queries
+Difficulty Factors - none,117 queries
+Difficulty Factors - table_dependency,124 queries
+Difficulty Factors - multi_document_dependency,81 queries
+Difficulty Factors - metadata_dependency,38 queries
+Difficulty Factors - exception_handling,38 queries
+Difficulty Factors - keyword_ambiguity,10 queries
+Difficulty Factors - temporal_reasoning,5 queries
+Difficulty Factors - document_version_conflict,12 queries
+Embedding Model,BAAI/bge-small-en-v1.5 (dim=384)
+BM25 Parameters,"k1=1.5, b=0.75, epsilon=0.25"
+Hybrid Fusion,RRF (rrf_k=10)
+Rule Planner Rules,7
+GPT-5 Evaluation Queries,380
+GPT-5 Parse Failure Rate,0.00%

@@ -1,0 +1,6 @@
+System,Method,Cost per Query (USD),Cost 380 Queries (USD),Avg Latency (ms),SSA,Recall@10,MRR,nDCG@10
+BM25,Fixed,0.000000,0.00,<1,N/A,0.7127,0.4573,0.5089
+Dense,Fixed,0.000000,0.00,<5,N/A,0.7404,0.5014,0.5479
+Hybrid,Fixed,0.000000,0.00,<5,N/A,0.7447,0.5295,0.5664
+Rule Planner,Adaptive,0.000000,0.00,0.001,0.7842,0.7553,0.5220,0.5632
+GPT-5 Planner,Adaptive,0.016275,6.18,5649,0.7763,0.7500,0.5325,0.5702

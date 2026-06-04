@@ -1,0 +1,494 @@
+{
+  "current_method": "hybrid",
+  "current_config": {
+    "rrf_k": 10,
+    "candidate_k": 100
+  },
+  "current_timestamp": "2026-06-02T07:33:11.587494+00:00",
+  "baseline_name": "dense",
+  "baseline_timestamp": "2026-06-02T07:13:02.419711+00:00",
+  "k_values": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "overall": {
+    "k1": {
+      "n_queries": 380,
+      "recall": {
+        "hybrid": 0.368,
+        "dense": 0.3456,
+        "delta": 0.0224
+      },
+      "precision": {
+        "hybrid": 0.4053,
+        "dense": 0.3763,
+        "delta": 0.029
+      },
+      "mrr": {
+        "hybrid": 0.5295,
+        "dense": 0.5014,
+        "delta": 0.0281
+      },
+      "ndcg": {
+        "hybrid": 0.4053,
+        "dense": 0.3763,
+        "delta": 0.029
+      },
+      "hit_rate": {
+        "hybrid": 0.4053,
+        "dense": 0.3763,
+        "delta": 0.029
+      }
+    },
+    "k3": {
+      "n_queries": 380,
+      "recall": {
+        "hybrid": 0.5689,
+        "dense": 0.5399,
+        "delta": 0.029
+      },
+      "precision": {
+        "hybrid": 0.2132,
+        "dense": 0.2018,
+        "delta": 0.0114
+      },
+      "mrr": {
+        "hybrid": 0.5295,
+        "dense": 0.5014,
+        "delta": 0.0281
+      },
+      "ndcg": {
+        "hybrid": 0.5006,
+        "dense": 0.4712,
+        "delta": 0.0294
+      },
+      "hit_rate": {
+        "hybrid": 0.6132,
+        "dense": 0.5684,
+        "delta": 0.0448
+      }
+    },
+    "k5": {
+      "n_queries": 380,
+      "recall": {
+        "hybrid": 0.6228,
+        "dense": 0.6294,
+        "delta": -0.0066
+      },
+      "precision": {
+        "hybrid": 0.1421,
+        "dense": 0.1421,
+        "delta": 0.0
+      },
+      "mrr": {
+        "hybrid": 0.5295,
+        "dense": 0.5014,
+        "delta": 0.0281
+      },
+      "ndcg": {
+        "hybrid": 0.5247,
+        "dense": 0.5097,
+        "delta": 0.015
+      },
+      "hit_rate": {
+        "hybrid": 0.6632,
+        "dense": 0.6658,
+        "delta": -0.0026
+      }
+    },
+    "k10": {
+      "n_queries": 380,
+      "recall": {
+        "hybrid": 0.7447,
+        "dense": 0.7404,
+        "delta": 0.0043
+      },
+      "precision": {
+        "hybrid": 0.0863,
+        "dense": 0.085,
+        "delta": 0.0013
+      },
+      "mrr": {
+        "hybrid": 0.5295,
+        "dense": 0.5014,
+        "delta": 0.0281
+      },
+      "ndcg": {
+        "hybrid": 0.5664,
+        "dense": 0.5479,
+        "delta": 0.0185
+      },
+      "hit_rate": {
+        "hybrid": 0.7974,
+        "dense": 0.7868,
+        "delta": 0.0106
+      }
+    }
+  },
+  "by_category_k10": {
+    "API Documentation": {
+      "n_queries": 68,
+      "recall": {
+        "hybrid": 1.0,
+        "dense": 1.0,
+        "delta": 0.0
+      },
+      "precision": {
+        "hybrid": 0.1118,
+        "dense": 0.1118,
+        "delta": -0.0
+      },
+      "mrr": {
+        "hybrid": 0.8358,
+        "dense": 0.8175,
+        "delta": 0.0183
+      },
+      "ndcg": {
+        "hybrid": 0.8709,
+        "dense": 0.8548,
+        "delta": 0.0161
+      },
+      "hit_rate": {
+        "hybrid": 1.0,
+        "dense": 1.0,
+        "delta": 0.0
+      }
+    },
+    "HR Policies": {
+      "n_queries": 54,
+      "recall": {
+        "hybrid": 0.5648,
+        "dense": 0.6111,
+        "delta": -0.0463
+      },
+      "precision": {
+        "hybrid": 0.0704,
+        "dense": 0.0759,
+        "delta": -0.0055
+      },
+      "mrr": {
+        "hybrid": 0.2768,
+        "dense": 0.2775,
+        "delta": -0.0007
+      },
+      "ndcg": {
+        "hybrid": 0.3403,
+        "dense": 0.3538,
+        "delta": -0.0135
+      },
+      "hit_rate": {
+        "hybrid": 0.5926,
+        "dense": 0.6296,
+        "delta": -0.037
+      }
+    },
+    "Project Meeting Notes": {
+      "n_queries": 100,
+      "recall": {
+        "hybrid": 0.615,
+        "dense": 0.5283,
+        "delta": 0.0867
+      },
+      "precision": {
+        "hybrid": 0.08,
+        "dense": 0.069,
+        "delta": 0.011
+      },
+      "mrr": {
+        "hybrid": 0.4696,
+        "dense": 0.4003,
+        "delta": 0.0693
+      },
+      "ndcg": {
+        "hybrid": 0.4568,
+        "dense": 0.3981,
+        "delta": 0.0587
+      },
+      "hit_rate": {
+        "hybrid": 0.78,
+        "dense": 0.67,
+        "delta": 0.11
+      }
+    },
+    "Security Policies": {
+      "n_queries": 64,
+      "recall": {
+        "hybrid": 0.7266,
+        "dense": 0.7344,
+        "delta": -0.0078
+      },
+      "precision": {
+        "hybrid": 0.075,
+        "dense": 0.075,
+        "delta": 0.0
+      },
+      "mrr": {
+        "hybrid": 0.4267,
+        "dense": 0.4106,
+        "delta": 0.0161
+      },
+      "ndcg": {
+        "hybrid": 0.4965,
+        "dense": 0.4876,
+        "delta": 0.0089
+      },
+      "hit_rate": {
+        "hybrid": 0.7344,
+        "dense": 0.7344,
+        "delta": -0.0
+      }
+    },
+    "System Design Documents": {
+      "n_queries": 45,
+      "recall": {
+        "hybrid": 0.6111,
+        "dense": 0.7,
+        "delta": -0.0889
+      },
+      "precision": {
+        "hybrid": 0.0733,
+        "dense": 0.08,
+        "delta": -0.0067
+      },
+      "mrr": {
+        "hybrid": 0.3043,
+        "dense": 0.2891,
+        "delta": 0.0152
+      },
+      "ndcg": {
+        "hybrid": 0.3778,
+        "dense": 0.3839,
+        "delta": -0.0061
+      },
+      "hit_rate": {
+        "hybrid": 0.6444,
+        "dense": 0.7556,
+        "delta": -0.1112
+      }
+    },
+    "Travel Policies": {
+      "n_queries": 49,
+      "recall": {
+        "hybrid": 1.0,
+        "dense": 1.0,
+        "delta": 0.0
+      },
+      "precision": {
+        "hybrid": 0.1082,
+        "dense": 0.1082,
+        "delta": -0.0
+      },
+      "mrr": {
+        "hybrid": 0.8465,
+        "dense": 0.8296,
+        "delta": 0.0169
+      },
+      "ndcg": {
+        "hybrid": 0.8812,
+        "dense": 0.871,
+        "delta": 0.0102
+      },
+      "hit_rate": {
+        "hybrid": 1.0,
+        "dense": 1.0,
+        "delta": 0.0
+      }
+    }
+  },
+  "by_reasoning_type_k10": {
+    "aggregation": {
+      "n_queries": 35,
+      "recall": {
+        "hybrid": 0.9143,
+        "dense": 0.8952,
+        "delta": 0.0191
+      },
+      "precision": {
+        "hybrid": 0.1029,
+        "dense": 0.0971,
+        "delta": 0.0058
+      },
+      "mrr": {
+        "hybrid": 0.7683,
+        "dense": 0.7607,
+        "delta": 0.0076
+      },
+      "ndcg": {
+        "hybrid": 0.7907,
+        "dense": 0.7826,
+        "delta": 0.0081
+      },
+      "hit_rate": {
+        "hybrid": 1.0,
+        "dense": 0.9429,
+        "delta": 0.0571
+      }
+    },
+    "comparison": {
+      "n_queries": 33,
+      "recall": {
+        "hybrid": 0.8485,
+        "dense": 0.8485,
+        "delta": -0.0
+      },
+      "precision": {
+        "hybrid": 0.1242,
+        "dense": 0.1242,
+        "delta": 0.0
+      },
+      "mrr": {
+        "hybrid": 0.746,
+        "dense": 0.7301,
+        "delta": 0.0159
+      },
+      "ndcg": {
+        "hybrid": 0.7583,
+        "dense": 0.7556,
+        "delta": 0.0027
+      },
+      "hit_rate": {
+        "hybrid": 0.9091,
+        "dense": 0.8788,
+        "delta": 0.0303
+      }
+    },
+    "exception": {
+      "n_queries": 34,
+      "recall": {
+        "hybrid": 0.4118,
+        "dense": 0.3824,
+        "delta": 0.0294
+      },
+      "precision": {
+        "hybrid": 0.0412,
+        "dense": 0.0382,
+        "delta": 0.003
+      },
+      "mrr": {
+        "hybrid": 0.1522,
+        "dense": 0.1462,
+        "delta": 0.006
+      },
+      "ndcg": {
+        "hybrid": 0.2112,
+        "dense": 0.2007,
+        "delta": 0.0105
+      },
+      "hit_rate": {
+        "hybrid": 0.4118,
+        "dense": 0.3824,
+        "delta": 0.0294
+      }
+    },
+    "multi_hop": {
+      "n_queries": 53,
+      "recall": {
+        "hybrid": 0.5189,
+        "dense": 0.4906,
+        "delta": 0.0283
+      },
+      "precision": {
+        "hybrid": 0.1038,
+        "dense": 0.0981,
+        "delta": 0.0057
+      },
+      "mrr": {
+        "hybrid": 0.4907,
+        "dense": 0.4016,
+        "delta": 0.0891
+      },
+      "ndcg": {
+        "hybrid": 0.4101,
+        "dense": 0.3556,
+        "delta": 0.0545
+      },
+      "hit_rate": {
+        "hybrid": 0.7925,
+        "dense": 0.7736,
+        "delta": 0.0189
+      }
+    },
+    "single_hop": {
+      "n_queries": 220,
+      "recall": {
+        "hybrid": 0.8227,
+        "dense": 0.8318,
+        "delta": -0.0091
+      },
+      "precision": {
+        "hybrid": 0.0823,
+        "dense": 0.0832,
+        "delta": -0.0009
+      },
+      "mrr": {
+        "hybrid": 0.5383,
+        "dense": 0.5162,
+        "delta": 0.0221
+      },
+      "ndcg": {
+        "hybrid": 0.6065,
+        "dense": 0.5919,
+        "delta": 0.0146
+      },
+      "hit_rate": {
+        "hybrid": 0.8227,
+        "dense": 0.8318,
+        "delta": -0.0091
+      }
+    },
+    "temporal": {
+      "n_queries": 5,
+      "recall": {
+        "hybrid": 0.1,
+        "dense": 0.0,
+        "delta": 0.1
+      },
+      "precision": {
+        "hybrid": 0.02,
+        "dense": 0.0,
+        "delta": 0.02
+      },
+      "mrr": {
+        "hybrid": 0.02,
+        "dense": 0.0,
+        "delta": 0.02
+      },
+      "ndcg": {
+        "hybrid": 0.0354,
+        "dense": 0.0,
+        "delta": 0.0354
+      },
+      "hit_rate": {
+        "hybrid": 0.2,
+        "dense": 0.0,
+        "delta": 0.2
+      }
+    }
+  },
+  "notable_improvements": [
+    {
+      "group": "temporal",
+      "type": "reasoning_type",
+      "recall_delta": 0.1
+    },
+    {
+      "group": "Project Meeting Notes",
+      "type": "category",
+      "recall_delta": 0.0867
+    }
+  ],
+  "notable_regressions": [
+    {
+      "group": "System Design Documents",
+      "type": "category",
+      "recall_delta": -0.0889
+    },
+    {
+      "group": "HR Policies",
+      "type": "category",
+      "recall_delta": -0.0463
+    }
+  ]
+}

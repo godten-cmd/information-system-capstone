@@ -1,0 +1,83 @@
+Title: {{ title }}
+Design Doc ID: {{ design_doc_id }}
+System: {{ system_name }}
+Architecture Status: {{ architecture_status }}
+Primary Author: {{ primary_author_role }}
+Reviewers: {{ reviewer_roles | join(', ') }}
+Department: {{ department }}
+Effective Date: {{ effective_date }}
+Version: {{ version }}
+ADR IDs: {{ decision_record_ids | join(', ') }}
+Related Services: {{ related_services | join(', ') }}
+
+1. Overview
+{{ system_description }}
+This document describes the architecture of the {{ system_name }} system at HYTech Solutions.
+Target SLA: {{ sla_uptime }} uptime with a maximum {{ sla_recovery_time }} recovery time.
+Expected data volume: {{ data_volume }}.
+
+2. Architecture
+The {{ system_name }} follows a {{ architecture_pattern }} architecture.
+{{ architecture_summary }}
+
+Components in this system interact via {{ integration_style }}.
+All inter-service communication is authenticated and uses TLS 1.3 or higher.
+
+3. Components
+| Component | Responsibility | Dependencies |
+| --- | --- | --- |
+{% for comp in components %}
+| {{ comp.name }} | {{ comp.responsibility }} | {{ comp.dependencies | join(', ') if comp.dependencies else 'None' }} |
+{% endfor %}
+
+4. Data Flow
+{{ data_flow_description }}
+
+{% for step in data_flow_steps %}
+{{ loop.index }}. {{ step }}
+{% endfor %}
+
+5. Decision Records
+The following Architecture Decision Records inform the design described in this document:
+
+{% for adr in adrs %}
+**{{ adr.id }}** — {{ adr.title }}
+Decision: {{ adr.decision }}
+Rationale: {{ adr.rationale }}
+{% if adr.superseded_by %}
+*Superseded by {{ adr.superseded_by }}*
+{% endif %}
+
+{% endfor %}
+
+6. Failure Modes and Mitigations
+The following failure modes have been identified and mitigated:
+
+| Failure Mode | Impact | Mitigation | Residual Risk |
+| --- | --- | --- | --- |
+{% for fm in failure_modes %}
+| {{ fm.mode }} | {{ fm.impact }} | {{ fm.mitigation }} | {{ fm.residual_risk }} |
+{% endfor %}
+
+7. Scalability and Performance
+{{ scalability_description }}
+- Peak throughput: {{ peak_throughput }}
+- P99 latency target: {{ p99_latency_ms }} ms
+- Horizontal scaling: {{ horizontal_scaling }}
+
+8. Security Considerations
+All components adhere to the HYTech Solutions security baseline.
+{{ security_notes }}
+Related security controls: {% for sc in security_controls %}{{ sc }}{% if not loop.last %}, {% endif %}{% endfor %}.
+
+9. Related Documents
+{% for ref in related_doc_refs %}
+- {{ ref }}
+{% endfor %}
+
+10. Revision History
+| Version | Date | Author Role | Change |
+| --- | --- | --- | --- |
+{% for rev in revision_history %}
+| {{ rev.version }} | {{ rev.date }} | {{ rev.author_role }} | {{ rev.change }} |
+{% endfor %}

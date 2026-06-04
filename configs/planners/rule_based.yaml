@@ -1,0 +1,5 @@
+planner:
+  type: rule_based
+  strategy_source: heuristic_assignment
+  fallback_strategy: hybrid
+

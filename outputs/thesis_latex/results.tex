@@ -1,0 +1,264 @@
+%% results.tex
+\chapter{Experimental Results}
+\label{chap:results}
+
+This chapter presents the results of all retrieval and planning experiments conducted on the SEKD corpus. All results are reported on 380 answerable queries unless otherwise noted. Metrics are computed at $k \in \{1, 3, 5, 10\}$. Primary comparison metrics are Recall@10 (coverage), MRR (ranking quality of the first relevant result), and nDCG@10 (graded ranking quality). Dataset statistics are summarized in Table~\ref{tab:dataset}.
+
+\begin{table}[htbp]
+\centering
+\caption{SEKD Corpus and Query Set Statistics}
+\label{tab:dataset}
+\begin{tabular}{ll}
+\toprule
+\textbf{Statistic} & \textbf{Value} \\
+\midrule
+\multicolumn{2}{l}{\textit{Corpus}} \\
+\quad Total documents & 120 \\
+\quad Document categories & 6 \\
+\quad Total chunks (section-aware) & 1{,}206 \\
+\midrule
+\multicolumn{2}{l}{\textit{Query Set}} \\
+\quad Total queries & 405 \\
+\quad Answerable queries & 380 \\
+\quad Unanswerable queries & 25 \\
+\midrule
+\multicolumn{2}{l}{\textit{Reasoning Types}} \\
+\quad single\_hop & 220 (57.9\%) \\
+\quad multi\_hop & 53 (13.9\%) \\
+\quad aggregation & 35 (9.2\%) \\
+\quad comparison & 33 (8.7\%) \\
+\quad exception & 34 (8.9\%) \\
+\quad temporal & 5 (1.3\%) \\
+\midrule
+\multicolumn{2}{l}{\textit{Technical Configuration}} \\
+\quad Embedding model & BAAI/bge-small-en-v1.5 (dim=384) \\
+\quad BM25 parameters & $k_1{=}1.5$, $b{=}0.75$ \\
+\quad Hybrid fusion & RRF ($k{=}10$) \\
+\quad Rule planner rules & 7 \\
+\quad LLM planner model & GPT-5 (structured prompt) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Retrieval Baseline Results}
+\label{sec:results_baselines}
+
+\subsection{BM25 (Sparse Retrieval)}
+
+BM25 with parameters $k_1{=}1.5$, $b{=}0.75$ serves as the sparse retrieval baseline. Table~\ref{tab:retrieval_performance} summarizes performance across all systems and $k$ values.
+
+BM25 achieves Recall@10$={0.713}$ and MRR$={0.457}$. Performance is strong for queries involving exact identifiers: document-version-conflict queries achieve Recall@1$={0.583}$, and table-dependent queries achieve Recall@10$={0.887}$. BM25 performs poorly on exception queries (Recall@10$={0.412}$) and achieves only Recall@10$={0.200}$ on the five temporal queries. These weaknesses reflect vocabulary mismatch for exception clauses and limited date-reasoning capability.
+
+\begin{table}[htbp]
+\centering
+\caption{Overall Retrieval Performance Across All Systems ($n{=}380$ answerable queries). Bold indicates best value per column.}
+\label{tab:retrieval_performance}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{System} & \textbf{Recall@1} & \textbf{Recall@5} & \textbf{Recall@10} & \textbf{MRR} & \textbf{nDCG@10} & \textbf{Hit@10} \\
+\midrule
+BM25                & 0.298 & 0.602 & 0.713 & 0.457 & 0.509 & 0.768 \\
+Dense (BGE-small)   & 0.346 & 0.629 & 0.740 & 0.501 & 0.548 & 0.787 \\
+Hybrid (RRF)        & 0.368 & 0.623 & 0.745 & 0.530 & 0.566 & 0.797 \\
+Rule Planner        & 0.358 & 0.629 & \textbf{0.755} & 0.522 & 0.563 & \textbf{0.808} \\
+GPT-5 Planner       & \textbf{0.368} & \textbf{0.649} & 0.750 & \textbf{0.533} & \textbf{0.570} & 0.803 \\
+\midrule
+\multicolumn{7}{l}{\textit{Improvement: Hybrid vs.\ BM25}} \\
+$\Delta$ (pp)       & +7.0  & +2.1  & +3.2  & +7.3  & +5.8  & +2.9  \\
+\multicolumn{7}{l}{\textit{Improvement: Rule Planner vs.\ Hybrid}} \\
+$\Delta$ (pp)       & $-$1.1 & +0.7  & +1.1  & $-$0.8 & $-$0.3 & +1.1  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{fig1_retrieval_baselines.png}
+\caption{Retrieval performance of BM25, Dense, and Hybrid baselines at $k \in \{1,3,5,10\}$. Hybrid RRF achieves the best MRR and nDCG across all $k$ values. Dense achieves the best Recall at $k{=}5$ before Hybrid recovers at $k{=}10$ via complementary coverage.}
+\label{fig:baselines}
+\end{figure}
+
+\subsection{Dense Retrieval (BGE-small-en-v1.5)}
+
+Dense retrieval using BAAI/bge-small-en-v1.5 (384 dimensions, normalized cosine similarity) improves upon BM25 on most metrics: Recall@10$={0.740}$ (+2.8 pp) and MRR$={0.501}$ (+4.4 pp). The MRR improvement of +9.6\% indicates that semantic embeddings place relevant documents higher in the ranking. Dense retrieval particularly excels on comparison queries (MRR$={0.730}$ vs.\ BM25's $0.618$) and achieves perfect Recall@10 on API Documentation and Travel Policies.
+
+However, dense retrieval achieves \textbf{zero recall} on all five temporal queries. This reflects the well-documented failure of static dense embeddings to encode temporal ordering signals \citep{manning2008ir}: date tokens that are semantically indistinguishable in embedding space receive similar dense representations, making precise temporal ordering impossible.
+
+\subsection{Hybrid Retrieval (RRF, $k{=}10$)}
+
+Hybrid RRF achieves the best fixed-strategy performance across primary metrics: Recall@10$={0.745}$, MRR$={0.530}$, nDCG@10$={0.566}$. Improvements over BM25 are +15.8\% MRR and +23.4\% Recall@1. Improvements over Dense alone are +5.6\% MRR and +3.4\% nDCG@10. Figure~\ref{fig:baselines} illustrates these improvements.
+
+Hybrid underperforms Dense on Recall@5 (0.623 vs.\ 0.629) but recovers at Recall@10, reflecting complementary coverage at higher $k$ values. The complementarity analysis reveals that BM25 retrieves 8.6\% of required chunks uniquely (not retrieved by Dense), Dense retrieves 9.9\% uniquely (not retrieved by BM25), and both systems jointly retrieve 59.4\% of required chunks, confirming the theoretical motivation for fusion \citep{cormack2009rrf}.
+
+\subsection{Cross-Baseline Comparison by Reasoning Type}
+
+Table~\ref{tab:reasoning_type} provides Recall@10 by reasoning type across all systems. Figure~\ref{fig:heatmap} visualizes the full performance heatmap.
+
+\begin{table}[htbp]
+\centering
+\caption{Recall@10 by Reasoning Type Across All Systems. Temporal and exception queries are persistent weak points for all methods.}
+\label{tab:reasoning_type}
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Reasoning Type} & \textbf{n} & \textbf{BM25} & \textbf{Dense} & \textbf{Hybrid} & \textbf{Rule} & \textbf{GPT-5} \\
+\midrule
+aggregation   & 35  & 0.924 & 0.895 & 0.914 & \textbf{0.914} & 0.914 \\
+comparison    & 33  & 0.818 & 0.848 & 0.848 & \textbf{0.879} & 0.848 \\
+exception     & 34  & \textbf{0.412} & 0.382 & \textbf{0.412} & 0.368 & 0.382 \\
+multi\_hop    & 53  & \textbf{0.538} & 0.491 & 0.519 & 0.531 & 0.519 \\
+single\_hop   & 220 & 0.764 & 0.832 & 0.823 & \textbf{0.836} & \textbf{0.836} \\
+temporal      & 5   & \textbf{0.200} & 0.000 & 0.100 & \textbf{0.200} & 0.100 \\
+\midrule
+\multicolumn{7}{l}{\textit{Note: Exception and temporal queries are universally difficult across all retrieval strategies.}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{fig3_reasoning_type_heatmap.png}
+\caption{Recall@10 heatmap by reasoning type and system. Darker cells indicate higher recall. The exception (row 3) and temporal (row 6) rows are consistently the lightest, reflecting universal retrieval difficulty for these query types.}
+\label{fig:heatmap}
+\end{figure}
+
+Key observations from Table~\ref{tab:reasoning_type}:
+\begin{itemize}
+    \item \textbf{Dense superior for single\_hop}: Dense achieves Recall@10$={0.832}$ vs.\ BM25's $0.764$ (+8.9\%), reflecting semantic matching advantages.
+    \item \textbf{BM25 essential for temporal}: Dense achieves Recall@10$={0.000}$ on temporal queries; BM25 achieves $0.200$.
+    \item \textbf{Exception handling universally poor}: All methods achieve Recall@10 $\leq{0.412}$, approximately 30 pp below their overall averages.
+    \item \textbf{Aggregation and comparison well-served}: All methods achieve Recall@10 $>{0.818}$.
+\end{itemize}
+
+The 50+ percentage point performance range between best-case (aggregation: $0.924$) and worst-case (temporal: $0.000$--$0.200$) reasoning types confirms that query type is the dominant predictor of retrieval difficulty, motivating the adaptive planning approach.
+
+\FloatBarrier
+\section{Rule-Based Planner Results}
+\label{sec:results_rule}
+
+\subsection{Strategy Selection Accuracy}
+
+The seven-rule planner achieves SSA$={78.4\%}$ (298/380 correct decisions). Four of six reasoning types achieve 100\% SSA: temporal (bm25), exception (dense), multi\_hop (hybrid), and aggregation (hybrid). Comparison queries achieve 87.9\% SSA. Single\_hop queries are the primary weakness (64.5\% SSA), reflecting genuine ambiguity in the optimal strategy for generic single-hop queries.
+
+\subsection{Retrieval Performance}
+
+The rule planner achieves the highest Recall@10 ($0.755$) and Hit@10 ($0.808$) of all evaluated systems, improving upon Hybrid by +1.4\% and +1.3\% respectively. MRR ($0.522$) and nDCG@10 ($0.563$) are slightly below Hybrid ($0.530$, $0.566$), indicating that adaptive routing improves coverage while introducing modest ranking quality trade-offs. The cost of the rule planner is \$0.00 with sub-millisecond decision latency.
+
+\FloatBarrier
+\section{GPT-5 LLM Planner Results}
+\label{sec:results_gpt5}
+
+\subsection{API and Parsing Reliability}
+
+GPT-5 (structured prompt) was evaluated via real OpenAI API calls on all 380 answerable queries. All 380 calls returned valid JSON (parse failure rate: 0.0\%), following remediation of the reasoning-token exhaustion issue. The API success rate was 100\%.
+
+\subsection{Strategy Selection Accuracy}
+
+GPT-5 achieves overall SSA$={77.6\%}$ (295/380 correct), 0.8 pp below the rule planner. The critical divergence is temporal: GPT-5 predicts hybrid for all 5 temporal queries, achieving 0\% SSA on this type, whereas the rule planner achieves 100\% via its dedicated temporal rule (R01).
+
+GPT-5 over-predicts dense (88 vs.\ oracle 69, +27.5\%) and under-predicts bm25 (49 vs.\ oracle 62, -21.0\%), reflecting systematic category confusion on API Documentation and System Design queries. GPT-5's F1 for hybrid prediction (0.878) far exceeds its F1 for bm25 (0.414), confirming that the model defaults to hybrid when uncertain.
+
+\subsection{Retrieval Performance and Cost}
+
+GPT-5 achieves the highest MRR ($0.533$) and nDCG@10 ($0.570$) of all systems. Figure~\ref{fig:planners} compares the rule planner and GPT-5 across metrics. The full planner comparison is in Table~\ref{tab:planner_comparison}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{fig2_planner_comparison.png}
+\caption{Rule Planner vs.\ GPT-5 Planner performance comparison across six metrics. The Rule Planner leads on Recall@10 and Hit@10 (coverage). GPT-5 leads on MRR, nDCG@10, Recall@1, and Recall@5 (ranking quality).}
+\label{fig:planners}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Adaptive Planner Comparison: Rule-Based vs.\ GPT-5 (structured prompt, $n{=}380$). Positive $\Delta$ favors GPT-5.}
+\label{tab:planner_comparison}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Metric} & \textbf{Rule} & \textbf{GPT-5} & $\Delta$ & \textbf{Favors} \\
+\midrule
+SSA             & 0.784 & 0.776 & $-$0.008 & Rule \\
+Recall@1        & 0.358 & 0.368 & +0.011   & GPT-5 \\
+Recall@3        & 0.549 & 0.566 & +0.017   & GPT-5 \\
+Recall@5        & 0.629 & 0.649 & +0.020   & GPT-5 \\
+Recall@10       & 0.755 & 0.750 & $-$0.005 & Rule \\
+MRR             & 0.522 & 0.533 & +0.011   & GPT-5 \\
+nDCG@10         & 0.563 & 0.570 & +0.007   & GPT-5 \\
+Hit@10          & 0.808 & 0.803 & $-$0.005 & Rule \\
+\midrule
+Parse Failures  & 0     & 0     & ---      & --- \\
+Cost (USD)      & \$0.00 & \$6.18 & +\$6.18 & Rule \\
+Latency (ms)    & ${<}1$  & 5{,}649 & +5{,}648 & Rule \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+GPT-5 evaluation cost \$6.18 for 380 queries (\$0.016/query). Mean API latency was 5,649 ms (median: 5,044 ms; p95: 10,368 ms). Table~\ref{tab:cost_latency} provides the complete cost comparison.
+
+\begin{table}[htbp]
+\centering
+\caption{Cost and Latency Comparison Across All Systems}
+\label{tab:cost_latency}
+\begin{tabular}{lrrrc}
+\toprule
+\textbf{System} & \textbf{Cost/Query} & \textbf{Total (380Q)} & \textbf{Avg Latency} & \textbf{Type} \\
+\midrule
+BM25            & \$0.000 & \$0.00 & ${<}1$~ms & Fixed \\
+Dense           & \$0.000 & \$0.00 & ${<}5$~ms & Fixed \\
+Hybrid          & \$0.000 & \$0.00 & ${<}5$~ms & Fixed \\
+Rule Planner    & \$0.000 & \$0.00 & ${\sim}0.001$~ms & Adaptive \\
+GPT-5 Planner   & \$0.016 & \$6.18 & 5{,}649~ms & Adaptive \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\FloatBarrier
+\section{Category-Level Results}
+\label{sec:results_category}
+
+Table~\ref{tab:category} provides Recall@10 and MRR by document category. Figure~\ref{fig:category} illustrates category-level performance.
+
+\begin{table}[htbp]
+\centering
+\caption{Recall@10 and MRR by Document Category. Best Recall@10 bolded per category.}
+\label{tab:category}
+\begin{tabular}{lrcccccccc}
+\toprule
+ & & \multicolumn{4}{c}{\textbf{Recall@10}} & \multicolumn{4}{c}{\textbf{MRR}} \\
+\cmidrule(lr){3-6}\cmidrule(lr){7-10}
+\textbf{Category} & \textbf{n} & \textbf{BM25} & \textbf{Dense} & \textbf{Hybrid} & \textbf{Rule} & \textbf{BM25} & \textbf{Dense} & \textbf{Hybrid} & \textbf{Rule} \\
+\midrule
+API Docs        & 68  & 0.971 & \textbf{1.000} & \textbf{1.000} & \textbf{1.000} & 0.794 & 0.818 & 0.836 & 0.860 \\
+HR Policies     & 54  & 0.602 & 0.611 & 0.565 & 0.546 & 0.235 & 0.278 & 0.277 & 0.274 \\
+Meeting Notes   & 100 & 0.608 & 0.528 & \textbf{0.615} & 0.605 & 0.388 & 0.400 & 0.470 & 0.476 \\
+Security        & 64  & 0.617 & \textbf{0.734} & 0.727 & 0.711 & 0.332 & 0.411 & 0.427 & 0.424 \\
+System Design   & 45  & 0.511 & 0.700 & 0.611 & \textbf{0.722} & 0.236 & 0.289 & 0.304 & 0.285 \\
+Travel Policies & 49  & \textbf{1.000} & \textbf{1.000} & \textbf{1.000} & \textbf{1.000} & 0.744 & 0.830 & 0.847 & 0.847 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{fig4_category_performance.png}
+\caption{Recall@10 by document category and retrieval system. API Documentation and Travel Policies show ceiling effects at $k{=}10$. System Design Documents and Security Policies favor Dense retrieval. Project Meeting Notes favors Hybrid.}
+\label{fig:category}
+\end{figure}
+
+\section{Cost-Performance Trade-off}
+\label{sec:results_cost}
+
+Figure~\ref{fig:cost_tradeoff} plots the cost-performance trade-off across all five systems, visualizing the relationship between total cost and primary retrieval metrics.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{fig5_cost_performance_tradeoff.png}
+\caption{Cost vs.\ MRR trade-off across all five evaluated systems. BM25, Dense, Hybrid, and Rule Planner cluster at \$0 cost. GPT-5 achieves marginal MRR gains (+2.0\% over Rule Planner) at \$6.18 total cost for 380 queries.}
+\label{fig:cost_tradeoff}
+\end{figure}
+
+\section{Statistical Effect Size Summary}
+\label{sec:results_effects}
+
+Using the effect size classification from Section~\ref{sec:method_eval}: the BM25$\rightarrow$Hybrid MRR improvement (+7.3 pp) is \emph{substantial}; the Dense$\rightarrow$Hybrid MRR improvement (+2.8 pp) is \emph{meaningful}; Hybrid$\rightarrow$Rule Planner Recall@10 (+1.1 pp) is \emph{marginal}; Rule$\rightarrow$GPT-5 MRR (+1.1 pp) is \emph{marginal}. The Recall@10 difference between Rule and GPT-5 (0.5 pp) is at the boundary of \emph{negligible}.
+
+The primary finding from this comparison is that retrieval architecture dominates planning gain. The BM25$\rightarrow$Hybrid improvement (+15.8\% MRR) is 8$\times$ larger than the best planner improvement (+2.0\% MRR for GPT-5). This finding has direct implications for enterprise RAG system design: architecture selection is the primary performance lever, and planning provides a secondary, marginal improvement.

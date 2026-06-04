@@ -1,0 +1,760 @@
+{
+  "$defs": {
+    "APIAuthMethod": {
+      "description": "Authentication method used by a HYTech API.",
+      "enum": [
+        "OAuth2",
+        "API_key",
+        "mTLS",
+        "service_token"
+      ],
+      "title": "APIAuthMethod",
+      "type": "string"
+    },
+    "APIDocumentationMetadata": {
+      "additionalProperties": false,
+      "description": "Category-specific metadata for API Documentation (e.g. API-DOC-001).\n\nCaptures service identity, API version, authentication, and stability.",
+      "properties": {
+        "kind": {
+          "const": "API Documentation",
+          "default": "API Documentation",
+          "description": "Discriminator — always 'API Documentation'",
+          "title": "Kind",
+          "type": "string"
+        },
+        "api_doc_id": {
+          "description": "API document identifier, e.g. API-DOC-001",
+          "pattern": "^API-DOC-\\d+$",
+          "title": "Api Doc Id",
+          "type": "string"
+        },
+        "service_name": {
+          "$ref": "#/$defs/APIServiceName",
+          "description": "HYTech Solutions internal service name"
+        },
+        "api_version": {
+          "description": "API version string, e.g. v1, v2, v3",
+          "pattern": "^v\\d+$",
+          "title": "Api Version",
+          "type": "string"
+        },
+        "endpoint_count": {
+          "description": "Number of endpoints described in this document",
+          "minimum": 1,
+          "title": "Endpoint Count",
+          "type": "integer"
+        },
+        "auth_method": {
+          "$ref": "#/$defs/APIAuthMethod",
+          "description": "Authentication method required"
+        },
+        "owner_team": {
+          "description": "Engineering team that owns this API",
+          "title": "Owner Team",
+          "type": "string"
+        },
+        "stability": {
+          "$ref": "#/$defs/APIStability",
+          "description": "API lifecycle stability status"
+        }
+      },
+      "required": [
+        "api_doc_id",
+        "service_name",
+        "api_version",
+        "endpoint_count",
+        "auth_method",
+        "owner_team",
+        "stability"
+      ],
+      "title": "APIDocumentationMetadata",
+      "type": "object"
+    },
+    "APIServiceName": {
+      "description": "Internal HYTech Solutions service names covered by API documentation.",
+      "enum": [
+        "HYID",
+        "HYDeploy",
+        "HYMonitor",
+        "HYDataLake"
+      ],
+      "title": "APIServiceName",
+      "type": "string"
+    },
+    "APIStability": {
+      "description": "API lifecycle stability status.",
+      "enum": [
+        "experimental",
+        "beta",
+        "stable",
+        "deprecated"
+      ],
+      "title": "APIStability",
+      "type": "string"
+    },
+    "ArchitectureStatus": {
+      "description": "Lifecycle status of a system design document.",
+      "enum": [
+        "proposed",
+        "approved",
+        "implemented",
+        "retired"
+      ],
+      "title": "ArchitectureStatus",
+      "type": "string"
+    },
+    "AuthorityLevel": {
+      "description": "Enforcement weight of the document.",
+      "enum": [
+        "advisory",
+        "standard",
+        "mandatory"
+      ],
+      "title": "AuthorityLevel",
+      "type": "string"
+    },
+    "ConfidentialityLevel": {
+      "description": "Document sensitivity classification applied across all categories.",
+      "enum": [
+        "public_internal",
+        "confidential",
+        "restricted"
+      ],
+      "title": "ConfidentialityLevel",
+      "type": "string"
+    },
+    "DocumentCategory": {
+      "description": "Six document categories that make up the SEKD corpus.",
+      "enum": [
+        "HR Policies",
+        "Travel Policies",
+        "Security Policies",
+        "API Documentation",
+        "System Design Documents",
+        "Project Meeting Notes"
+      ],
+      "title": "DocumentCategory",
+      "type": "string"
+    },
+    "DocumentStatus": {
+      "description": "Document lifecycle status.",
+      "enum": [
+        "draft",
+        "active",
+        "deprecated",
+        "archived"
+      ],
+      "title": "DocumentStatus",
+      "type": "string"
+    },
+    "EmployeeType": {
+      "description": "Employment type covered by an HR policy.",
+      "enum": [
+        "full_time",
+        "part_time",
+        "contractor",
+        "intern",
+        "all"
+      ],
+      "title": "EmployeeType",
+      "type": "string"
+    },
+    "HRPolicyMetadata": {
+      "additionalProperties": false,
+      "description": "Category-specific metadata for HR Policy documents (e.g. HR-POL-001).\n\nCaptures policy ownership, scope, eligibility, and approval chain.",
+      "properties": {
+        "kind": {
+          "const": "HR Policies",
+          "default": "HR Policies",
+          "description": "Discriminator — always 'HR Policies'",
+          "title": "Kind",
+          "type": "string"
+        },
+        "policy_id": {
+          "description": "HR policy identifier, e.g. HR-POL-001",
+          "pattern": "^HR-POL-\\d+$",
+          "title": "Policy Id",
+          "type": "string"
+        },
+        "policy_area": {
+          "$ref": "#/$defs/PolicyArea",
+          "description": "HR policy subject area"
+        },
+        "employee_type": {
+          "$ref": "#/$defs/EmployeeType",
+          "description": "Employment type this policy covers"
+        },
+        "applicable_regions": {
+          "description": "Regions where this policy applies",
+          "items": {
+            "$ref": "#/$defs/Region"
+          },
+          "minItems": 1,
+          "title": "Applicable Regions",
+          "type": "array"
+        },
+        "approval_body": {
+          "description": "Body that approved this policy, e.g. HR Committee",
+          "title": "Approval Body",
+          "type": "string"
+        },
+        "supersedes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Previous policy ID this document replaces, if any",
+          "title": "Supersedes"
+        },
+        "escalation_contact": {
+          "description": "HR role to contact for escalations",
+          "title": "Escalation Contact",
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy_id",
+        "policy_area",
+        "employee_type",
+        "applicable_regions",
+        "approval_body",
+        "escalation_contact"
+      ],
+      "title": "HRPolicyMetadata",
+      "type": "object"
+    },
+    "MeetingNotesMetadata": {
+      "additionalProperties": false,
+      "description": "Category-specific metadata for Project Meeting Notes (e.g. MTG-001).\n\nCaptures project identity, meeting type, participants, and cross-document links.",
+      "properties": {
+        "kind": {
+          "const": "Project Meeting Notes",
+          "default": "Project Meeting Notes",
+          "description": "Discriminator — always 'Project Meeting Notes'",
+          "title": "Kind",
+          "type": "string"
+        },
+        "meeting_id": {
+          "description": "Meeting note identifier, e.g. MTG-001",
+          "pattern": "^MTG-\\d+$",
+          "title": "Meeting Id",
+          "type": "string"
+        },
+        "project_code": {
+          "description": "Synthetic project code, e.g. PRJ-HYD-ALPHA",
+          "title": "Project Code",
+          "type": "string"
+        },
+        "meeting_type": {
+          "$ref": "#/$defs/MeetingType",
+          "description": "Type of project meeting"
+        },
+        "meeting_date": {
+          "description": "Date the meeting took place (ISO 8601)",
+          "format": "date",
+          "title": "Meeting Date",
+          "type": "string"
+        },
+        "participants": {
+          "description": "Synthetic role names of participants; must not include real names",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Participants",
+          "type": "array"
+        },
+        "decisions_count": {
+          "description": "Number of decisions recorded in this note",
+          "minimum": 0,
+          "title": "Decisions Count",
+          "type": "integer"
+        },
+        "action_items_count": {
+          "description": "Number of action items recorded in this note",
+          "minimum": 0,
+          "title": "Action Items Count",
+          "type": "integer"
+        },
+        "related_documents": {
+          "description": "IDs of related policy, API, or design documents referenced",
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Documents",
+          "type": "array"
+        }
+      },
+      "required": [
+        "meeting_id",
+        "project_code",
+        "meeting_type",
+        "meeting_date",
+        "participants",
+        "decisions_count",
+        "action_items_count"
+      ],
+      "title": "MeetingNotesMetadata",
+      "type": "object"
+    },
+    "MeetingType": {
+      "description": "Type of project meeting captured in meeting notes.",
+      "enum": [
+        "sprint_planning",
+        "architecture_review",
+        "postmortem",
+        "launch_review"
+      ],
+      "title": "MeetingType",
+      "type": "string"
+    },
+    "PolicyArea": {
+      "description": "HR policy subject area.",
+      "enum": [
+        "leave",
+        "benefits",
+        "remote_work",
+        "performance",
+        "conduct"
+      ],
+      "title": "PolicyArea",
+      "type": "string"
+    },
+    "Region": {
+      "description": "HYTech Solutions geographic regions and global scope.",
+      "enum": [
+        "global",
+        "KR",
+        "SG",
+        "US",
+        "EU"
+      ],
+      "title": "Region",
+      "type": "string"
+    },
+    "ReviewCycle": {
+      "description": "How frequently the document is scheduled for review.",
+      "enum": [
+        "monthly",
+        "quarterly",
+        "semiannual",
+        "annual"
+      ],
+      "title": "ReviewCycle",
+      "type": "string"
+    },
+    "SecurityControlFamily": {
+      "description": "Security control domain family.",
+      "enum": [
+        "access_control",
+        "data_protection",
+        "incident_response",
+        "device_security"
+      ],
+      "title": "SecurityControlFamily",
+      "type": "string"
+    },
+    "SecurityPolicyMetadata": {
+      "additionalProperties": false,
+      "description": "Category-specific metadata for Security Policy documents (e.g. SEC-POL-001).\n\nCaptures control domain, risk level, enforcement ownership, and exception rules.",
+      "properties": {
+        "kind": {
+          "const": "Security Policies",
+          "default": "Security Policies",
+          "description": "Discriminator — always 'Security Policies'",
+          "title": "Kind",
+          "type": "string"
+        },
+        "security_policy_id": {
+          "description": "Security policy identifier, e.g. SEC-POL-001",
+          "pattern": "^SEC-POL-\\d+$",
+          "title": "Security Policy Id",
+          "type": "string"
+        },
+        "control_family": {
+          "$ref": "#/$defs/SecurityControlFamily",
+          "description": "Security control domain family"
+        },
+        "control_ids": {
+          "description": "Synthetic control IDs referenced by this policy, e.g. HY-AC-01",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Control Ids",
+          "type": "array"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/SecurityRiskLevel",
+          "description": "Risk severity level"
+        },
+        "enforcement_owner": {
+          "description": "Security team role responsible for enforcement",
+          "title": "Enforcement Owner",
+          "type": "string"
+        },
+        "exception_allowed": {
+          "description": "Whether exceptions to this policy can be approved",
+          "title": "Exception Allowed",
+          "type": "boolean"
+        },
+        "review_frequency_days": {
+          "description": "Maximum days between scheduled reviews",
+          "exclusiveMinimum": 0,
+          "title": "Review Frequency Days",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "security_policy_id",
+        "control_family",
+        "control_ids",
+        "risk_level",
+        "enforcement_owner",
+        "exception_allowed",
+        "review_frequency_days"
+      ],
+      "title": "SecurityPolicyMetadata",
+      "type": "object"
+    },
+    "SecurityRiskLevel": {
+      "description": "Risk severity level for a security policy.",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "title": "SecurityRiskLevel",
+      "type": "string"
+    },
+    "SystemDesignMetadata": {
+      "additionalProperties": false,
+      "description": "Category-specific metadata for System Design Documents (e.g. SYS-DES-001).\n\nCaptures system identity, architecture status, ownership, and decision records.",
+      "properties": {
+        "kind": {
+          "const": "System Design Documents",
+          "default": "System Design Documents",
+          "description": "Discriminator — always 'System Design Documents'",
+          "title": "Kind",
+          "type": "string"
+        },
+        "design_doc_id": {
+          "description": "Design document identifier, e.g. SYS-DES-001",
+          "pattern": "^SYS-DES-\\d+$",
+          "title": "Design Doc Id",
+          "type": "string"
+        },
+        "system_name": {
+          "description": "Name of the system being designed",
+          "title": "System Name",
+          "type": "string"
+        },
+        "architecture_status": {
+          "$ref": "#/$defs/ArchitectureStatus",
+          "description": "Current lifecycle status of this architecture"
+        },
+        "primary_author_role": {
+          "description": "Synthetic role of the primary author; must not be a real name",
+          "title": "Primary Author Role",
+          "type": "string"
+        },
+        "reviewer_roles": {
+          "description": "Roles that reviewed this document",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Reviewer Roles",
+          "type": "array"
+        },
+        "related_services": {
+          "description": "HYTech services this system depends on",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Related Services",
+          "type": "array"
+        },
+        "decision_record_ids": {
+          "description": "Synthetic ADR IDs referenced by this document, e.g. ADR-HYD-001",
+          "items": {
+            "type": "string"
+          },
+          "title": "Decision Record Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "design_doc_id",
+        "system_name",
+        "architecture_status",
+        "primary_author_role",
+        "reviewer_roles",
+        "related_services"
+      ],
+      "title": "SystemDesignMetadata",
+      "type": "object"
+    },
+    "TravelCurrency": {
+      "description": "Currency used in travel policy spending limits.",
+      "enum": [
+        "KRW",
+        "USD",
+        "EUR",
+        "SGD"
+      ],
+      "title": "TravelCurrency",
+      "type": "string"
+    },
+    "TravelExpenseType": {
+      "description": "Primary expense category covered by a travel policy.",
+      "enum": [
+        "airfare",
+        "lodging",
+        "meals",
+        "ground_transport",
+        "visa",
+        "miscellaneous"
+      ],
+      "title": "TravelExpenseType",
+      "type": "string"
+    },
+    "TravelPolicyMetadata": {
+      "additionalProperties": false,
+      "description": "Category-specific metadata for Travel Policy documents (e.g. TRV-POL-001).\n\nCaptures expense category, applicable roles, spending limits, and approval.",
+      "properties": {
+        "kind": {
+          "const": "Travel Policies",
+          "default": "Travel Policies",
+          "description": "Discriminator — always 'Travel Policies'",
+          "title": "Kind",
+          "type": "string"
+        },
+        "travel_policy_id": {
+          "description": "Travel policy identifier, e.g. TRV-POL-001",
+          "pattern": "^TRV-POL-\\d+$",
+          "title": "Travel Policy Id",
+          "type": "string"
+        },
+        "expense_type": {
+          "$ref": "#/$defs/TravelExpenseType",
+          "description": "Primary expense category covered by this policy"
+        },
+        "applicable_roles": {
+          "description": "Employee roles this policy applies to",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Applicable Roles",
+          "type": "array"
+        },
+        "currency": {
+          "$ref": "#/$defs/TravelCurrency",
+          "description": "Currency used for spending limits"
+        },
+        "approval_required": {
+          "description": "Whether pre-approval is required for this expense type",
+          "title": "Approval Required",
+          "type": "boolean"
+        },
+        "finance_owner": {
+          "description": "Finance role that owns this policy",
+          "title": "Finance Owner",
+          "type": "string"
+        },
+        "receipt_required_threshold": {
+          "description": "Amount above which receipts are mandatory",
+          "minimum": 0.0,
+          "title": "Receipt Required Threshold",
+          "type": "number"
+        }
+      },
+      "required": [
+        "travel_policy_id",
+        "expense_type",
+        "applicable_roles",
+        "currency",
+        "approval_required",
+        "finance_owner",
+        "receipt_required_threshold"
+      ],
+      "title": "TravelPolicyMetadata",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Complete metadata for one SEKD document.\n\nCombines the DATASET_SPEC top-level document fields with the mandatory\nglobal metadata schema that every document must carry. The\n``category_metadata`` field holds the category-specific sub-schema,\nvalidated as a discriminated union and required to match ``category``.\n\nJSON alias mapping (Python field → DATASET_SPEC JSON key):\n    author_role            → document_owner\n    confidentiality_level  → confidentiality",
+  "properties": {
+    "document_id": {
+      "description": "Unique document identifier, e.g. HR-POL-001",
+      "title": "Document Id",
+      "type": "string"
+    },
+    "category": {
+      "$ref": "#/$defs/DocumentCategory",
+      "description": "Primary document category"
+    },
+    "title": {
+      "description": "Human-readable document title",
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "version": {
+      "description": "Semantic or policy version, e.g. '1.0', '2.3', 'v2'",
+      "minLength": 1,
+      "title": "Version",
+      "type": "string"
+    },
+    "created_at": {
+      "description": "ISO 8601 datetime when the document was created",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "updated_at": {
+      "description": "ISO 8601 datetime of the most recent update",
+      "format": "date-time",
+      "title": "Updated At",
+      "type": "string"
+    },
+    "department": {
+      "description": "Owning department within HYTech Solutions, e.g. 'Human Resources'",
+      "minLength": 1,
+      "title": "Department",
+      "type": "string"
+    },
+    "document_owner": {
+      "description": "Synthetic role name of the document owner (maps to 'document_owner' in DATASET_SPEC JSON)",
+      "minLength": 1,
+      "title": "Document Owner",
+      "type": "string"
+    },
+    "confidentiality": {
+      "$ref": "#/$defs/ConfidentialityLevel",
+      "description": "Document sensitivity classification (maps to 'confidentiality' in DATASET_SPEC JSON)"
+    },
+    "region": {
+      "$ref": "#/$defs/Region",
+      "description": "Primary geographic region this document applies to"
+    },
+    "language": {
+      "description": "ISO 639-1 language code, e.g. 'en', 'ko', or BCP-47 tag 'en-US'",
+      "pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+      "title": "Language",
+      "type": "string"
+    },
+    "company": {
+      "const": "HYTech Solutions",
+      "default": "HYTech Solutions",
+      "description": "Must always be 'HYTech Solutions'",
+      "title": "Company",
+      "type": "string"
+    },
+    "effective_date": {
+      "description": "Date the document became effective (ISO 8601)",
+      "format": "date",
+      "title": "Effective Date",
+      "type": "string"
+    },
+    "review_cycle": {
+      "$ref": "#/$defs/ReviewCycle",
+      "description": "How frequently the document is reviewed"
+    },
+    "status": {
+      "$ref": "#/$defs/DocumentStatus",
+      "description": "Document lifecycle status"
+    },
+    "authority_level": {
+      "$ref": "#/$defs/AuthorityLevel",
+      "description": "Enforcement weight of the document"
+    },
+    "tags": {
+      "description": "Search and filtering tags; at least one required",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Tags",
+      "type": "array"
+    },
+    "source_path": {
+      "description": "Synthetic filesystem source path, e.g. '/data/hr/HR-POL-001.md'",
+      "minLength": 1,
+      "title": "Source Path",
+      "type": "string"
+    },
+    "category_metadata": {
+      "anyOf": [
+        {
+          "discriminator": {
+            "mapping": {
+              "API Documentation": "#/$defs/APIDocumentationMetadata",
+              "HR Policies": "#/$defs/HRPolicyMetadata",
+              "Project Meeting Notes": "#/$defs/MeetingNotesMetadata",
+              "Security Policies": "#/$defs/SecurityPolicyMetadata",
+              "System Design Documents": "#/$defs/SystemDesignMetadata",
+              "Travel Policies": "#/$defs/TravelPolicyMetadata"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/HRPolicyMetadata"
+            },
+            {
+              "$ref": "#/$defs/TravelPolicyMetadata"
+            },
+            {
+              "$ref": "#/$defs/SecurityPolicyMetadata"
+            },
+            {
+              "$ref": "#/$defs/APIDocumentationMetadata"
+            },
+            {
+              "$ref": "#/$defs/SystemDesignMetadata"
+            },
+            {
+              "$ref": "#/$defs/MeetingNotesMetadata"
+            }
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Category-specific sub-schema. When present, its ``kind`` field must equal this document's ``category`` value.",
+      "title": "Category Metadata"
+    }
+  },
+  "required": [
+    "document_id",
+    "category",
+    "title",
+    "version",
+    "created_at",
+    "updated_at",
+    "department",
+    "document_owner",
+    "confidentiality",
+    "region",
+    "language",
+    "effective_date",
+    "review_cycle",
+    "status",
+    "authority_level",
+    "tags",
+    "source_path"
+  ],
+  "title": "DocumentMetadata",
+  "type": "object"
+}

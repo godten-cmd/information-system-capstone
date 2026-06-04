@@ -1,0 +1,15 @@
+%% abstract.tex
+\begin{abstract}
+
+Enterprise knowledge management systems increasingly rely on Retrieval-Augmented Generation (RAG) to surface relevant information from large, heterogeneous document corpora. A critical but underexplored design decision in such systems is \emph{retrieval strategy selection}: given a user query, should the system apply sparse keyword retrieval, dense semantic retrieval, or a hybrid fusion of both? This thesis investigates \emph{adaptive retrieval planning} — the automated selection of a retrieval strategy based on query characteristics — as a mechanism for improving retrieval quality in enterprise knowledge management contexts.
+
+We conduct a controlled evaluation on the Synthetic Enterprise Knowledge Dataset (SEKD), a purpose-built corpus of 120 enterprise documents spanning six categories (API Documentation, HR Policies, Project Meeting Notes, Security Policies, System Design Documents, and Travel Policies), segmented into 1,206 section-aware chunks, with 405 annotated queries covering six reasoning types (single-hop, multi-hop, aggregation, comparison, exception, and temporal). We evaluate five systems along a complexity-cost axis: BM25 (sparse), BGE-small-en-v1.5 dense retrieval, Hybrid Reciprocal Rank Fusion (RRF), a seven-rule deterministic planner, and a GPT-5-based zero-shot planner using a structured prompt.
+
+Our experiments address seven research questions spanning retrieval architecture selection, category- and reasoning-type-level performance variation, and the relative effectiveness of rule-based versus LLM-based adaptive planning. Key findings are: (1) Hybrid RRF outperforms both unimodal methods on most metrics (MRR: +15.8\% over BM25, +5.6\% over Dense), confirming lexical and semantic signals are complementary; (2) the seven-rule planner achieves the highest Recall@10 (0.755) and Hit@10 (0.808) of any system at zero operational cost; (3) GPT-5 achieves the highest MRR (0.533) and nDCG@10 (0.570) but does not outperform the rule planner on Strategy Selection Accuracy (77.6\% vs.\ 78.4\%) and costs \$6.18 for 380 queries; (4) exception clause and temporal queries are universal failure modes across all evaluated systems, with Dense achieving zero recall on temporal queries and no system exceeding Recall@10 = 0.412 on exception queries.
+
+These findings suggest that adaptive retrieval planning provides measurable but modest improvements over fixed-strategy retrieval, that deterministic planning is competitive with LLM-based planning at orders-of-magnitude lower cost, and that the primary remaining challenge for enterprise RAG is specialized handling of exception and temporal query patterns.
+
+\bigskip
+\noindent\textbf{Keywords:} Retrieval-Augmented Generation, Enterprise Search, Adaptive Retrieval, BM25, Dense Retrieval, Hybrid Retrieval, Reciprocal Rank Fusion, Large Language Models, Query Planning, Information Retrieval Evaluation
+
+\end{abstract}

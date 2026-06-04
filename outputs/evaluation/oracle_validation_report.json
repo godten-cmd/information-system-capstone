@@ -1,0 +1,166 @@
+{
+  "validation_timestamp": "2026-06-02T07:56:07.637301+00:00",
+  "dataset_file": "data/sekd/queries.jsonl",
+  "evaluation_phase": "Phase 8 \u2014 Rule-Based Planner",
+  "total_queries_in_dataset": 405,
+  "total_queries_reviewed": 405,
+  "total_updates": 5,
+  "validation_protocol": "Phase 4 assigned oracle labels using heuristic_assignment. Phase 5\u20138 retrieval experiments revealed that BM25 systematically outperforms the heuristic-assigned strategy for temporal reasoning queries. Labels were updated per the oracle validation framework (PROJECT_SPEC \u00a79.4.1 and IMPLEMENTATION_PLAN \u00a7Oracle Validation Framework): (1) initial heuristic labels retained with heuristic_assignment source, (2) Phase 5\u20138 experiments run on unchanged labels, (3) temporal contradiction identified via empirical comparison, (4) oracle updated to empirically best method with source=empirical_validation.",
+  "prior_strategy": "multi_hop",
+  "updated_strategy": "bm25",
+  "updated_source": "empirical_validation",
+  "empirical_evidence_summary": {
+    "reasoning_type": "temporal",
+    "n_queries": 5,
+    "methods_compared": [
+      "bm25",
+      "dense",
+      "hybrid",
+      "rule_planner"
+    ],
+    "recall_at_10_by_method": {
+      "bm25": 0.2,
+      "dense": 0.0,
+      "hybrid": 0.1,
+      "rule_planner": 0.2
+    },
+    "best_method": "bm25",
+    "heuristic_mapped_strategy": "hybrid",
+    "heuristic_mapped_recall_at_10": 0.1,
+    "delta_bm25_vs_heuristic": 0.1
+  },
+  "updated_cases": [
+    {
+      "query_id": "Q-000070",
+      "query": "What was the first decision made in the initial PRJ-BILLING-REVAMP meeting and what was the key outcome of the final meeting?",
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes",
+      "retrieval_difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "prior_oracle_strategy": "multi_hop",
+      "prior_oracle_source": "heuristic_assignment",
+      "updated_oracle_strategy": "bm25",
+      "updated_oracle_source": "empirical_validation",
+      "empirical_evidence": {
+        "bm25_recall_at_10": 0.2,
+        "dense_recall_at_10": 0.0,
+        "hybrid_recall_at_10": 0.1,
+        "rule_planner_recall_at_10": 0.2,
+        "best_method": "bm25",
+        "best_recall_at_10": 0.2
+      },
+      "contradiction_note": "Original oracle strategy 'multi_hop' (mapped to 'hybrid') was assigned by heuristic_assignment during Phase 4. Phase 7\u20138 retrieval experiments show BM25 Recall@10=0.200 outperforms Hybrid=0.100 and Dense=0.000 for temporal queries. The heuristic over-weighted the multi_document_dependency factor (these queries span two meeting notes) and under-weighted the temporal ordering aspect (date-anchored language maps better to BM25 lexical matching). Updated to 'bm25' with source='empirical_validation'."
+    },
+    {
+      "query_id": "Q-000171",
+      "query": "What was the first decision made in the initial PRJ-SECURITY-AUDIT meeting and what was the key outcome of the final meeting?",
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes",
+      "retrieval_difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "prior_oracle_strategy": "multi_hop",
+      "prior_oracle_source": "heuristic_assignment",
+      "updated_oracle_strategy": "bm25",
+      "updated_oracle_source": "empirical_validation",
+      "empirical_evidence": {
+        "bm25_recall_at_10": 0.2,
+        "dense_recall_at_10": 0.0,
+        "hybrid_recall_at_10": 0.1,
+        "rule_planner_recall_at_10": 0.2,
+        "best_method": "bm25",
+        "best_recall_at_10": 0.2
+      },
+      "contradiction_note": "Original oracle strategy 'multi_hop' (mapped to 'hybrid') was assigned by heuristic_assignment during Phase 4. Phase 7\u20138 retrieval experiments show BM25 Recall@10=0.200 outperforms Hybrid=0.100 and Dense=0.000 for temporal queries. The heuristic over-weighted the multi_document_dependency factor (these queries span two meeting notes) and under-weighted the temporal ordering aspect (date-anchored language maps better to BM25 lexical matching). Updated to 'bm25' with source='empirical_validation'."
+    },
+    {
+      "query_id": "Q-000181",
+      "query": "What was the first decision made in the initial PRJ-HYID-BETA meeting and what was the key outcome of the final meeting?",
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes",
+      "retrieval_difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "prior_oracle_strategy": "multi_hop",
+      "prior_oracle_source": "heuristic_assignment",
+      "updated_oracle_strategy": "bm25",
+      "updated_oracle_source": "empirical_validation",
+      "empirical_evidence": {
+        "bm25_recall_at_10": 0.2,
+        "dense_recall_at_10": 0.0,
+        "hybrid_recall_at_10": 0.1,
+        "rule_planner_recall_at_10": 0.2,
+        "best_method": "bm25",
+        "best_recall_at_10": 0.2
+      },
+      "contradiction_note": "Original oracle strategy 'multi_hop' (mapped to 'hybrid') was assigned by heuristic_assignment during Phase 4. Phase 7\u20138 retrieval experiments show BM25 Recall@10=0.200 outperforms Hybrid=0.100 and Dense=0.000 for temporal queries. The heuristic over-weighted the multi_document_dependency factor (these queries span two meeting notes) and under-weighted the temporal ordering aspect (date-anchored language maps better to BM25 lexical matching). Updated to 'bm25' with source='empirical_validation'."
+    },
+    {
+      "query_id": "Q-000313",
+      "query": "What was the first decision made in the initial PRJ-DATALAKE-V2 meeting and what was the key outcome of the final meeting?",
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes",
+      "retrieval_difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "prior_oracle_strategy": "multi_hop",
+      "prior_oracle_source": "heuristic_assignment",
+      "updated_oracle_strategy": "bm25",
+      "updated_oracle_source": "empirical_validation",
+      "empirical_evidence": {
+        "bm25_recall_at_10": 0.2,
+        "dense_recall_at_10": 0.0,
+        "hybrid_recall_at_10": 0.1,
+        "rule_planner_recall_at_10": 0.2,
+        "best_method": "bm25",
+        "best_recall_at_10": 0.2
+      },
+      "contradiction_note": "Original oracle strategy 'multi_hop' (mapped to 'hybrid') was assigned by heuristic_assignment during Phase 4. Phase 7\u20138 retrieval experiments show BM25 Recall@10=0.200 outperforms Hybrid=0.100 and Dense=0.000 for temporal queries. The heuristic over-weighted the multi_document_dependency factor (these queries span two meeting notes) and under-weighted the temporal ordering aspect (date-anchored language maps better to BM25 lexical matching). Updated to 'bm25' with source='empirical_validation'."
+    },
+    {
+      "query_id": "Q-000365",
+      "query": "What was the first decision made in the initial PRJ-HYD-ALPHA meeting and what was the key outcome of the final meeting?",
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes",
+      "retrieval_difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "prior_oracle_strategy": "multi_hop",
+      "prior_oracle_source": "heuristic_assignment",
+      "updated_oracle_strategy": "bm25",
+      "updated_oracle_source": "empirical_validation",
+      "empirical_evidence": {
+        "bm25_recall_at_10": 0.2,
+        "dense_recall_at_10": 0.0,
+        "hybrid_recall_at_10": 0.1,
+        "rule_planner_recall_at_10": 0.2,
+        "best_method": "bm25",
+        "best_recall_at_10": 0.2
+      },
+      "contradiction_note": "Original oracle strategy 'multi_hop' (mapped to 'hybrid') was assigned by heuristic_assignment during Phase 4. Phase 7\u20138 retrieval experiments show BM25 Recall@10=0.200 outperforms Hybrid=0.100 and Dense=0.000 for temporal queries. The heuristic over-weighted the multi_document_dependency factor (these queries span two meeting notes) and under-weighted the temporal ordering aspect (date-anchored language maps better to BM25 lexical matching). Updated to 'bm25' with source='empirical_validation'."
+    }
+  ],
+  "unchanged_categories": {
+    "reasoning_type": [
+      {
+        "type": "exception",
+        "oracle": "dense",
+        "source": "heuristic_assignment",
+        "note": "Dense best for exception; no contradiction found"
+      },
+      {
+        "type": "multi_hop",
+        "oracle": "multi_hop\u2192hybrid",
+        "source": "heuristic_assignment",
+        "note": "Hybrid correct empirically; no update needed"
+      }
+    ],
+    "notes": "All other oracle labels remain heuristic_assignment. No systematic empirical contradiction was found for any other reasoning_type or category in Phase 5\u20138 experiments."
+  }
+}

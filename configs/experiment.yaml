@@ -1,0 +1,13 @@
+experiment:
+  name: phase1_placeholder
+  seed: 42
+  dataset_config: configs/dataset.yaml
+  output_dir: outputs/experiments
+  top_k: 10
+  methods:
+    - fixed_bm25
+    - fixed_dense
+    - fixed_hybrid
+    - rule_based_planner
+    - llm_based_planner
+

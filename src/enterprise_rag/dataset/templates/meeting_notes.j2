@@ -1,0 +1,80 @@
+Title: {{ title }}
+Meeting ID: {{ meeting_id }}
+Project: {{ project_code }}
+Meeting Type: {{ meeting_type }}
+Date: {{ meeting_date }}
+Participants: {{ participants | join(', ') }}
+Department: {{ department }}
+Facilitator: {{ facilitator }}
+{% if related_documents %}
+Related Documents: {{ related_documents | join(', ') }}
+{% endif %}
+
+1. Meeting Overview
+Project: {{ project_code }} — {{ project_description }}
+Meeting type: {{ meeting_type }}
+Duration: {{ duration_minutes }} minutes
+Location: {{ location }}
+
+Agenda:
+{% for item in agenda_items %}
+{{ loop.index }}. {{ item }}
+{% endfor %}
+
+2. Attendance
+| Role | Attendance Status |
+| --- | --- |
+{% for p in participant_rows %}
+| {{ p.role }} | {{ p.status }} |
+{% endfor %}
+
+3. Decisions
+The following decisions were recorded during this meeting:
+{% for decision in decisions %}
+{{ loop.index }}. **{{ decision.topic }}**: {{ decision.text }}
+   Owner: {{ decision.owner }}
+{% endfor %}
+
+4. Action Items
+| Owner Role | Action | Due Date | Status |
+| --- | --- | --- | --- |
+{% for item in action_items %}
+| {{ item.owner_role }} | {{ item.action }} | {{ item.due_date }} | {{ item.status }} |
+{% endfor %}
+
+5. Discussion Notes
+{% for note in discussion_notes %}
+**{{ note.topic }}**
+{{ note.content }}
+
+{% endfor %}
+
+6. Blockers and Risks
+{% if blockers %}
+The following blockers were raised:
+{% for blocker in blockers %}
+- **{{ blocker.area }}**: {{ blocker.description }}
+  Resolution owner: {{ blocker.owner }}
+  Target resolution: {{ blocker.target_date }}
+{% endfor %}
+{% else %}
+No blockers were identified in this meeting.
+{% endif %}
+
+7. Next Meeting
+{% if next_meeting_date %}
+Next meeting scheduled for: {{ next_meeting_date }}
+Expected agenda: {{ next_meeting_agenda }}
+{% else %}
+Next meeting to be scheduled by {{ next_meeting_scheduler }}.
+{% endif %}
+
+8. References
+{% if related_documents %}
+Documents referenced in this meeting:
+{% for doc_id in related_documents %}
+- {{ doc_id }}
+{% endfor %}
+{% else %}
+No documents were formally referenced in this meeting.
+{% endif %}

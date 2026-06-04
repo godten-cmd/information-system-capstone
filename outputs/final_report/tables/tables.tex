@@ -1,0 +1,185 @@
+%% Publication-ready LaTeX tables for SEKD thesis
+%% Phase 10 — Final Artifacts
+%% All metrics derived from completed experiment outputs
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{caption}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% Table 1: Dataset Statistics
+%% ──────────────────────────────────────────────────────────────────────────────
+
+\begin{table}[ht]
+\centering
+\caption{SEKD Corpus and Query Set Statistics}
+\label{tab:dataset}
+\begin{tabular}{ll}
+\toprule
+\textbf{Statistic} & \textbf{Value} \\
+\midrule
+\multicolumn{2}{l}{\textit{Corpus}} \\
+\quad Total documents & 120 \\
+\quad Document categories & 6 \\
+\quad Total chunks (section-aware) & 1{,}206 \\
+\midrule
+\multicolumn{2}{l}{\textit{Query Set}} \\
+\quad Total queries & 405 \\
+\quad Answerable queries & 380 \\
+\quad Unanswerable queries & 25 \\
+\midrule
+\multicolumn{2}{l}{\textit{Reasoning Types}} \\
+\quad single\_hop & 220 (57.9\%) \\
+\quad multi\_hop & 53 (13.9\%) \\
+\quad aggregation & 35 (9.2\%) \\
+\quad comparison & 33 (8.7\%) \\
+\quad exception & 34 (8.9\%) \\
+\quad temporal & 5 (1.3\%) \\
+\midrule
+\multicolumn{2}{l}{\textit{Document Categories (answerable)}} \\
+\quad Project Meeting Notes & 100 (26.3\%) \\
+\quad API Documentation & 68 (17.9\%) \\
+\quad Security Policies & 64 (16.8\%) \\
+\quad HR Policies & 54 (14.2\%) \\
+\quad Travel Policies & 49 (12.9\%) \\
+\quad System Design Documents & 45 (11.8\%) \\
+\midrule
+\multicolumn{2}{l}{\textit{Technical Configuration}} \\
+\quad Embedding model & BAAI/bge-small-en-v1.5 (dim=384) \\
+\quad BM25 parameters & $k_1{=}1.5$, $b{=}0.75$ \\
+\quad Hybrid fusion & RRF ($k{=}10$) \\
+\quad Rule planner rules & 7 \\
+\quad LLM planner model & GPT-5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% Table 2: Overall Retrieval Performance
+%% ──────────────────────────────────────────────────────────────────────────────
+
+\begin{table*}[ht]
+\centering
+\caption{Overall Retrieval Performance Across All Systems ($n{=}380$ answerable queries). Bold indicates best value per column.}
+\label{tab:retrieval_performance}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{System} & \textbf{Recall@1} & \textbf{Recall@5} & \textbf{Recall@10} & \textbf{MRR} & \textbf{nDCG@10} & \textbf{Hit@10} \\
+\midrule
+BM25                & 0.298 & 0.602 & 0.713 & 0.457 & 0.509 & 0.768 \\
+Dense (BGE-small)   & 0.346 & 0.629 & 0.740 & 0.501 & 0.548 & 0.787 \\
+Hybrid (RRF)        & 0.368 & 0.623 & 0.745 & 0.530 & 0.566 & 0.797 \\
+Rule Planner        & 0.358 & 0.629 & \textbf{0.755} & 0.522 & 0.563 & \textbf{0.808} \\
+GPT-5 Planner       & \textbf{0.368} & \textbf{0.649} & 0.750 & \textbf{0.533} & \textbf{0.570} & 0.803 \\
+\midrule
+\multicolumn{7}{l}{\textit{Improvement: Hybrid vs.\ BM25}} \\
+$\Delta$ (pp)       & +7.0  & +2.1  & +3.2  & +7.3  & +5.8  & +2.9  \\
+\multicolumn{7}{l}{\textit{Improvement: Rule Planner vs.\ Hybrid}} \\
+$\Delta$ (pp)       & --1.1 & +0.7  & +1.1  & --0.8 & --0.3 & +1.1  \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% Table 3: Reasoning-Type Analysis at k=10
+%% ──────────────────────────────────────────────────────────────────────────────
+
+\begin{table*}[ht]
+\centering
+\caption{Recall@10 by Reasoning Type Across All Systems. Temporal and exception queries are persistent weak points for all methods.}
+\label{tab:reasoning_type}
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Reasoning Type} & \textbf{n} & \textbf{BM25} & \textbf{Dense} & \textbf{Hybrid} & \textbf{Rule} & \textbf{GPT-5} \\
+\midrule
+aggregation   & 35  & 0.924 & 0.895 & 0.914 & \textbf{0.914} & 0.914 \\
+comparison    & 33  & 0.818 & 0.848 & 0.848 & \textbf{0.879} & 0.848 \\
+exception     & 34  & 0.412 & 0.382 & 0.412 & 0.368 & 0.382 \\
+multi\_hop    & 53  & 0.538 & 0.491 & 0.519 & 0.531 & \textbf{0.519} \\
+single\_hop   & 220 & 0.764 & 0.832 & 0.823 & 0.836 & \textbf{0.836} \\
+temporal      & 5   & \textbf{0.200} & 0.000 & 0.100 & \textbf{0.200} & 0.100 \\
+\midrule
+\multicolumn{7}{l}{\textit{Note: Exception and temporal queries are universally difficult across all retrieval strategies.}} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% Table 4: Category-Level Performance at k=10
+%% ──────────────────────────────────────────────────────────────────────────────
+
+\begin{table*}[ht]
+\centering
+\caption{Recall@10 and MRR by Document Category. Best Recall@10 bolded per category.}
+\label{tab:category}
+\begin{tabular}{lrrrrrrrrrrr}
+\toprule
+ & \multicolumn{5}{c}{\textbf{Recall@10}} & \multicolumn{5}{c}{\textbf{MRR}} \\
+\cmidrule(lr){2-6}\cmidrule(lr){7-11}
+\textbf{Category} & \textbf{n} & \textbf{BM25} & \textbf{Dense} & \textbf{Hybrid} & \textbf{Rule} & \textbf{BM25} & \textbf{Dense} & \textbf{Hybrid} & \textbf{Rule} \\
+\midrule
+API Docs        & 68  & 0.971 & \textbf{1.000} & \textbf{1.000} & \textbf{1.000} & 0.794 & 0.818 & 0.836 & 0.860 \\
+HR Policies     & 54  & 0.602 & 0.611 & 0.565 & 0.546 & 0.235 & 0.278 & 0.277 & 0.274 \\
+Meeting Notes   & 100 & 0.608 & 0.528 & 0.615 & 0.605 & 0.388 & 0.400 & 0.470 & 0.476 \\
+Security        & 64  & 0.617 & 0.734 & 0.727 & 0.711 & 0.332 & 0.411 & 0.427 & 0.424 \\
+System Design   & 45  & 0.511 & 0.700 & 0.611 & 0.722 & 0.236 & 0.289 & 0.304 & 0.285 \\
+Travel Policies & 49  & \textbf{1.000} & \textbf{1.000} & \textbf{1.000} & \textbf{1.000} & 0.744 & 0.830 & 0.847 & 0.847 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% Table 5: Rule Planner vs GPT-5 Planner
+%% ──────────────────────────────────────────────────────────────────────────────
+
+\begin{table}[ht]
+\centering
+\caption{Adaptive Planner Comparison: Rule-Based vs.\ GPT-5 (structured prompt, $n{=}380$). Positive $\Delta$ favors GPT-5.}
+\label{tab:planner_comparison}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Metric} & \textbf{Rule} & \textbf{GPT-5} & $\Delta$ & \textbf{Favors} \\
+\midrule
+SSA             & 0.784 & 0.776 & --0.008 & Rule \\
+Recall@1        & 0.358 & 0.368 & +0.011  & GPT-5 \\
+Recall@3        & 0.549 & 0.566 & +0.017  & GPT-5 \\
+Recall@5        & 0.629 & 0.649 & +0.020  & GPT-5 \\
+Recall@10       & 0.755 & 0.750 & --0.005 & Rule \\
+MRR             & 0.522 & 0.533 & +0.011  & GPT-5 \\
+nDCG@10         & 0.563 & 0.570 & +0.007  & GPT-5 \\
+Hit@10          & 0.808 & 0.803 & --0.005 & Rule \\
+\midrule
+Parse Failures  & 0     & 0     & ---     & --- \\
+Cost (USD)      & \$0.00 & \$6.18 & +\$6.18 & Rule \\
+Latency (ms)    & $<$1   & 5{,}649 & +5{,}648 & Rule \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% Table 6: Cost and Latency
+%% ──────────────────────────────────────────────────────────────────────────────
+
+\begin{table}[ht]
+\centering
+\caption{Cost and Latency Comparison Across All Systems}
+\label{tab:cost_latency}
+\begin{tabular}{lrrrc}
+\toprule
+\textbf{System} & \textbf{Cost/Query} & \textbf{Total (380Q)} & \textbf{Latency} & \textbf{Type} \\
+\midrule
+BM25            & \$0.000 & \$0.00 & ${<}1$~ms  & Fixed \\
+Dense           & \$0.000 & \$0.00 & ${<}5$~ms  & Fixed \\
+Hybrid          & \$0.000 & \$0.00 & ${<}5$~ms  & Fixed \\
+Rule Planner    & \$0.000 & \$0.00 & ${\sim}0.001$~ms & Adaptive \\
+GPT-5 Planner   & \$0.016 & \$6.18 & $5{,}649$~ms (p95:~$10{,}368$~ms) & Adaptive \\
+\bottomrule
+\end{tabular}
+\end{table}

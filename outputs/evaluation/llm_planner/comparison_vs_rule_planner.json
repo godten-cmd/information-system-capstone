@@ -1,0 +1,464 @@
+{
+  "timestamp": "2026-06-02T15:49:17.916835+00:00",
+  "planner_accuracy": {
+    "llm_planner": 0.7763,
+    "rule_planner": 0.7842,
+    "delta": -0.0079
+  },
+  "overall_retrieval": {
+    "k1": {
+      "n_queries": 380,
+      "recall": {
+        "llm_planner": 0.368,
+        "rule_planner": 0.3575,
+        "delta": 0.0105
+      },
+      "precision": {
+        "llm_planner": 0.4053,
+        "rule_planner": 0.3947,
+        "delta": 0.0106
+      },
+      "mrr": {
+        "llm_planner": 0.5325,
+        "rule_planner": 0.522,
+        "delta": 0.0105
+      },
+      "ndcg": {
+        "llm_planner": 0.4053,
+        "rule_planner": 0.3947,
+        "delta": 0.0106
+      },
+      "hit_rate": {
+        "llm_planner": 0.4053,
+        "rule_planner": 0.3947,
+        "delta": 0.0106
+      }
+    },
+    "k3": {
+      "n_queries": 380,
+      "recall": {
+        "llm_planner": 0.5662,
+        "rule_planner": 0.5491,
+        "delta": 0.0171
+      },
+      "precision": {
+        "llm_planner": 0.2123,
+        "rule_planner": 0.2053,
+        "delta": 0.007
+      },
+      "mrr": {
+        "llm_planner": 0.5325,
+        "rule_planner": 0.522,
+        "delta": 0.0105
+      },
+      "ndcg": {
+        "llm_planner": 0.4993,
+        "rule_planner": 0.4844,
+        "delta": 0.0149
+      },
+      "hit_rate": {
+        "llm_planner": 0.6105,
+        "rule_planner": 0.5921,
+        "delta": 0.0184
+      }
+    },
+    "k5": {
+      "n_queries": 380,
+      "recall": {
+        "llm_planner": 0.6491,
+        "rule_planner": 0.6294,
+        "delta": 0.0197
+      },
+      "precision": {
+        "llm_planner": 0.1474,
+        "rule_planner": 0.1426,
+        "delta": 0.0048
+      },
+      "mrr": {
+        "llm_planner": 0.5325,
+        "rule_planner": 0.522,
+        "delta": 0.0105
+      },
+      "ndcg": {
+        "llm_planner": 0.5356,
+        "rule_planner": 0.5199,
+        "delta": 0.0157
+      },
+      "hit_rate": {
+        "llm_planner": 0.6895,
+        "rule_planner": 0.6684,
+        "delta": 0.0211
+      }
+    },
+    "k10": {
+      "n_queries": 380,
+      "recall": {
+        "llm_planner": 0.75,
+        "rule_planner": 0.7553,
+        "delta": -0.0053
+      },
+      "precision": {
+        "llm_planner": 0.0868,
+        "rule_planner": 0.0874,
+        "delta": -0.0006
+      },
+      "mrr": {
+        "llm_planner": 0.5325,
+        "rule_planner": 0.522,
+        "delta": 0.0105
+      },
+      "ndcg": {
+        "llm_planner": 0.5702,
+        "rule_planner": 0.5632,
+        "delta": 0.007
+      },
+      "hit_rate": {
+        "llm_planner": 0.8026,
+        "rule_planner": 0.8079,
+        "delta": -0.0053
+      }
+    }
+  },
+  "by_category_k10": {
+    "API Documentation": {
+      "n_queries": 68,
+      "recall": {
+        "llm_planner": 1.0,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.1118,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.8603,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.8891,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 1.0,
+        "rule_planner": null,
+        "delta": null
+      }
+    },
+    "HR Policies": {
+      "n_queries": 54,
+      "recall": {
+        "llm_planner": 0.5463,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.0685,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.274,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.3335,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 0.5741,
+        "rule_planner": null,
+        "delta": null
+      }
+    },
+    "Project Meeting Notes": {
+      "n_queries": 100,
+      "recall": {
+        "llm_planner": 0.605,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.079,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.4764,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.4607,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 0.77,
+        "rule_planner": null,
+        "delta": null
+      }
+    },
+    "Security Policies": {
+      "n_queries": 64,
+      "recall": {
+        "llm_planner": 0.7109,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.0734,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.4236,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.4909,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 0.7188,
+        "rule_planner": null,
+        "delta": null
+      }
+    },
+    "System Design Documents": {
+      "n_queries": 45,
+      "recall": {
+        "llm_planner": 0.7222,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.0844,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.2854,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.3902,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 0.7556,
+        "rule_planner": null,
+        "delta": null
+      }
+    },
+    "Travel Policies": {
+      "n_queries": 49,
+      "recall": {
+        "llm_planner": 1.0,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.1082,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.8465,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.8812,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 1.0,
+        "rule_planner": null,
+        "delta": null
+      }
+    }
+  },
+  "by_reasoning_type_k10": {
+    "aggregation": {
+      "n_queries": 35,
+      "recall": {
+        "llm_planner": 0.9143,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.1029,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.7683,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.7907,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 1.0,
+        "rule_planner": null,
+        "delta": null
+      }
+    },
+    "comparison": {
+      "n_queries": 33,
+      "recall": {
+        "llm_planner": 0.8485,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.1242,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.746,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.7583,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 0.9091,
+        "rule_planner": null,
+        "delta": null
+      }
+    },
+    "exception": {
+      "n_queries": 34,
+      "recall": {
+        "llm_planner": 0.3824,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.0382,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.1462,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.2007,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 0.3824,
+        "rule_planner": null,
+        "delta": null
+      }
+    },
+    "multi_hop": {
+      "n_queries": 53,
+      "recall": {
+        "llm_planner": 0.5189,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.1038,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.4907,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.4101,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 0.7925,
+        "rule_planner": null,
+        "delta": null
+      }
+    },
+    "single_hop": {
+      "n_queries": 220,
+      "recall": {
+        "llm_planner": 0.8364,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.0836,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.5444,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.6148,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 0.8364,
+        "rule_planner": null,
+        "delta": null
+      }
+    },
+    "temporal": {
+      "n_queries": 5,
+      "recall": {
+        "llm_planner": 0.1,
+        "rule_planner": null,
+        "delta": null
+      },
+      "precision": {
+        "llm_planner": 0.02,
+        "rule_planner": null,
+        "delta": null
+      },
+      "mrr": {
+        "llm_planner": 0.02,
+        "rule_planner": null,
+        "delta": null
+      },
+      "ndcg": {
+        "llm_planner": 0.0354,
+        "rule_planner": null,
+        "delta": null
+      },
+      "hit_rate": {
+        "llm_planner": 0.2,
+        "rule_planner": null,
+        "delta": null
+      }
+    }
+  },
+  "notable_improvements": [],
+  "notable_regressions": []
+}

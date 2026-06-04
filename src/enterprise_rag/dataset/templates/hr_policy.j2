@@ -1,0 +1,80 @@
+Title: {{ title }}
+Policy ID: {{ policy_id }}
+Owner: {{ document_owner }}
+Department: {{ department }}
+Effective Date: {{ effective_date }}
+Version: {{ version }}
+Status: {{ status }}
+Applicable Regions: {{ applicable_regions | join(', ') }}
+Approval Body: {{ approval_body }}
+{% if supersedes %}
+Supersedes: {{ supersedes }}
+{% endif %}
+
+1. Purpose
+{{ purpose }}
+This policy establishes the standards and requirements for {{ policy_area }} at HYTech Solutions.
+
+2. Scope
+This policy applies to {{ employee_type }} employees in {{ applicable_regions | join(' and ') }}.
+All covered employees must comply with this policy from the effective date forward.
+Contractors and temporary staff are subject to equivalent requirements unless explicitly exempted.
+
+3. Eligibility
+{{ eligibility_intro }}
+- Minimum tenure: {{ min_tenure_months }} months
+- Employee classification: {{ employee_type }}
+- Applicable regions: {{ applicable_regions | join(', ') }}
+{% if has_region_clause %}
+- Employees in {{ region_clause_region }} are subject to local statutory minimums that may exceed the values stated in Section 4.
+{% endif %}
+
+4. Policy Statement
+{{ policy_statement }}
+The standard entitlement under this policy is {{ entitlement_value }} {{ entitlement_unit }}.
+{% if has_enhanced_entitlement %}
+Employees in {{ enhanced_region }} receive an enhanced entitlement of {{ enhanced_value }} {{ entitlement_unit }} in compliance with local regulations.
+{% endif %}
+All entitlements are subject to the eligibility criteria in Section 3 and the approval process in Section 5.
+
+5. Procedure
+{% for step in steps %}
+{{ loop.index }}. {{ step }}
+{% endfor %}
+
+6. Exceptions
+{% if has_exceptions %}
+{{ exception_intro }}
+The following exceptions to the standard policy are recognised:
+{% for exc in exceptions %}
+- {{ exc }}
+{% endfor %}
+Exceptions must be documented and retained by the HR Operations team for a minimum of {{ exception_retention_years }} years.
+{% else %}
+No exceptions apply to this policy. All employees in scope must adhere to the standard entitlement.
+{% endif %}
+
+7. Manager Responsibilities
+Managers are responsible for:
+- Approving requests within {{ manager_approval_days }} business days
+- Ensuring compliance with this policy across their direct reports
+- Escalating non-standard cases to the {{ escalation_contact }} before approval
+- Maintaining accurate records in the HR information system
+
+8. Employee Responsibilities
+Employees must:
+- Submit requests via the HR self-service portal at least {{ notice_days }} business days in advance
+- Obtain written approval from their direct manager before confirming arrangements
+- Notify the {{ escalation_contact }} if circumstances change after approval
+
+9. Escalation
+Unresolved queries should be directed to the {{ escalation_contact }}.
+Escalations must be submitted in writing and acknowledged within 2 business days.
+Disputes that cannot be resolved within 10 business days will be referred to the {{ approval_body }}.
+
+10. Revision History
+| Version | Date | Author Role | Change |
+| --- | --- | --- | --- |
+{% for rev in revision_history %}
+| {{ rev.version }} | {{ rev.date }} | {{ rev.author_role }} | {{ rev.change }} |
+{% endfor %}

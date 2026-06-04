@@ -1,0 +1,8 @@
+rule_id,rule_name,strategy,usage_count,accuracy,n_correct
+R01,temporal_to_bm25,bm25,5,1.0,5
+R02,exception_to_dense,dense,38,0.8947,34
+R03,multi_hop_to_hybrid,hybrid,72,1.0,72
+R04,table_to_hybrid,hybrid,120,1.0,120
+R05,comparison_aggregation_to_hybrid,hybrid,0,0.0,0
+R06,technical_single_hop_to_dense,dense,70,0.5,35
+R07,default_to_hybrid,hybrid,75,0.4267,32

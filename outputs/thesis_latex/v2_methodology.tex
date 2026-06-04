@@ -1,0 +1,441 @@
+%% v2_methodology.tex
+\chapter{V2 Agentic RAG: System Architecture}
+\label{chap:v2_methodology}
+
+This chapter presents Version 2 (V2) of the enterprise retrieval system: a fully
+agentic Retrieval-Augmented Generation pipeline that extends the V1 adaptive
+retrieval planner into a five-stage agent architecture with iterative
+self-correction. V1 addressed retrieval strategy selection as a single-step
+planning problem; V2 frames the full question-answering pipeline as an
+agent loop, enabling multi-hop query decomposition, relevance-based retrieval
+validation, and automatic re-retrieval when initial results are insufficient.
+
+\section{Design Principles}
+\label{sec:v2_design}
+
+The V2 architecture is guided by three design principles derived from the
+V1 failure mode analysis (Section~\ref{sec:disc_failure_modes}):
+
+\textbf{(1) Decompose reasoning, not just routing.} V1 treated each query as
+atomic, selecting one strategy and executing one retrieval call. Multi-hop
+queries and aggregation tasks consistently underperformed because a single
+retrieval call cannot satisfy a query that requires evidence from multiple
+documents. V2 introduces a Query Analysis Agent that decomposes complex
+queries into ordered sub-queries, each with its own retrieval plan.
+
+\textbf{(2) Validate evidence, not just retrieve.} V1 returned raw ranked
+results without assessing their relevance to the specific query. V2 adds a
+Validation Agent that scores each retrieved chunk against its originating
+sub-query text and triggers re-retrieval when the relevance signal is weak.
+This transforms retrieval from an open-loop procedure into a closed-loop
+feedback process.
+
+\textbf{(3) Preserve V1 components as fallback baselines.} The V1 rule planner
+remains the core of the V2 Planning Agent. LLM-based components are layered
+on top and wrapped with fallback paths, so the V2 pipeline degrades gracefully
+to V1 behavior when LLM providers are unavailable.
+
+
+\section{Pipeline Architecture}
+\label{sec:v2_pipeline}
+
+The V2 pipeline is implemented as a LangGraph StateGraph
+\citep{langgraph2024} — a directed graph of agent nodes with a shared
+typed state object. Five agents are connected in sequence, with a conditional
+re-retrieval back-edge after the Validation Agent:
+
+\begin{center}
+\textit{Query Analysis} $\rightarrow$ \textit{Planning} $\rightarrow$
+\textit{Retrieval} $\rightarrow$ \textit{Validation}
+$\xrightarrow{\text{passed}}$ \textit{Answer} $\rightarrow$ \textit{End}
+\end{center}
+\begin{center}
+\textit{Validation} $\xrightarrow{\text{failed, loop < 3}}$
+\textit{Loop Counter} $\rightarrow$ \textit{Planning} \quad (re-retrieval)
+\end{center}
+
+The shared state (\texttt{AgentState}) is a TypedDict with eleven fields.
+Each agent node returns a partial dict; LangGraph merges it into the
+current state. The \texttt{trace} field is annotated with
+\texttt{operator.add} for append semantics, accumulating the provenance
+of every agent decision. All other fields are replaced on each write, so
+the \texttt{retrieval\_outputs} field always holds only the most recent
+retrieval attempt. Table~\ref{tab:v2_state} summarises the key state fields.
+
+\begin{table}[H]
+\centering
+\caption{V2 AgentState Key Fields}
+\label{tab:v2_state}
+\begin{tabular}{lll}
+\toprule
+\textbf{Field} & \textbf{Type} & \textbf{Semantics} \\
+\midrule
+\texttt{query\_plan}        & QueryPlan               & Reasoning type, sub-queries, difficulty signals \\
+\texttt{retrieval\_plans}   & list[RetrievalPlan]     & One plan per sub-query (replaced each loop) \\
+\texttt{retrieval\_outputs} & list[RetrievalOutput]   & Retrieved chunks per sub-query (replaced each loop) \\
+\texttt{validation\_result} & ValidationResult        & Scores, pass/fail, failure diagnosis \\
+\texttt{validated\_evidence}& list[ChunkResult]       & Chunks that passed relevance threshold \\
+\texttt{answer}             & AgentAnswer             & Synthesised text with citation IDs \\
+\texttt{loop\_count}        & int                     & Re-retrieval iterations completed so far \\
+\texttt{trace}              & list[TraceEntry]        & Accumulated event log (append-only) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\subsection{Query Analysis Agent}
+\label{subsec:v2_qa}
+
+The Query Analysis Agent (QAA) classifies the incoming query into one of six
+reasoning types, extracts difficulty signals, and decomposes multi-hop queries
+into ordered sub-queries.
+
+\textbf{Classification.} The LLM path sends the raw query to a structured JSON
+prompt requesting: \texttt{reasoning\_type} (one of \textit{single\_hop},
+\textit{multi\_hop}, \textit{aggregation}, \textit{comparison},
+\textit{exception}, \textit{temporal}), a list of \texttt{difficulty\_signals}
+(e.g.\ \textit{temporal\_reasoning}, \textit{multi\_document\_dependency},
+\textit{exception\_handling}), a boolean \texttt{is\_decomposed}, and a list
+of \texttt{sub\_queries} with optional entity slot placeholders.
+
+\textbf{Heuristic fallback.} When no LLM provider is available, the agent
+applies a six-pattern regex classifier. The heuristic assigns
+\textit{confidence}~$= 0.6$ and produces a single sub-query equal to the raw
+query. Regex patterns are ordered by specificity (temporal keywords $>$
+exception indicators $>$ multi-hop pronouns $>$ aggregation phrases $>$
+comparison phrases $>$ default single\_hop), matching the V1 oracle label
+heuristics.
+
+\textbf{Oracle mode.} Evaluation experiments E1--E3 pass
+\texttt{use\_oracle=True} with the ground-truth \texttt{reasoning\_type} in
+query metadata. The QAA bypasses both LLM and heuristic paths, constructing a
+QueryPlan directly from metadata with \textit{confidence}~$= 1.0$. This
+isolates the effects of the retrieval loop and scorer from classification
+accuracy when measuring RQ8--RQ10.
+
+\textbf{Multi-hop decomposition.} For \textit{multi\_hop} queries, the QAA
+produces two or more sub-queries with dependency relationships. Dependent
+sub-queries contain entity slot placeholders of the form
+\texttt{\{variable\_name\}}, indicating that the value must be extracted from
+the results of a prior sub-query. For example, the query ``Which API endpoints
+use the same authentication method as the data export service?'' is decomposed
+into: (1)~``What authentication method does the data export service use?'' and
+(2)~``Which API endpoints use \texttt{\{auth\_method\_q1\}}?'', where the slot
+\texttt{\{auth\_method\_q1\}} is to be filled after sub-query~1 is resolved.
+
+
+\subsection{Planning Agent}
+\label{subsec:v2_plan}
+
+The Planning Agent (PA) maps each sub-query to a retrieval strategy using
+a three-tier decision process:
+
+\textbf{(1) Re-retrieval override.} If \texttt{loop\_count}~$> 0$ and the
+Validation Agent has supplied a \texttt{suggested\_strategy}, that strategy
+takes precedence over all other mechanisms. This ensures that failure
+diagnosis feedback propagates into the next retrieval attempt.
+
+\textbf{(2) V1 rule planner.} The same seven rules (R01--R07) from V1
+(Table~\ref{tab:app_rules}) are applied to the sub-query's reasoning type,
+difficulty signals, and document category. Each rule carries a
+\textit{confidence} score (0.0--1.0) reflecting the empirical reliability of
+its strategy selection. Rules R01--R05 fire with confidence $\geq 0.75$ and
+are used directly without LLM consultation.
+
+\textbf{(3) LLM fallback.} Rules R06 (confidence 0.70) and R07 (confidence
+0.60) are below the \texttt{LLM\_FALLBACK\_THRESHOLD} of 0.75. When these
+rules fire and an LLM provider is available, the agent sends the query plan
+to the same structured prompt used in V1 (Appendix~\ref{app:prompt}) and
+uses the LLM-selected strategy if it is a valid member of
+\{\textit{bm25}, \textit{dense}, \textit{hybrid}\}. If the LLM call fails,
+the rule result is used as fallback.
+
+
+\subsection{Retrieval Agent}
+\label{subsec:v2_retrieval}
+
+The Retrieval Agent (RA) executes retrieval plans using the MCP
+tool layer \citep{mcp2024} — an in-process server exposing three
+retrieval tools (\texttt{bm25\_search}, \texttt{dense\_search},
+\texttt{hybrid\_search}) that wrap the pre-built SEKD indexes.
+
+The RA selects an execution mode based on the QueryPlan's reasoning type:
+
+\textbf{Sequential (multi\_hop).} Sub-queries are topologically sorted by
+dependency. Each sub-query is executed in order; before executing a dependent
+sub-query, entity slots in its query text are filled with values extracted
+from the top results of the dependency sub-query. Slot filling uses an LLM
+extraction prompt when a provider is available, or a heuristic fallback that
+substitutes the first 80 characters of the top-ranked chunk's text.
+
+\textbf{Parallel-merged (aggregation).} All sub-queries are executed
+independently. Their chunks are pooled, deduplicated by \texttt{chunk\_id}
+(keeping the copy with the highest score), and returned as a single
+\texttt{RetrievalOutput} with \texttt{sub\_query\_id}~$=$~``merged''.
+
+\textbf{Independent (all other types).} Each sub-query is executed
+independently; results are returned as separate \texttt{RetrievalOutput}
+objects for per-sub-query validation scoring.
+
+
+\subsection{Validation Agent}
+\label{subsec:v2_validation}
+
+The Validation Agent (VA) is the core feedback mechanism of the V2 pipeline.
+It scores retrieved chunks for relevance, makes a pass/fail decision, and --
+on failure -- diagnoses \emph{why} retrieval failed and what should change on
+the next attempt.
+
+\subsubsection*{Scorer Implementations}
+
+The VA implements five interchangeable relevance scorers
+(Table~\ref{tab:v2_scorers}) selected via the \texttt{scorer} configuration
+parameter.
+
+\begin{table}[H]
+\centering
+\caption{V2 Validation Agent Scorer Implementations}
+\label{tab:v2_scorers}
+\begin{tabular}{lll}
+\toprule
+\textbf{Scorer} & \textbf{Signal} & \textbf{Cost} \\
+\midrule
+\texttt{rank\_proxy}  & Score $= \max(0,\, 1 - (r{-}1) \cdot 0.1)$ for rank $r$ & Zero \\
+\texttt{bm25}         & Normalised BM25 score (chunk vs.\ sub-query text) & Negligible \\
+\texttt{dense}        & \texttt{chunk.score} (cosine similarity, already in $[0,1]$) & Zero \\
+\texttt{adaptive}     & Routes to bm25/dense/avg by \texttt{chunk.strategy\_used} & Negligible \\
+\texttt{llm}          & GPT-4o-mini batch scoring (5 chunks/call) & $\sim$\$0.001/10 chunks \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The default scorer for evaluation experiments E1--E4 is \texttt{adaptive}.
+BM25 normalisation uses the formula $s_i = f_i^{(q)} / \max_j f_j^{(q)}$,
+where $f_i^{(q)}$ is the raw BM25 score of chunk $i$ for query $q$ and the
+maximum is taken over all chunks in the corpus. The dense scorer uses the
+cosine similarity stored in \texttt{chunk.score}, which is already bounded
+in $[0, 1]$ by the vector index. The adaptive scorer routes each chunk to the
+BM25 or dense scorer based on its \texttt{strategy\_used} field, and averages
+both scores for hybrid-strategy chunks.
+
+\subsubsection*{Pass Condition and Thresholds}
+
+A chunk is considered \emph{relevant} if its relevance score exceeds the
+reasoning-type-specific threshold $\theta_{\tau}$. Validation passes when
+the number of relevant chunks $|\mathcal{R}|$ meets the minimum evidence
+requirement:
+
+\begin{equation}
+\text{pass} \iff |\mathcal{R}| \geq \delta, \quad
+|\mathcal{R}| = |\{c \in \mathcal{C} : \text{score}(c, q_c) \geq \theta_{\tau_c}\}|
+\label{eq:v2_pass}
+\end{equation}
+
+where $\mathcal{C}$ is the set of retrieved chunks, $q_c$ is the sub-query
+text associated with chunk $c$, $\tau_c$ is its reasoning type, and $\delta = 3$
+is the minimum passed-chunk count. The per-type thresholds reflect the
+empirically observed score distributions:
+
+\begin{table}[H]
+\centering
+\caption{Per-Reasoning-Type Relevance Thresholds}
+\label{tab:v2_thresholds}
+\begin{tabular}{ll}
+\toprule
+\textbf{Reasoning Type} & \textbf{Threshold $\theta$} \\
+\midrule
+single\_hop, comparison, aggregation & 0.30 \\
+exception                            & 0.22 \\
+multi\_hop                           & 0.20 \\
+temporal                             & 0.20 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Lower thresholds for \textit{temporal}, \textit{exception}, and
+\textit{multi\_hop} queries reflect the sparse-signal or low-overlap nature
+of these query types: temporal queries rely on exact date-token matching that
+yields low BM25 normalised scores when the corpus maximum is high; exception
+queries contain conditional language with limited lexical overlap with
+retrieved chunks; multi-hop slots introduce noise via slot-filled reformulations.
+
+\subsubsection*{Failure Diagnosis}
+
+When validation fails, the VA's \texttt{\_diagnose\_failure} function
+analyses the score distribution to classify the failure and recommend a
+corrective strategy. Table~\ref{tab:v2_failure} lists the six failure
+categories and their associated recommendations.
+
+\begin{table}[H]
+\centering
+\caption{V2 Failure Diagnosis Categories}
+\label{tab:v2_failure}
+\begin{tabular}{lll}
+\toprule
+\textbf{Diagnosis} & \textbf{Condition} & \textbf{Recommendation} \\
+\midrule
+\texttt{no\_chunks}             & No chunks retrieved & Switch to hybrid \\
+\texttt{wrong\_strategy}        & All scores $\approx 0$; oracle $\neq$ current & Switch to oracle strategy \\
+\texttt{too\_narrow}            & All scores $\approx 0$; already on hybrid & Broaden query \\
+\texttt{missing\_entity}        & Multi-hop: unfilled slot \texttt{\{...\}} in query & Re-slot-fill \\
+\texttt{insufficient\_coverage} & Some relevant ($0 < |\mathcal{R}| < 3$); current $\neq$ hybrid & Switch to hybrid \\
+\texttt{low\_quality}           & Generic low quality; current $\neq$ hybrid & Switch to hybrid \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The empirical oracle strategy table ($\tau \mapsto s^*$) is identical to the
+V1 rule planner oracle labels: $\textit{temporal} \mapsto \textit{bm25}$,
+$\textit{exception} \mapsto \textit{dense}$, $\textit{multi\_hop} \mapsto
+\textit{hybrid}$, and \textit{hybrid} for all remaining types.
+
+
+\subsection{Answer Agent}
+\label{subsec:v2_answer}
+
+The Answer Agent (AA) synthesises a textual response from the set of
+validated evidence chunks (\texttt{validated\_evidence}).
+
+\textbf{LLM synthesis.} The top-$N$ evidence chunks (default $N = 10$,
+sorted by rank) are formatted as a numbered list with category labels:
+\texttt{[i] (category) text[:400]}. An LLM provider is prompted with a
+grounding instruction (``cite sources with inline \texttt{[N]} markers''),
+the question, and the evidence block. The response is parsed for citation
+markers with the regex \texttt{\textbackslash[(\textbackslash d+)\textbackslash]},
+yielding a list of cited chunk IDs sorted by citation index. The answer's
+\textit{confidence} is computed as the mean retrieval score of cited chunks;
+\textit{evidence\_coverage} is $|\text{cited}| / |\text{validated}|$.
+
+\textbf{Extractive fallback.} When no LLM provider is available, the top-3
+evidence chunks are concatenated with \texttt{[1]}, \texttt{[2]},
+\texttt{[3]} prefixes as a simple extractive answer. Confidence is the mean
+score of the three chunks.
+
+\medskip
+The AA's output (\texttt{AgentAnswer}) is the pipeline's final product. For the
+retrieval evaluation in Chapter~\ref{chap:v2_results}, answer quality is not
+directly measured; retrieval metrics (Recall@10, MRR, nDCG@10) are computed
+from the \texttt{retrieval\_outputs} of the final pipeline state, enabling a
+direct comparison with V1 baseline results.
+
+
+\subsection{Re-Retrieval Loop and State Management}
+\label{subsec:v2_loop}
+
+LangGraph's conditional edge mechanism implements the re-retrieval loop.
+After the Validation Agent node, the function \texttt{route\_after\_validation}
+inspects the state and returns one of three routing decisions:
+
+\begin{itemize}
+  \item \texttt{"answer"}: validation passed ($|\mathcal{R}| \geq \delta$) ---
+        proceed to Answer Agent.
+  \item \texttt{"re\_retrieve"}: validation failed and
+        \texttt{loop\_count}~$<$~\texttt{MAX\_LOOPS} (default 3) --- route to
+        the LoopCounter node (which increments \texttt{loop\_count} and writes
+        a trace entry), then back to the Planning Agent.
+  \item \texttt{"end"}: loop limit reached, unrecoverable error, or no
+        \texttt{validation\_result} --- terminate the graph without answer
+        generation.
+\end{itemize}
+
+On re-entry into the Planning Agent, the \texttt{validation\_result}
+from the previous iteration is visible in the state; the re-retrieval
+override mechanism (Section~\ref{subsec:v2_plan}) uses
+\texttt{validation\_result.suggested\_strategy} to select a different
+retrieval strategy than the one that failed. In this way, each loop
+iteration can correct a strategy mismatch identified by the failure
+diagnosis system.
+
+
+\section{Evaluation Framework}
+\label{sec:v2_eval_framework}
+
+\subsection{Experimental Configurations}
+\label{subsec:v2_experiments}
+
+Four experiments are designed to ablate the independent contributions of
+the QA Agent classification accuracy, the Validation Agent scorer, and
+the re-retrieval loop. Table~\ref{tab:v2_experiments} summarises the
+configurations.
+
+\begin{table}[H]
+\centering
+\caption{V2 Experiment Configurations}
+\label{tab:v2_experiments}
+\begin{tabular}{lllll}
+\toprule
+\textbf{Exp.} & \textbf{Name} & \textbf{QA Mode} & \textbf{Scorer} & \textbf{Max Loops} \\
+\midrule
+E1 & \texttt{v2\_oracle}           & Oracle           & Adaptive    & 3 \\
+E2 & \texttt{v2\_oracle\_noloop}   & Oracle           & Adaptive    & 0 \\
+E3 & \texttt{v2\_oracle\_rankproxy}& Oracle           & Rank proxy  & 3 \\
+E4 & \texttt{v2\_heuristic}        & Heuristic        & Adaptive    & 3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{E1 (v2\_oracle)} is the primary V2 configuration: perfect query
+classification, adaptive scorer, and up to three re-retrieval loops. This
+experiment measures the maximum potential of the agentic pipeline under ideal
+classification conditions.
+
+\textbf{E2 (v2\_oracle\_noloop)} disables re-retrieval by setting
+\texttt{MAX\_LOOPS}$=0$. Since E2 and E1 share identical QA classification and
+retrieval strategy selection, any difference in retrieval metrics is attributable
+solely to the re-retrieval loop.
+
+\textbf{E3 (v2\_oracle\_rankproxy)} replaces the adaptive scorer with the
+rank-proxy heuristic (score $= 1 - (r-1) \times 0.1$). Since ranks are
+determined by the retrieval tool rather than by query-specific relevance,
+the rank proxy is insensitive to relevance mismatches. Comparing E3 and E1
+isolates the contribution of relevance-based validation.
+
+\textbf{E4 (v2\_heuristic)} uses the regex heuristic classifier (confidence
+0.6) in place of oracle classification. All V1 studies used oracle labels;
+E4 measures the QA classification error that accumulates in a deployment
+scenario where ground-truth reasoning types are unavailable.
+
+\subsection{Research Questions}
+\label{subsec:v2_rqs}
+
+The V2 evaluation addresses six additional research questions (RQ8--RQ13),
+which are also presented in Section~\ref{sec:v2_rqs_intro}:
+
+\begin{description}
+  \item[RQ8] Does the V2 agentic pipeline (E1: oracle QA, adaptive scorer,
+             re-retrieval) achieve higher Recall@10 and MRR than the best
+             V1 baseline (Rule Planner)?
+  \item[RQ9] Does the adaptive re-retrieval loop (E1 vs.\ E2) improve
+             retrieval performance when initial validation fails?
+  \item[RQ10] Does the adaptive relevance scorer (E1 vs.\ E3) enable more
+              accurate re-retrieval trigger decisions than rank-proxy scoring?
+  \item[RQ11] Does oracle query classification (E1 vs.\ E4) outperform
+              heuristic classification, and by how much?
+  \item[RQ12] How does V2 pipeline performance vary across the six reasoning
+              types and six document categories?
+  \item[RQ13] What are the primary failure modes of the V2 pipeline, and how
+              does the failure diagnosis system characterise them?
+\end{description}
+
+\subsection{Metrics and Comparison}
+\label{subsec:v2_metrics}
+
+Retrieval metrics (Recall@K, MRR, nDCG@K, Hit@K for $K \in \{1,3,5,10\}$)
+are computed from the \texttt{retrieval\_outputs} of the final pipeline state
+using the same evaluation infrastructure as V1 (Section~\ref{subsec:eval_metrics}).
+For experiments with re-retrieval ($\texttt{MAX\_LOOPS} > 0$), the final
+state's \texttt{retrieval\_outputs} represents the results of the last
+retrieval attempt --- the pipeline's best delivered result set.
+Chunks are deduplicated by \texttt{chunk\_id} (keeping the highest score)
+and re-ranked by score descending before metric computation.
+
+Pipeline statistics (validation pass rate, loop count distribution, failure
+reason distribution) are reported from the per-query \texttt{trace} field,
+providing a window into the pipeline's internal decision trajectory that has
+no analogue in V1.
+
+All V2 experiments are evaluated on the same 380 answerable queries used in
+V1, enabling direct metric comparison. The script
+\texttt{scripts/run\_v2\_eval.py} implements all four experiments and writes
+per-experiment \texttt{metrics.json}, \texttt{retrieval\_results.jsonl},
+\texttt{pipeline\_stats.json}, and a unified \texttt{outputs/evaluation/v2/comparison.json}.

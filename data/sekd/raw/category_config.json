@@ -1,0 +1,13 @@
+{
+  "seed": 42,
+  "total_documents": 120,
+  "per_category": {
+    "HR Policies": 20,
+    "Travel Policies": 15,
+    "Security Policies": 20,
+    "API Documentation": 20,
+    "System Design Documents": 15,
+    "Project Meeting Notes": 30
+  },
+  "generation_timestamp": "2026-06-01T07:05:08.161662+00:00"
+}

@@ -1,0 +1,6 @@
+retrieval:
+  method: fixed_dense
+  top_k: 10
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
+  distance: cosine
+

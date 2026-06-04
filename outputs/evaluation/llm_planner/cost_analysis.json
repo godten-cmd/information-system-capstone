@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-06-02T15:49:17.915508+00:00",
+  "rule_planner_reference": {
+    "model": "rule_based",
+    "latency_ms": {
+      "mean": 0.001,
+      "note": "CPU-only deterministic rules"
+    },
+    "cost_usd": {
+      "total": 0.0,
+      "per_query_avg": 0.0
+    }
+  },
+  "llm_planner_by_prompt": {
+    "structured": {
+      "model": "gpt-5",
+      "n_queries": 380,
+      "latency_ms": {
+        "mean": 5648.97,
+        "median": 5044.194,
+        "p95": 10367.521,
+        "stdev": 2219.863
+      },
+      "tokens": {
+        "avg_prompt": 355.5,
+        "avg_completion": 318.0,
+        "total_prompt": 135081,
+        "total_completion": 120843
+      },
+      "cost_usd": {
+        "total": 6.18453,
+        "per_query_avg": 0.01627508,
+        "per_1000_queries": 16.2751
+      }
+    }
+  },
+  "latency_overhead_vs_rule_planner": 5648970.0,
+  "note": "Latency overhead shows how many times slower the LLM planner is vs the rule planner. Mock provider latency is ~0ms; real API latency is 200-2000ms per query."
+}

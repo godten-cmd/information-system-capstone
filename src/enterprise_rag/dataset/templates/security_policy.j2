@@ -1,0 +1,92 @@
+Title: {{ title }}
+Policy ID: {{ security_policy_id }}
+Owner: {{ document_owner }}
+Department: {{ department }}
+Effective Date: {{ effective_date }}
+Version: {{ version }}
+Status: {{ status }}
+Control Family: {{ control_family }}
+Risk Level: {{ risk_level }}
+Control IDs: {{ control_ids | join(', ') }}
+Review Frequency: {{ review_frequency_days }} days
+
+1. Purpose
+This policy establishes mandatory controls for the {{ control_family }} security domain at HYTech Solutions.
+{% if status == 'deprecated' %}
+NOTE: This policy has been superseded. Refer to the current active {{ control_family }} policy for enforcement requirements.
+{% endif %}
+The controls described herein are required to maintain the organisation's security posture and
+comply with applicable regulatory frameworks.
+
+2. Scope
+This policy applies to all systems, personnel, and third-party integrations operating within
+the HYTech Solutions environment that fall under the {{ control_family }} control domain.
+Enforcement is the responsibility of the {{ enforcement_owner }}.
+
+3. Control Requirements
+The following controls are mandated under this policy:
+
+| Control ID | Requirement | Status |
+| --- | --- | --- |
+{% for ctrl in control_rows %}
+| {{ ctrl.id }} | {{ ctrl.requirement }} | {{ ctrl.status }} |
+{% endfor %}
+
+All mandatory requirements must be implemented without exception unless a formal waiver has
+been granted by the Chief Information Security Officer.
+
+4. Risk Classification
+This policy addresses {{ risk_level }} risk events in the {{ control_family }} domain.
+Risk events in this category have the following characteristics:
+- Likelihood: {{ risk_likelihood }}
+- Potential impact: {{ risk_impact }}
+- Detection difficulty: {{ detection_difficulty }}
+
+5. Incident Response and Escalation
+In the event of a policy violation or security incident, the following escalation timeline applies:
+
+| Risk Level | Escalation Deadline | Primary Contact | Secondary Contact |
+| --- | --- | --- | --- |
+| Critical | 1 hour | {{ enforcement_owner }} | Chief Information Security Officer |
+| High | 4 hours | {{ enforcement_owner }} | Security Operations Lead |
+| Medium | 24 hours | {{ enforcement_owner }} | Security Operations Lead |
+| Low | 3 business days | {{ enforcement_owner }} | Security Operations Lead |
+
+All incidents must be logged in the Security Incident Tracking System within the above deadlines.
+
+6. Mandatory Requirements
+The following actions are required for compliance with control(s) {{ control_ids | join(', ') }}:
+{% for req in mandatory_requirements %}
+- {{ req }}
+{% endfor %}
+
+7. Prohibited Actions
+The following actions are explicitly prohibited under this policy:
+{% for item in prohibited_actions %}
+- {{ item }}
+{% endfor %}
+
+8. Exceptions
+{% if exception_allowed %}
+Exceptions to this policy may be approved by the Chief Information Security Officer under the
+following conditions:
+- A documented business justification is provided
+- Compensating controls are identified and implemented
+- The exception is time-limited (maximum {{ max_exception_days }} days)
+- The exception is reviewed at each {{ review_frequency_days }}-day review cycle
+{% else %}
+No exceptions are permitted for {{ risk_level }} risk controls in the {{ control_family }} domain.
+All requirements in Section 6 are non-negotiable.
+{% endif %}
+
+9. Audit and Compliance
+The Security Operations team conducts reviews of this policy's compliance every {{ review_frequency_days }} days.
+Non-compliance identified during audit must be remediated within {{ remediation_days }} business days.
+Evidence of compliance must be documented and available for audit at all times.
+
+10. Revision History
+| Version | Date | Author Role | Change |
+| --- | --- | --- | --- |
+{% for rev in revision_history %}
+| {{ rev.version }} | {{ rev.date }} | {{ rev.author_role }} | {{ rev.change }} |
+{% endfor %}

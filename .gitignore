@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Claude Code local settings
+.claude/
+
+# Binary retrieval indexes (large, regeneratable via scripts)
+outputs/evaluation/bm25/index/
+outputs/evaluation/dense/index/
+outputs/evaluation/hybrid/index/
+outputs/indexes/
+*.faiss
+*.index
+
+# LLM API response cache (regeneratable; costs ~$6 to reproduce)
+outputs/cache/
+
+# Empty placeholder output dirs (tracked via .gitkeep only)
+outputs/experiments/*
+outputs/figures/*
+outputs/reports/*
+outputs/runs/*
+outputs/tables/*
+!outputs/experiments/.gitkeep
+!outputs/figures/.gitkeep
+!outputs/reports/.gitkeep
+!outputs/runs/.gitkeep
+!outputs/tables/.gitkeep
+
+# LaTeX build artifacts
+outputs/thesis_latex/*.aux
+outputs/thesis_latex/*.bbl
+outputs/thesis_latex/*.blg
+outputs/thesis_latex/*.log
+outputs/thesis_latex/*.out
+outputs/thesis_latex/*.toc
+outputs/thesis_latex/*.lof
+outputs/thesis_latex/*.lot
+outputs/thesis_latex_korean/*.aux
+outputs/thesis_latex_korean/*.bbl
+outputs/thesis_latex_korean/*.blg
+outputs/thesis_latex_korean/*.log
+outputs/thesis_latex_korean/*.out
+outputs/thesis_latex_korean/*.toc
+outputs/thesis_latex_korean/*.lof
+outputs/thesis_latex_korean/*.lot
+
+# Notebooks
+.ipynb_checkpoints/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/

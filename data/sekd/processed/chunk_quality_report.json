@@ -1,0 +1,36 @@
+{
+  "strategy": "section_aware",
+  "max_tokens": 400,
+  "total_chunks": 1186,
+  "total_docs": 120,
+  "docs_with_chunks": 120,
+  "avg_tokens": 78.8,
+  "min_tokens": 3,
+  "max_tokens_observed": 284,
+  "percentiles": {
+    "p25": 53.0,
+    "p50": 71.0,
+    "p75": 99.0,
+    "p90": 132.0,
+    "p95": 158.0
+  },
+  "per_category": {
+    "HR Policies": 200,
+    "Travel Policies": 150,
+    "Security Policies": 200,
+    "API Documentation": 246,
+    "System Design Documents": 150,
+    "Project Meeting Notes": 240
+  },
+  "chunks_per_doc": {
+    "min": 8,
+    "max": 14,
+    "avg": 9.9
+  },
+  "table_chunks": 275,
+  "section_path_coverage": 1.0,
+  "metadata_valid": 1186,
+  "metadata_invalid": 0,
+  "validation_errors": [],
+  "duration_seconds": 0.004
+}

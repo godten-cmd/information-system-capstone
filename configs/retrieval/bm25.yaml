@@ -1,0 +1,5 @@
+retrieval:
+  method: fixed_bm25
+  top_k: 10
+  tokenizer: default
+

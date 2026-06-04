@@ -1,0 +1,291 @@
+{
+  "timestamp": "2026-06-04T06:42:50.684858+00:00",
+  "k": 10,
+  "metric_keys": [
+    "recall",
+    "precision",
+    "mrr",
+    "ndcg",
+    "hit_rate"
+  ],
+  "methods": {
+    "bm25": {
+      "type": "v1_baseline",
+      "k10": {
+        "recall": 0.7127,
+        "precision": 0.0834,
+        "mrr": 0.4573,
+        "ndcg": 0.5089,
+        "hit_rate": 0.7684
+      }
+    },
+    "dense": {
+      "type": "v1_baseline",
+      "k10": {
+        "recall": 0.7404,
+        "precision": 0.085,
+        "mrr": 0.5014,
+        "ndcg": 0.5479,
+        "hit_rate": 0.7868
+      }
+    },
+    "hybrid": {
+      "type": "v1_baseline",
+      "k10": {
+        "recall": 0.7447,
+        "precision": 0.0863,
+        "mrr": 0.5295,
+        "ndcg": 0.5664,
+        "hit_rate": 0.7974
+      }
+    },
+    "rule_planner": {
+      "type": "v1_baseline",
+      "k10": {
+        "recall": 0.7553,
+        "precision": 0.0874,
+        "mrr": 0.522,
+        "ndcg": 0.5632,
+        "hit_rate": 0.8079
+      }
+    },
+    "v2_oracle": {
+      "type": "v2_experiment",
+      "description": "V2 oracle QA + adaptive scorer + re-retrieval (max 3)",
+      "config": {
+        "use_oracle": true,
+        "scorer": "adaptive",
+        "max_loops": 3,
+        "k": 10
+      },
+      "k10": {
+        "recall": 0.7434,
+        "precision": 0.0863,
+        "mrr": 0.5293,
+        "ndcg": 0.5659,
+        "hit_rate": 0.7974
+      }
+    },
+    "v2_oracle_noloop": {
+      "type": "v2_experiment",
+      "description": "V2 oracle QA + adaptive scorer, no re-retrieval (ablation)",
+      "config": {
+        "use_oracle": true,
+        "scorer": "adaptive",
+        "max_loops": 0,
+        "k": 10
+      },
+      "k10": {
+        "recall": 0.7434,
+        "precision": 0.0863,
+        "mrr": 0.5293,
+        "ndcg": 0.5659,
+        "hit_rate": 0.7974
+      }
+    },
+    "v2_oracle_rankproxy": {
+      "type": "v2_experiment",
+      "description": "V2 oracle QA + rank_proxy scorer + re-retrieval (ablation)",
+      "config": {
+        "use_oracle": true,
+        "scorer": "rank_proxy",
+        "max_loops": 3,
+        "k": 10
+      },
+      "k10": {
+        "recall": 0.7434,
+        "precision": 0.0863,
+        "mrr": 0.5293,
+        "ndcg": 0.5659,
+        "hit_rate": 0.7974
+      }
+    },
+    "v2_heuristic": {
+      "type": "v2_experiment",
+      "description": "V2 heuristic QA + adaptive scorer + re-retrieval (ablation)",
+      "config": {
+        "use_oracle": false,
+        "scorer": "adaptive",
+        "max_loops": 3,
+        "k": 10
+      },
+      "k10": {
+        "recall": 0.7447,
+        "precision": 0.0863,
+        "mrr": 0.5295,
+        "ndcg": 0.5664,
+        "hit_rate": 0.7974
+      }
+    }
+  },
+  "deltas_v2_oracle": {
+    "v2_oracle_vs_bm25": {
+      "recall": 0.0307,
+      "precision": 0.0029,
+      "mrr": 0.072,
+      "ndcg": 0.057,
+      "hit_rate": 0.029
+    },
+    "v2_oracle_vs_dense": {
+      "recall": 0.003,
+      "precision": 0.0013,
+      "mrr": 0.0279,
+      "ndcg": 0.018,
+      "hit_rate": 0.0106
+    },
+    "v2_oracle_vs_hybrid": {
+      "recall": -0.0013,
+      "precision": 0.0,
+      "mrr": -0.0002,
+      "ndcg": -0.0005,
+      "hit_rate": 0.0
+    },
+    "v2_oracle_vs_rule_planner": {
+      "recall": -0.0119,
+      "precision": -0.0011,
+      "mrr": 0.0073,
+      "ndcg": 0.0027,
+      "hit_rate": -0.0105
+    }
+  },
+  "by_reasoning_type_k10_v2oracle_vs_rule_planner": {
+    "single_hop": {
+      "v2_oracle": {
+        "recall": 0.8227,
+        "precision": 0.0823,
+        "mrr": 0.5383,
+        "ndcg": 0.6065,
+        "hit_rate": 0.8227
+      },
+      "rule_planner": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "ndcg": 0.0,
+        "hit_rate": 0.0
+      },
+      "delta": {
+        "recall": 0.8227,
+        "precision": 0.0823,
+        "mrr": 0.5383,
+        "ndcg": 0.6065,
+        "hit_rate": 0.8227
+      }
+    },
+    "multi_hop": {
+      "v2_oracle": {
+        "recall": 0.5189,
+        "precision": 0.1038,
+        "mrr": 0.4907,
+        "ndcg": 0.4101,
+        "hit_rate": 0.7925
+      },
+      "rule_planner": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "ndcg": 0.0,
+        "hit_rate": 0.0
+      },
+      "delta": {
+        "recall": 0.5189,
+        "precision": 0.1038,
+        "mrr": 0.4907,
+        "ndcg": 0.4101,
+        "hit_rate": 0.7925
+      }
+    },
+    "exception": {
+      "v2_oracle": {
+        "recall": 0.3824,
+        "precision": 0.0382,
+        "mrr": 0.1462,
+        "ndcg": 0.2007,
+        "hit_rate": 0.3824
+      },
+      "rule_planner": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "ndcg": 0.0,
+        "hit_rate": 0.0
+      },
+      "delta": {
+        "recall": 0.3824,
+        "precision": 0.0382,
+        "mrr": 0.1462,
+        "ndcg": 0.2007,
+        "hit_rate": 0.3824
+      }
+    },
+    "aggregation": {
+      "v2_oracle": {
+        "recall": 0.9143,
+        "precision": 0.1029,
+        "mrr": 0.7683,
+        "ndcg": 0.7907,
+        "hit_rate": 1.0
+      },
+      "rule_planner": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "ndcg": 0.0,
+        "hit_rate": 0.0
+      },
+      "delta": {
+        "recall": 0.9143,
+        "precision": 0.1029,
+        "mrr": 0.7683,
+        "ndcg": 0.7907,
+        "hit_rate": 1.0
+      }
+    },
+    "comparison": {
+      "v2_oracle": {
+        "recall": 0.8485,
+        "precision": 0.1242,
+        "mrr": 0.746,
+        "ndcg": 0.7583,
+        "hit_rate": 0.9091
+      },
+      "rule_planner": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "ndcg": 0.0,
+        "hit_rate": 0.0
+      },
+      "delta": {
+        "recall": 0.8485,
+        "precision": 0.1242,
+        "mrr": 0.746,
+        "ndcg": 0.7583,
+        "hit_rate": 0.9091
+      }
+    },
+    "temporal": {
+      "v2_oracle": {
+        "recall": 0.2,
+        "precision": 0.04,
+        "mrr": 0.0422,
+        "ndcg": 0.0724,
+        "hit_rate": 0.4
+      },
+      "rule_planner": {
+        "recall": 0.0,
+        "precision": 0.0,
+        "mrr": 0.0,
+        "ndcg": 0.0,
+        "hit_rate": 0.0
+      },
+      "delta": {
+        "recall": 0.2,
+        "precision": 0.04,
+        "mrr": 0.0422,
+        "ndcg": 0.0724,
+        "hit_rate": 0.4
+      }
+    }
+  }
+}

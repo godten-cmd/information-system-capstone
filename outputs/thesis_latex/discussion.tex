@@ -1,0 +1,78 @@
+%% discussion.tex
+\chapter{Discussion}
+\label{chap:discussion}
+
+\section{Why Hybrid Retrieval Outperforms BM25 and Dense}
+\label{sec:disc_hybrid}
+
+The most consistent finding across all experiments is the superiority of Hybrid Reciprocal Rank Fusion over either unimodal retrieval method. Hybrid achieves Recall@10$={0.745}$, MRR$={0.530}$, and nDCG@10$={0.566}$ --- improvements of +4.5\%, +15.8\%, and +11.3\% respectively over BM25, and +0.6\%, +5.6\%, and +3.4\% over Dense. This result aligns with the theoretical motivation for fusion: BM25 and Dense retrieval are complementary, not redundant.
+
+The complementarity is most visible at the difficulty-factor level. BM25 excels at queries involving exact identifiers: document-version-conflict queries achieve BM25 Recall@1$={0.583}$, outperforming Dense on keyword-precise version numbers and policy codes. Dense excels at queries requiring semantic understanding of conceptual relationships: comparison queries achieve Dense MRR$={0.730}$ vs.\ BM25's $0.618$. Hybrid consistently delivers the best or near-best performance across all difficulty factors because RRF fusion preserves rank information from both systems rather than committing to either signal exclusively \citep{cormack2009rrf}.
+
+The RRF fusion benefits are largest precisely for queries where BM25 and Dense are both informative for different reasons --- the multi-hop and table-dependency scenarios that constitute 54\% of the SEKD query set. For these queries, BM25 retrieves documents containing exact identifiers (project codes, policy section references) while Dense retrieves documents that semantically match the content question, and RRF merges both signals into a single ranked list.
+
+The one failure mode that Hybrid does not address is temporal reasoning. Dense achieves Recall@10$={0.000}$ on temporal queries, and Hybrid's $0.100$ represents marginal BM25 contribution through the fusion. This finding confirms the analysis by \citet{manning2008ir}: for enterprise corpora with significant temporal content (meeting notes, version histories, policy revision logs), a BM25 component is not optional --- it is necessary.
+
+\section{Why the Rule-Based Planner Performed Well}
+\label{sec:disc_rule}
+
+The seven-rule planner achieves SSA$={78.4\%}$ and Recall@10$={0.755}$, making it the best-performing system on those metrics. Its success stems from three reinforcing factors.
+
+\textbf{Factor 1: Oracle Labels Reflect Rule Logic.} The oracle strategy labels were assigned using a heuristic process that mirrors the rule planner's design. The reasoning types (temporal $\rightarrow$ BM25, exception $\rightarrow$ Dense, multi\_hop $\rightarrow$ Hybrid) that informed oracle assignment were directly encoded in the rule planner's rules R01--R04. This structural alignment means that the rule planner is, in some sense, evaluated against a ground truth that reflects its own logic. While this represents a limitation of the oracle construction process (see Threats to Validity), it also reflects a genuine insight: the reasoning-type taxonomy provides sufficient signal for strategy selection in a well-structured enterprise corpus.
+
+\textbf{Factor 2: Perfect Coverage of High-$n$ Groups.} The rule planner achieves 100\% SSA for aggregation ($n{=}35$), exception ($n{=}34$), and multi\_hop ($n{=}53$) --- groups that together represent 32.1\% of the query set. For these groups, the retrieval strategy is unambiguous: aggregation and multi\_hop require coverage across documents (hybrid), and exception queries require semantic clause interpretation (dense). Deterministic mapping is correct by design for these cases.
+
+\textbf{Factor 3: Hybrid as Safe Default.} The rule planner's default strategy (R07) is Hybrid, the best fixed baseline. By defaulting to Hybrid for all unmatched queries, the rule planner never performs worse than Hybrid for queries where its rules do not fire. Since 65.5\% of oracle labels are Hybrid, the default captures the majority case, and the specialist rules handle the high-value exceptions.
+
+The planner's main weakness is BM25 under-prediction: it routes only 5 of 62 oracle-BM25 queries to BM25 (8.1\% recall on BM25). Single-hop queries in categories with strong keyword signals (certain API documentation, exact numeric lookups) that empirically benefit from BM25 are defaulted to Hybrid. Additional rules targeting keyword-dense query patterns (exact endpoint paths, specific version strings, numeric thresholds) could push SSA above 80\%.
+
+\section{Why GPT-5 Did Not Outperform the Rule Planner}
+\label{sec:disc_gpt5}
+
+The most theoretically significant finding of this study is that GPT-5, despite its large-scale reasoning capability and zero-shot generalization, does not outperform a seven-rule deterministic system on overall retrieval performance. Understanding why requires separating several confounded factors.
+
+\textbf{Task complexity mismatch.} Retrieval strategy classification over three categories based on structured metadata (reasoning type, difficulty factors, category) is a low-complexity decision task. The structured prompt encodes the correct decision logic explicitly, making the LLM's marginal contribution --- natural language understanding, contextual inference, cross-domain reasoning --- largely irrelevant for the majority of queries. A simple classifier trained on 50 labeled examples would likely achieve comparable accuracy at negligible cost, consistent with the broader literature on LLM distraction by irrelevant context \citep{shi2023large}.
+
+\textbf{SSA measures correctness against a heuristic oracle.} As discussed above, the oracle labels reflect the same logic encoded in the rule planner. GPT-5's deviations from the oracle (particularly its preference for dense over bm25 for API documentation queries) may represent genuine disagreements with the heuristic rather than planning errors. The 44.7\% of GPT-5 errors classified as \texttt{oracle\_disagreement} supports this interpretation: GPT-5 may be more correct than the oracle for a substantial subset of queries, a hypothesis that could be tested by constructing empirically-derived oracle labels from held-out retrieval experiments.
+
+\textbf{Ranking quality advantages.} GPT-5 outperforms the rule planner on MRR (+2.0\%) and nDCG@10 (+1.2\%), and on Recall@1 (+2.9\%) and Recall@5 (+3.1\%). These ranking quality improvements are more consequential for user-facing applications than Recall@10, which is already high for both systems (0.750 and 0.755 respectively, a negligible 0.7 pp gap). For applications where the quality of the top-ranked result is paramount --- executive decision support, compliance auditing, legal research --- GPT-5's ranking advantages may justify its cost.
+
+\textbf{Temporal query failure is a systematic calibration error.} GPT-5 achieves 0\% SSA on temporal queries, consistently predicting hybrid rather than bm25. This is the single largest source of planning error for temporal content. The structured prompt includes explicit temporal guidance (``temporal $\rightarrow$ bm25'') but GPT-5's reasoning process appears to override this in favor of the most commonly correct default (hybrid, oracle for 65.5\% of queries). This behavior suggests that for reasoning models, critical routing rules need to be reinforced more strongly than standard prompt guidance --- potentially through instruction following fine-tuning or explicit constraint layers.
+
+\textbf{API Documentation confusion is the dominant error source.} 32 of 85 GPT-5 errors (37.6\%) occur on API Documentation queries. GPT-5 inconsistently selects bm25, dense, or hybrid for API queries, while the oracle assigns a mix of all three strategies depending on query characteristics (exact endpoint paths $\rightarrow$ bm25, semantic authentication queries $\rightarrow$ dense, multi-hop API dependencies $\rightarrow$ hybrid). The ambiguity of API Documentation as a retrieval planning signal --- where any of the three strategies can be optimal depending on the specific query --- explains why both GPT-5 and the rule planner perform worst on this category (SSA: 52.9\% and 70.6\% respectively).
+
+\section{Implications for Enterprise RAG Systems}
+\label{sec:disc_implications}
+
+\noindent\textbf{Implication 1: Hybrid RRF is the correct default retrieval architecture.} No system in this study benefits from committing exclusively to BM25 or Dense. For any enterprise RAG deployment where the query distribution is unknown, Hybrid RRF provides the best combination of coverage and ranking quality at zero marginal cost beyond the setup overhead of maintaining two retrieval indices. The complementarity of BM25 and Dense signals \citep{luan2021sparse_dense} is empirically confirmed across all six document categories and six reasoning types in this study.
+
+\noindent\textbf{Implication 2: A lightweight rule planner adds value at zero operational cost.} The seven-rule planner demonstrates that modest SSA (78.4\%) is sufficient to improve upon the best fixed baseline (Recall@10: +1.4\%, Hit@10: +1.3\%). The rules are interpretable, auditable, and require no machine learning infrastructure. Enterprise RAG architects should implement rule-based adaptive routing as a first-line planning mechanism before investing in LLM-based planners.
+
+\noindent\textbf{Implication 3: LLM-based planning provides ranking quality benefits at substantial cost.} GPT-5 planner's MRR (+2.0\%) and nDCG (+1.2\%) advantages over the rule planner may justify the \$0.016/query cost in high-value, low-volume retrieval applications where answer precision is more important than throughput. For high-volume enterprise search workloads, the cost-benefit ratio strongly favors the rule planner.
+
+\noindent\textbf{Implication 4: Exception and temporal queries require specialized solutions.} No evaluated system achieves acceptable performance (Recall@10 $>{0.5}$) on exception queries (Recall@10 $\leq{0.412}$) or temporal queries (best: $0.200$). These failure modes are structural rather than parametric --- they reflect mismatches between query type and retrieval signal space \citep{manning2008ir}. Future enterprise RAG systems should develop dedicated handling for these patterns, such as temporal-aware sparse retrieval with date-field boosting and exception-aware dense models trained on policy clause pairs.
+
+\section{Threats to Validity}
+\label{sec:disc_threats}
+
+\subsection{Internal Validity}
+
+\textbf{Oracle label limitations.} The majority of oracle labels (approximately 87\%) were assigned by the same deterministic mapping encoded in the rule planner's rules. This structural alignment inflates rule planner SSA relative to a more adversarial evaluation. The 44.7\% of GPT-5 errors classified as \texttt{oracle\_disagreement} indicates that oracle labels are not uniquely correct for a substantial fraction of queries.
+
+\textbf{Chunk-level ground truth.} Ground truth was constructed as sets of required chunk IDs derived from verbatim evidence spans. Section-aware chunking may split evidence across chunk boundaries, artificially inflating Recall@1 difficulty for boundary-spanning evidence. Multi-hop queries weight all required chunks equally, potentially masking partial-match scenarios.
+
+\textbf{Retrieval metric ceilings.} API Documentation and Travel Policies achieve Recall@10$={1.000}$ for multiple systems, preventing discrimination at $k{=}10$ for these categories.
+
+\subsection{External Validity}
+
+\textbf{Synthetic dataset.} Synthetic documents may not capture the full linguistic diversity of real enterprise documents, including domain jargon, cross-referencing patterns, version-specific terminology, and redaction artifacts. Real enterprise corpora exhibit complex inter-document dependencies not replicated in SEKD.
+
+\textbf{Corpus scale.} At 120 documents and 1,206 chunks, SEKD is a small-scale corpus. Retrieval methods may behave differently at enterprise scale (tens of thousands of documents).
+
+\textbf{Single embedding model.} Only BGE-small-en-v1.5 was evaluated. Larger models (e.g., text-embedding-3-large, E5-large) may produce substantially different rankings, particularly for exception and temporal queries.
+
+\subsection{Construct Validity}
+
+\textbf{SSA as planning proxy.} SSA measures oracle agreement, not user-facing retrieval quality. The weak correlation between SSA differences (GPT-5: -0.79 pp vs.\ Rule) and retrieval metric differences (MRR: +1.05 pp for GPT-5) illustrates this disconnect. A planner that achieves high SSA on the oracle but selects inferior strategies for user queries would score well on SSA while performing poorly in deployment.
+
+\textbf{Discrete strategy classification.} This study frames retrieval strategy selection as a three-way classification (bm25, dense, hybrid). Real-world retrieval planning may involve finer-grained adjustments (e.g., per-query BM25 parameter tuning, dynamic embedding model selection) that the current framing cannot capture.

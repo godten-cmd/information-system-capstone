@@ -1,0 +1,842 @@
+{
+  "k": 10,
+  "total_queries": 380,
+  "total_zero_recall": 88,
+  "total_perfect_recall": 250,
+  "overall_avg_recall": 0.7127,
+  "top_failures": [
+    {
+      "query_id": "Q-000016",
+      "query": "What authentication service and method does HYDataLake Partitioning Architecture \u2013 Decision Records and Failure Modes use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-009-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-008-C005",
+        "SYS-DES-009-C005",
+        "SYS-DES-007-C005",
+        "SYS-DES-011-C005",
+        "SYS-DES-002-C005",
+        "SYS-DES-013-C005",
+        "SYS-DES-015-C005",
+        "SYS-DES-005-C005",
+        "SYS-DES-003-C005",
+        "SYS-DES-006-C005"
+      ]
+    },
+    {
+      "query_id": "Q-000030",
+      "query": "The PRJ-DATALAKE-V2 meeting on 2023-12-04 referenced HR-POL-002. What entitlement does the Sick Leave Policy \u2013 KR define?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-021-C001",
+        "HR-POL-002-C004"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-001-C008",
+        "MTG-021-C008",
+        "MTG-003-C008",
+        "HR-POL-002-C001",
+        "HR-POL-012-C001",
+        "HR-POL-001-C001",
+        "HR-POL-010-C001",
+        "HR-POL-011-C001",
+        "MTG-020-C007",
+        "HR-POL-015-C003"
+      ]
+    },
+    {
+      "query_id": "Q-000044",
+      "query": "How does the annual leave entitlement differ between the US and EU regions at HYTech Solutions?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "HR Policies",
+      "reasoning_type": "comparison",
+      "difficulty": "hard",
+      "oracle_strategy": "metadata_filtered",
+      "difficulty_factors": [
+        "keyword_ambiguity",
+        "metadata_dependency",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "HR-POL-001-C004",
+        "HR-POL-011-C004"
+      ],
+      "retrieved_chunk_ids": [
+        "HR-POL-001-C001",
+        "HR-POL-011-C001",
+        "HR-POL-011-C003",
+        "HR-POL-003-C003",
+        "HR-POL-003-C004",
+        "HR-POL-010-C001",
+        "HR-POL-020-C001",
+        "HR-POL-003-C001",
+        "HR-POL-013-C001",
+        "HR-POL-002-C001"
+      ]
+    },
+    {
+      "query_id": "Q-000067",
+      "query": "The PRJ-HYID-BETA meeting on 2023-07-03 referenced SYS-DES-009. What is the SLA defined in HYDataLake Partitioning Architecture \u2013 Decision Records and Failure Modes?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-010-C001",
+        "SYS-DES-009-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-007-C005",
+        "SYS-DES-008-C005",
+        "SYS-DES-008-C002",
+        "SYS-DES-007-C002",
+        "SYS-DES-009-C002",
+        "SYS-DES-009-C005",
+        "MTG-008-C008",
+        "MTG-010-C008",
+        "SYS-DES-006-C010",
+        "SYS-DES-003-C010"
+      ]
+    },
+    {
+      "query_id": "Q-000070",
+      "query": "What was the first decision made in the initial PRJ-BILLING-REVAMP meeting and what was the key outcome of the final meeting?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "temporal",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-025-C003",
+        "MTG-030-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "HR-POL-008-C005",
+        "HR-POL-018-C005",
+        "MTG-029-C001",
+        "MTG-027-C001",
+        "MTG-025-C001",
+        "MTG-030-C001",
+        "MTG-026-C001",
+        "MTG-028-C001",
+        "MTG-018-C003",
+        "MTG-006-C003"
+      ]
+    },
+    {
+      "query_id": "Q-000146",
+      "query": "What is the difference in exception handling between the Data Classification and Handling (critical) and Encryption Standards (high) policies?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Security Policies",
+      "reasoning_type": "comparison",
+      "difficulty": "hard",
+      "oracle_strategy": "metadata_filtered",
+      "difficulty_factors": [
+        "exception_handling",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SEC-POL-006-C003",
+        "SEC-POL-007-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "SEC-POL-006-C006",
+        "SEC-POL-008-C004",
+        "SEC-POL-007-C004",
+        "SEC-POL-006-C004",
+        "SEC-POL-013-C004",
+        "SEC-POL-003-C004",
+        "SEC-POL-018-C004",
+        "SEC-POL-012-C004",
+        "SEC-POL-002-C004",
+        "SEC-POL-017-C004"
+      ]
+    },
+    {
+      "query_id": "Q-000181",
+      "query": "What was the first decision made in the initial PRJ-HYID-BETA meeting and what was the key outcome of the final meeting?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "temporal",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-007-C003",
+        "MTG-012-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "HR-POL-008-C005",
+        "HR-POL-018-C005",
+        "MTG-011-C001",
+        "MTG-009-C001",
+        "MTG-008-C001",
+        "MTG-012-C001",
+        "MTG-010-C001",
+        "MTG-007-C001",
+        "MTG-018-C003",
+        "MTG-006-C003"
+      ]
+    },
+    {
+      "query_id": "Q-000185",
+      "query": "What authentication service and method does HYDeploy Deployment Pipeline \u2013 Decision Records and Failure Modes use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-003-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-002-C005",
+        "SYS-DES-003-C005",
+        "SYS-DES-001-C005",
+        "SYS-DES-011-C005",
+        "SYS-DES-015-C005",
+        "SYS-DES-008-C005",
+        "SYS-DES-013-C005",
+        "SYS-DES-010-C005",
+        "SYS-DES-005-C005",
+        "SYS-DES-009-C005"
+      ]
+    },
+    {
+      "query_id": "Q-000219",
+      "query": "The PRJ-HYD-ALPHA meeting on 2023-05-07 referenced HR-POL-005. What entitlement does the Training and Development Reimbursement Policy \u2013 US define?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-005-C001",
+        "HR-POL-005-C004"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-005-C008",
+        "HR-POL-005-C001",
+        "HR-POL-015-C001",
+        "MTG-004-C007",
+        "MTG-022-C008",
+        "MTG-013-C008",
+        "MTG-002-C008",
+        "MTG-026-C008",
+        "MTG-027-C008",
+        "MTG-006-C008"
+      ]
+    },
+    {
+      "query_id": "Q-000263",
+      "query": "The PRJ-DATALAKE-V2 meeting on 2024-01-29 referenced SYS-DES-006. What is the SLA defined in HYMonitor Event Ingestion Design \u2013 Decision Records and Failure Modes?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-023-C001",
+        "SYS-DES-006-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-004-C005",
+        "SYS-DES-006-C002",
+        "SYS-DES-004-C002",
+        "SYS-DES-005-C005",
+        "SYS-DES-005-C002",
+        "SYS-DES-006-C005",
+        "MTG-023-C008",
+        "SYS-DES-006-C004",
+        "SYS-DES-006-C010",
+        "SYS-DES-003-C010"
+      ]
+    },
+    {
+      "query_id": "Q-000273",
+      "query": "The PRJ-HYD-ALPHA meeting on 2023-03-12 referenced HR-POL-002. What entitlement does the Sick Leave Policy \u2013 KR define?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-003-C001",
+        "HR-POL-002-C004"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-021-C008",
+        "MTG-001-C008",
+        "MTG-003-C008",
+        "HR-POL-002-C001",
+        "HR-POL-012-C001",
+        "HR-POL-001-C001",
+        "HR-POL-010-C001",
+        "HR-POL-011-C001",
+        "MTG-002-C007",
+        "HR-POL-015-C003"
+      ]
+    },
+    {
+      "query_id": "Q-000279",
+      "query": "What is the difference in exception handling between the Security Incident Classification and Response (critical) and Data Breach Notification (high) policies?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Security Policies",
+      "reasoning_type": "comparison",
+      "difficulty": "hard",
+      "oracle_strategy": "metadata_filtered",
+      "difficulty_factors": [
+        "exception_handling",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SEC-POL-011-C003",
+        "SEC-POL-012-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "SEC-POL-011-C004",
+        "SEC-POL-008-C005",
+        "SEC-POL-014-C005",
+        "SEC-POL-012-C005",
+        "SEC-POL-020-C005",
+        "SEC-POL-013-C005",
+        "SEC-POL-011-C005",
+        "SEC-POL-007-C005",
+        "SEC-POL-009-C005",
+        "SEC-POL-002-C005"
+      ]
+    },
+    {
+      "query_id": "Q-000298",
+      "query": "What authentication service and method does HYMonitor Event Ingestion Design \u2013 Decision Records and Failure Modes use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-006-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-005-C005",
+        "SYS-DES-006-C005",
+        "SYS-DES-004-C005",
+        "SYS-DES-015-C005",
+        "SYS-DES-013-C005",
+        "SYS-DES-003-C005",
+        "SYS-DES-009-C005",
+        "SYS-DES-011-C005",
+        "SYS-DES-008-C005",
+        "SYS-DES-002-C005"
+      ]
+    },
+    {
+      "query_id": "Q-000313",
+      "query": "What was the first decision made in the initial PRJ-DATALAKE-V2 meeting and what was the key outcome of the final meeting?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "temporal",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-019-C003",
+        "MTG-024-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "HR-POL-008-C005",
+        "HR-POL-018-C005",
+        "MTG-023-C001",
+        "MTG-022-C001",
+        "MTG-020-C001",
+        "MTG-024-C001",
+        "MTG-021-C001",
+        "MTG-019-C001",
+        "MTG-018-C003",
+        "MTG-006-C003"
+      ]
+    },
+    {
+      "query_id": "Q-000314",
+      "query": "The PRJ-HYID-BETA meeting on 2023-05-08 referenced SYS-DES-009. What is the SLA defined in HYDataLake Partitioning Architecture \u2013 Decision Records and Failure Modes?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-008-C001",
+        "SYS-DES-009-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-007-C005",
+        "SYS-DES-008-C005",
+        "SYS-DES-008-C002",
+        "SYS-DES-007-C002",
+        "SYS-DES-009-C002",
+        "SYS-DES-009-C005",
+        "MTG-010-C008",
+        "MTG-008-C008",
+        "SYS-DES-006-C010",
+        "SYS-DES-009-C010"
+      ]
+    },
+    {
+      "query_id": "Q-000333",
+      "query": "How does the overtime compensation entitlement differ between the EU and KR regions at HYTech Solutions?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "HR Policies",
+      "reasoning_type": "comparison",
+      "difficulty": "hard",
+      "oracle_strategy": "metadata_filtered",
+      "difficulty_factors": [
+        "keyword_ambiguity",
+        "metadata_dependency",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "HR-POL-007-C004",
+        "HR-POL-017-C004"
+      ],
+      "retrieved_chunk_ids": [
+        "HR-POL-017-C001",
+        "HR-POL-007-C001",
+        "HR-POL-015-C003",
+        "HR-POL-011-C003",
+        "HR-POL-003-C003",
+        "HR-POL-003-C004",
+        "HR-POL-020-C004",
+        "HR-POL-011-C004",
+        "HR-POL-014-C003",
+        "HR-POL-002-C003"
+      ]
+    },
+    {
+      "query_id": "Q-000001",
+      "query": "Under what conditions can exceptions to the Vulnerability Management be approved?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 1,
+      "n_retrieved_relevant": 0,
+      "category": "Security Policies",
+      "reasoning_type": "exception",
+      "difficulty": "medium",
+      "oracle_strategy": "dense",
+      "difficulty_factors": [
+        "exception_handling"
+      ],
+      "required_chunk_ids": [
+        "SEC-POL-015-C008"
+      ],
+      "retrieved_chunk_ids": [
+        "SEC-POL-019-C008",
+        "SEC-POL-002-C008",
+        "SEC-POL-018-C008",
+        "SEC-POL-008-C008",
+        "SEC-POL-003-C008",
+        "SEC-POL-007-C008",
+        "SEC-POL-005-C008",
+        "SEC-POL-009-C008",
+        "SEC-POL-017-C008",
+        "SEC-POL-010-C008"
+      ]
+    },
+    {
+      "query_id": "Q-000006",
+      "query": "What is the sick leave entitlement for employees at HYTech Solutions?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 1,
+      "n_retrieved_relevant": 0,
+      "category": "HR Policies",
+      "reasoning_type": "single_hop",
+      "difficulty": "easy",
+      "oracle_strategy": "hybrid",
+      "difficulty_factors": [],
+      "required_chunk_ids": [
+        "HR-POL-002-C004"
+      ],
+      "retrieved_chunk_ids": [
+        "HR-POL-012-C001",
+        "HR-POL-002-C001",
+        "HR-POL-003-C001",
+        "HR-POL-013-C001",
+        "HR-POL-010-C001",
+        "HR-POL-001-C001",
+        "HR-POL-011-C001",
+        "HR-POL-020-C001",
+        "HR-POL-003-C004",
+        "HR-POL-013-C004"
+      ]
+    },
+    {
+      "query_id": "Q-000009",
+      "query": "What was the first decision recorded in the sprint planning for PRJ-HYID-BETA on 2023-05-08?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 1,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "single_hop",
+      "difficulty": "easy",
+      "oracle_strategy": "hybrid",
+      "difficulty_factors": [],
+      "required_chunk_ids": [
+        "MTG-008-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-008-C004",
+        "MTG-007-C004",
+        "MTG-007-C007",
+        "MTG-002-C003",
+        "MTG-020-C003",
+        "MTG-007-C003",
+        "MTG-008-C001",
+        "MTG-007-C001",
+        "MTG-001-C004",
+        "MTG-025-C004"
+      ]
+    },
+    {
+      "query_id": "Q-000011",
+      "query": "What was the first decision recorded in the sprint planning for PRJ-SECURITY-AUDIT on 2023-07-03?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 1,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "single_hop",
+      "difficulty": "easy",
+      "oracle_strategy": "keyword",
+      "difficulty_factors": [],
+      "required_chunk_ids": [
+        "MTG-013-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-013-C004",
+        "MTG-014-C004",
+        "MTG-002-C003",
+        "MTG-020-C003",
+        "MTG-007-C003",
+        "MTG-014-C001",
+        "MTG-001-C004",
+        "MTG-013-C001",
+        "MTG-008-C004",
+        "MTG-025-C004"
+      ]
+    }
+  ],
+  "failure_patterns": {
+    "by_reasoning_type": {
+      "aggregation": {
+        "total": 35,
+        "zero_recall": 0,
+        "partial_recall": 5,
+        "perfect_recall": 30,
+        "zero_recall_rate": 0.0,
+        "avg_recall": 0.9238
+      },
+      "comparison": {
+        "total": 33,
+        "zero_recall": 4,
+        "partial_recall": 4,
+        "perfect_recall": 25,
+        "zero_recall_rate": 0.1212,
+        "avg_recall": 0.8182
+      },
+      "exception": {
+        "total": 34,
+        "zero_recall": 20,
+        "partial_recall": 0,
+        "perfect_recall": 14,
+        "zero_recall_rate": 0.5882,
+        "avg_recall": 0.4118
+      },
+      "multi_hop": {
+        "total": 53,
+        "zero_recall": 9,
+        "partial_recall": 31,
+        "perfect_recall": 13,
+        "zero_recall_rate": 0.1698,
+        "avg_recall": 0.5377
+      },
+      "single_hop": {
+        "total": 220,
+        "zero_recall": 52,
+        "partial_recall": 0,
+        "perfect_recall": 168,
+        "zero_recall_rate": 0.2364,
+        "avg_recall": 0.7636
+      },
+      "temporal": {
+        "total": 5,
+        "zero_recall": 3,
+        "partial_recall": 2,
+        "perfect_recall": 0,
+        "zero_recall_rate": 0.6,
+        "avg_recall": 0.2
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "total": 177,
+        "zero_recall": 38,
+        "partial_recall": 0,
+        "perfect_recall": 139,
+        "zero_recall_rate": 0.2147,
+        "avg_recall": 0.7853
+      },
+      "hard": {
+        "total": 81,
+        "zero_recall": 16,
+        "partial_recall": 42,
+        "perfect_recall": 23,
+        "zero_recall_rate": 0.1975,
+        "avg_recall": 0.5412
+      },
+      "medium": {
+        "total": 122,
+        "zero_recall": 34,
+        "partial_recall": 0,
+        "perfect_recall": 88,
+        "zero_recall_rate": 0.2787,
+        "avg_recall": 0.7213
+      }
+    },
+    "by_category": {
+      "API Documentation": {
+        "total": 68,
+        "zero_recall": 2,
+        "partial_recall": 0,
+        "perfect_recall": 66,
+        "zero_recall_rate": 0.0294,
+        "avg_recall": 0.9706
+      },
+      "HR Policies": {
+        "total": 54,
+        "zero_recall": 20,
+        "partial_recall": 3,
+        "perfect_recall": 31,
+        "zero_recall_rate": 0.3704,
+        "avg_recall": 0.6019
+      },
+      "Project Meeting Notes": {
+        "total": 100,
+        "zero_recall": 25,
+        "partial_recall": 28,
+        "perfect_recall": 47,
+        "zero_recall_rate": 0.25,
+        "avg_recall": 0.6083
+      },
+      "Security Policies": {
+        "total": 64,
+        "zero_recall": 24,
+        "partial_recall": 1,
+        "perfect_recall": 39,
+        "zero_recall_rate": 0.375,
+        "avg_recall": 0.6172
+      },
+      "System Design Documents": {
+        "total": 45,
+        "zero_recall": 17,
+        "partial_recall": 10,
+        "perfect_recall": 18,
+        "zero_recall_rate": 0.3778,
+        "avg_recall": 0.5111
+      },
+      "Travel Policies": {
+        "total": 49,
+        "zero_recall": 0,
+        "partial_recall": 0,
+        "perfect_recall": 49,
+        "zero_recall_rate": 0.0,
+        "avg_recall": 1.0
+      }
+    },
+    "by_difficulty_factor": {
+      "document_version_conflict": {
+        "total": 12,
+        "zero_recall": 0,
+        "partial_recall": 0,
+        "perfect_recall": 12,
+        "zero_recall_rate": 0.0,
+        "avg_recall": 1.0
+      },
+      "exception_handling": {
+        "total": 38,
+        "zero_recall": 22,
+        "partial_recall": 1,
+        "perfect_recall": 15,
+        "zero_recall_rate": 0.5789,
+        "avg_recall": 0.4079
+      },
+      "keyword_ambiguity": {
+        "total": 10,
+        "zero_recall": 2,
+        "partial_recall": 3,
+        "perfect_recall": 5,
+        "zero_recall_rate": 0.2,
+        "avg_recall": 0.65
+      },
+      "metadata_dependency": {
+        "total": 38,
+        "zero_recall": 2,
+        "partial_recall": 3,
+        "perfect_recall": 33,
+        "zero_recall_rate": 0.0526,
+        "avg_recall": 0.9079
+      },
+      "multi_document_dependency": {
+        "total": 81,
+        "zero_recall": 16,
+        "partial_recall": 42,
+        "perfect_recall": 23,
+        "zero_recall_rate": 0.1975,
+        "avg_recall": 0.5412
+      },
+      "none": {
+        "total": 117,
+        "zero_recall": 38,
+        "partial_recall": 0,
+        "perfect_recall": 79,
+        "zero_recall_rate": 0.3248,
+        "avg_recall": 0.6752
+      },
+      "table_dependency": {
+        "total": 124,
+        "zero_recall": 14,
+        "partial_recall": 0,
+        "perfect_recall": 110,
+        "zero_recall_rate": 0.1129,
+        "avg_recall": 0.8871
+      },
+      "temporal_reasoning": {
+        "total": 5,
+        "zero_recall": 3,
+        "partial_recall": 2,
+        "perfect_recall": 0,
+        "zero_recall_rate": 0.6,
+        "avg_recall": 0.2
+      }
+    }
+  }
+}

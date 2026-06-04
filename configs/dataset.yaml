@@ -1,0 +1,10 @@
+dataset:
+  name: SEKD
+  version: "1.2"
+  company: HYTech Solutions
+  seed: 42
+  output_dir: data/sekd
+  document_count: 120
+  query_count: 300
+  include_adversarial: true
+

@@ -1,0 +1,93 @@
+%% conclusion.tex
+\chapter{Conclusion}
+\label{chap:conclusion}
+
+\section{Summary of Work}
+\label{sec:conc_summary}
+
+This thesis investigated adaptive retrieval planning as a mechanism for improving information retrieval in enterprise knowledge management systems. The study addressed seven research questions spanning retrieval architecture design, adaptive planning, planner comparison, and LLM-based planning using GPT-5. All experiments were conducted on the Synthetic Enterprise Knowledge Dataset (SEKD), a fully annotated, 120-document, 1,206-chunk corpus with 405 queries spanning six enterprise document categories and six reasoning types.
+
+The experimental program progressed through nine phases:
+
+\begin{itemize}
+    \item \textbf{Phase 5 (BM25)}: Established the sparse retrieval baseline with Recall@10$={0.713}$ and MRR$={0.457}$, revealing persistent weaknesses on exception handling and temporal queries.
+    \item \textbf{Phase 6 (Dense)}: Demonstrated that dense retrieval with BGE-small-en-v1.5 improves MRR by +9.6\% to $0.501$, with particular gains on semantic reasoning tasks (comparison, single\_hop), but zero recall on temporal queries.
+    \item \textbf{Phase 7 (Hybrid)}: Established Hybrid RRF as the superior fixed-strategy baseline with Recall@10$={0.745}$ and MRR$={0.530}$, achieving consistent improvements across most reasoning types and categories.
+    \item \textbf{Phase 8 (Rule Planner)}: Demonstrated that a seven-rule deterministic planner achieves SSA$={78.4\%}$ and Recall@10$={0.755}$, outperforming Hybrid on coverage metrics at zero operational cost.
+    \item \textbf{Phase 9 (LLM Planner)}: Evaluated GPT-5 as a zero-shot retrieval strategy planner, achieving SSA$={77.6\%}$, MRR$={0.533}$, and nDCG@10$={0.570}$ --- marginally better than the rule planner on ranking quality, marginally worse on coverage, at a cost of \$6.18 for 380 queries.
+\end{itemize}
+
+\section{Research Question Answers}
+\label{sec:conc_rqs}
+
+\subsection*{RQ1: Does hybrid retrieval outperform single-method baselines?}
+\textbf{Yes.} Hybrid RRF achieves Recall@10$={0.745}$, MRR$={0.530}$, and nDCG@10$={0.566}$, outperforming both BM25 (Recall@10$={0.713}$, MRR$={0.457}$) and Dense (Recall@10$={0.740}$, MRR$={0.501}$) on primary evaluation metrics. The MRR improvement of +15.8\% over BM25 and +5.6\% over Dense confirms that lexical and semantic signals are complementary in enterprise knowledge retrieval.
+
+\subsection*{RQ2: Which retrieval method performs best across query categories?}
+\textbf{No single method universally dominates.} Hybrid provides the most balanced performance across all six categories. System Design Documents and Security Policies strongly favor Dense (+18.9\% and +11.7\% Recall@10 over BM25). Travel Policies achieve perfect Recall@10 for all methods. HR Policies is the weakest category for all methods (Recall@10 $={0.546}$--$0.611$).
+
+\subsection*{RQ3: How does performance vary across reasoning types?}
+\textbf{Substantially.} Aggregation and comparison queries achieve Recall@10 $>{0.818}$ for all systems. Single\_hop queries perform moderately well ($0.764$--$0.832$). Multi\_hop queries are challenging ($0.491$--$0.538$). Exception and temporal queries are universally difficult (Recall@10 $\leq{0.412}$ and $\leq{0.200}$ respectively), with Dense achieving zero recall on temporal queries. The 50+ percentage point performance range between best- and worst-case reasoning types is the most consequential finding for enterprise RAG system design.
+
+\subsection*{RQ4: Can a rule-based planner outperform fixed-strategy retrieval?}
+\textbf{Yes, marginally.} The rule planner achieves Recall@10$={0.755}$ (+1.4\% over Hybrid) and Hit@10$={0.808}$ (+1.3\% over Hybrid), performing comparably on most ranking metrics and offering a net coverage improvement at zero marginal cost. This validates adaptive planning as a practical enhancement for enterprise RAG systems.
+
+\subsection*{RQ5: What is the optimal prompt strategy for LLM-based planning?}
+\textbf{The structured prompt.} Among zero\_shot (SSA$={69.5\%}$), structured (SSA$={82.1\%}$), and few\_shot (SSA$={81.8\%}$), the structured prompt achieves the highest SSA at approximately half the token cost of few\_shot. Providing explicit metadata (reasoning type, difficulty factors, document category) enables the model to apply strategy selection logic without in-context examples.
+
+\subsection*{RQ6: Does GPT-5 outperform the rule planner on Strategy Selection Accuracy?}
+\textbf{No.} GPT-5 achieves SSA$={77.6\%}$, marginally below the rule planner's $78.4\%$ ($-$0.79 pp). GPT-5 outperforms the rule planner on ranking quality metrics (MRR: +2.0\%, nDCG@10: +1.2\%) but underperforms on raw coverage (Recall@10: $-$0.7\%). The performance gap is within the range expected from oracle label ambiguity (44.7\% of GPT-5 errors are classified as \texttt{oracle\_disagreement}).
+
+\subsection*{RQ7: What are the primary failure modes of LLM-based planning?}
+\textbf{Category confusion and temporal mis-routing.} GPT-5's dominant failure modes are: (1) category confusion on API Documentation and System Design queries (55.3\% of errors), where the distinction between bm25, dense, and hybrid is ambiguous; and (2) temporal query failure (0\% SSA, systematic preference for hybrid over bm25). Single\_hop queries account for 94\% of all GPT-5 planning errors, revealing that LLM reasoning provides little advantage over deterministic rules for well-structured, metadata-rich queries.
+
+\section{Principal Findings}
+\label{sec:conc_findings}
+
+Three principal findings emerge from the V1 experimental program.
+
+\textbf{Finding 1: Retrieval architecture is the primary driver of performance.} The improvement from BM25 to Hybrid RRF (+15.8\% MRR) is 8$\times$ larger than the best planner improvement (+2.0\% MRR). Enterprise RAG practitioners should prioritize retrieval architecture selection over planning intelligence as the first-order design decision. A well-configured Hybrid RRF baseline with no planning intelligence substantially outperforms a sophisticated planner on top of a BM25-only backend.
+
+\textbf{Finding 2: Deterministic planning is competitive with LLM planning at orders-of-magnitude lower cost.} A seven-rule planner and GPT-5 are functionally equivalent on end-to-end retrieval quality (Recall@10 within 0.7 pp, MRR within 1.1 pp) despite a 5.6 million$\times$ latency difference and \$6.18 cost differential per 380 queries. For enterprise deployments with throughput requirements or cost constraints, the rule planner is the superior choice. For precision-critical, low-volume applications, GPT-5's ranking quality advantages may justify its cost.
+
+\textbf{Finding 3: Exception handling and temporal reasoning are universal failure modes.} Every V1 system fails systematically on exception clause queries (Recall@10 $\leq{0.412}$) and temporal reasoning queries (Recall@10 $\leq{0.200}$). These failure modes are not addressable through retrieval strategy selection alone and represent the primary remaining challenge for enterprise RAG on structured policy documents. The V2 Agentic RAG extension (Chapters~\ref{chap:v2_methodology}--\ref{chap:v2_results}) directly addresses these failure modes through iterative re-retrieval conditioned on failure diagnosis.
+
+\section{Research Contributions}
+\label{sec:conc_contributions}
+
+\textbf{Methodological}: The SEKD corpus provides a fully annotated, reproducible evaluation environment for enterprise retrieval methods, with section-aware chunking, six reasoning types, eight difficulty factors, and oracle strategy labels. The corpus construction pipeline supports extension to additional categories and query types.
+
+\textbf{Empirical}: We provide the first systematic comparison of BM25, dense retrieval, Hybrid RRF, rule-based planning, and LLM-based planning on a controlled enterprise knowledge corpus. The results quantify the performance contribution of each architectural layer.
+
+\textbf{Practical}: We demonstrate that a seven-rule deterministic planner achieves the highest Recall@10 (0.755) of any evaluated system at zero operational cost, providing enterprise RAG architects with a concrete, implementable planning mechanism.
+
+\textbf{Analytical}: We characterize GPT-5's primary failure modes (category confusion, temporal mis-routing) and identify structural causes of exception and temporal query failure across all retrieval methods, informing future system design.
+
+\section{V2 Agentic RAG: Summary}
+\label{sec:conc_v2_summary}
+
+Motivated by the persistent failure of all V1 systems on exception and temporal queries, Chapters~\ref{chap:v2_methodology} and~\ref{chap:v2_results} introduce and evaluate the V2 Agentic RAG pipeline. The key architectural innovation is a five-agent LangGraph state machine in which a Validation Agent assesses retrieved chunk relevance after each retrieval attempt and triggers targeted re-retrieval when the retrieved set fails to meet per-type relevance thresholds. The six V2 research questions address the incremental contributions of: (RQ8) the complete agentic pipeline over V1 planners; (RQ9) the re-retrieval loop over a single-pass agentic baseline; (RQ10) adaptive validation scoring over rank-order scoring; (RQ11) oracle versus heuristic query analysis; (RQ12) the pipeline's ability to specifically remedy exception and temporal failures; and (RQ13) the remaining failure modes after loop exhaustion.
+
+\section{Future Work}
+\label{sec:conc_future}
+
+\textbf{Specialized exception and temporal retrieval.} The most consequential opportunity for improvement is addressing the 0.000--0.412 Recall@10 performance floor on exception and temporal queries. Concrete directions include: date-field boosting in BM25 for temporal queries, fine-tuning dense encoders on policy exception clause pairs, and developing hybrid retrieval strategies that apply BM25 specifically for date-token queries while preserving dense retrieval for semantic exception queries.
+
+\textbf{Empirically-derived oracle labels.} Replacing heuristic oracle labels with empirically-derived labels (the strategy that produces the highest Recall@10 for each query, computed from held-out retrieval experiments) would provide a more objective SSA evaluation baseline. This would also disambiguate the 44.7\% of GPT-5 errors currently classified as \texttt{oracle\_disagreement}.
+
+\textbf{Fine-tuned retrieval planners.} A small fine-tuned classifier (e.g., a distilled encoder trained on GPT-5 planning decisions as labels) could combine the cost efficiency of the rule planner with the calibration quality advantages observed in GPT-5. Given the low task complexity and the availability of 380 labeled planning decisions, this approach is likely to outperform both baselines at negligible inference cost.
+
+\textbf{Validation on real enterprise corpora.} The SEKD findings should be validated on real enterprise datasets to assess the impact of linguistic diversity, inter-document dependencies, and query naturalness on the relative performance of retrieval methods and planners.
+
+\textbf{V2 answer generation quality.} The V2 Answer Agent synthesises responses with inline citation markers. Future work should evaluate answer quality using automatic metrics (BERTScore, ROUGE-L) and human judges, measuring factual consistency between citations and answer text. This closes the loop from retrieval quality to downstream answer accuracy.
+
+\textbf{Query expansion in the re-retrieval loop.} The current V2 re-retrieval loop changes the retrieval strategy but does not rewrite the query. Integrating query expansion hints (suggested by the Validation Agent's failure diagnosis) into the re-issued sub-queries is a natural next step, particularly for \texttt{missing\_entity} failures where the original query text lacks the exact vocabulary present in relevant documents.
+
+\textbf{Streaming agentic pipelines.} The V2 LangGraph pipeline currently operates in batch mode. Adapting it to streaming execution --- where partial answers are rendered as evidence chunks are validated --- would improve perceived latency for interactive enterprise search applications.
+
+\section{Closing Remarks}
+\label{sec:conc_closing}
+
+This study demonstrates that adaptive retrieval planning improves enterprise information retrieval beyond fixed-strategy baselines, but that the choice of planning mechanism is secondary to the choice of retrieval architecture. Hybrid Reciprocal Rank Fusion is the recommended retrieval foundation, and a lightweight rule-based planner provides the best cost-performance trade-off for production enterprise RAG deployment.
+
+The finding that GPT-5 neither clearly outperforms nor clearly underperforms a seven-rule deterministic planner is not a negative result --- it is an informative characterization of the current frontier. It suggests that the information available in the structured metadata (reasoning type, difficulty factors, document category) is sufficient to determine the optimal retrieval strategy for the majority of enterprise queries, and that LLM inference adds marginal value for this specific task in its current form. As LLM inference costs decline and model calibration improves, the cost-benefit calculation will shift; for the present, deterministic planning remains the pragmatic choice for enterprise RAG deployment.

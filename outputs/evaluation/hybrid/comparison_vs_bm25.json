@@ -1,0 +1,499 @@
+{
+  "current_method": "hybrid",
+  "current_config": {
+    "rrf_k": 10,
+    "candidate_k": 100
+  },
+  "current_timestamp": "2026-06-02T07:33:11.587494+00:00",
+  "baseline_name": "bm25",
+  "baseline_timestamp": "2026-06-02T06:45:31.639372+00:00",
+  "k_values": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "overall": {
+    "k1": {
+      "n_queries": 380,
+      "recall": {
+        "hybrid": 0.368,
+        "bm25": 0.2982,
+        "delta": 0.0698
+      },
+      "precision": {
+        "hybrid": 0.4053,
+        "bm25": 0.3184,
+        "delta": 0.0869
+      },
+      "mrr": {
+        "hybrid": 0.5295,
+        "bm25": 0.4573,
+        "delta": 0.0722
+      },
+      "ndcg": {
+        "hybrid": 0.4053,
+        "bm25": 0.3184,
+        "delta": 0.0869
+      },
+      "hit_rate": {
+        "hybrid": 0.4053,
+        "bm25": 0.3184,
+        "delta": 0.0869
+      }
+    },
+    "k3": {
+      "n_queries": 380,
+      "recall": {
+        "hybrid": 0.5689,
+        "bm25": 0.5096,
+        "delta": 0.0593
+      },
+      "precision": {
+        "hybrid": 0.2132,
+        "bm25": 0.1868,
+        "delta": 0.0264
+      },
+      "mrr": {
+        "hybrid": 0.5295,
+        "bm25": 0.4573,
+        "delta": 0.0722
+      },
+      "ndcg": {
+        "hybrid": 0.5006,
+        "bm25": 0.4295,
+        "delta": 0.0711
+      },
+      "hit_rate": {
+        "hybrid": 0.6132,
+        "bm25": 0.5526,
+        "delta": 0.0606
+      }
+    },
+    "k5": {
+      "n_queries": 380,
+      "recall": {
+        "hybrid": 0.6228,
+        "bm25": 0.6022,
+        "delta": 0.0206
+      },
+      "precision": {
+        "hybrid": 0.1421,
+        "bm25": 0.1368,
+        "delta": 0.0053
+      },
+      "mrr": {
+        "hybrid": 0.5295,
+        "bm25": 0.4573,
+        "delta": 0.0722
+      },
+      "ndcg": {
+        "hybrid": 0.5247,
+        "bm25": 0.4705,
+        "delta": 0.0542
+      },
+      "hit_rate": {
+        "hybrid": 0.6632,
+        "bm25": 0.6526,
+        "delta": 0.0106
+      }
+    },
+    "k10": {
+      "n_queries": 380,
+      "recall": {
+        "hybrid": 0.7447,
+        "bm25": 0.7127,
+        "delta": 0.032
+      },
+      "precision": {
+        "hybrid": 0.0863,
+        "bm25": 0.0834,
+        "delta": 0.0029
+      },
+      "mrr": {
+        "hybrid": 0.5295,
+        "bm25": 0.4573,
+        "delta": 0.0722
+      },
+      "ndcg": {
+        "hybrid": 0.5664,
+        "bm25": 0.5089,
+        "delta": 0.0575
+      },
+      "hit_rate": {
+        "hybrid": 0.7974,
+        "bm25": 0.7684,
+        "delta": 0.029
+      }
+    }
+  },
+  "by_category_k10": {
+    "API Documentation": {
+      "n_queries": 68,
+      "recall": {
+        "hybrid": 1.0,
+        "bm25": 0.9706,
+        "delta": 0.0294
+      },
+      "precision": {
+        "hybrid": 0.1118,
+        "bm25": 0.1088,
+        "delta": 0.003
+      },
+      "mrr": {
+        "hybrid": 0.8358,
+        "bm25": 0.794,
+        "delta": 0.0418
+      },
+      "ndcg": {
+        "hybrid": 0.8709,
+        "bm25": 0.8196,
+        "delta": 0.0513
+      },
+      "hit_rate": {
+        "hybrid": 1.0,
+        "bm25": 0.9706,
+        "delta": 0.0294
+      }
+    },
+    "HR Policies": {
+      "n_queries": 54,
+      "recall": {
+        "hybrid": 0.5648,
+        "bm25": 0.6019,
+        "delta": -0.0371
+      },
+      "precision": {
+        "hybrid": 0.0704,
+        "bm25": 0.0722,
+        "delta": -0.0018
+      },
+      "mrr": {
+        "hybrid": 0.2768,
+        "bm25": 0.2346,
+        "delta": 0.0422
+      },
+      "ndcg": {
+        "hybrid": 0.3403,
+        "bm25": 0.3217,
+        "delta": 0.0186
+      },
+      "hit_rate": {
+        "hybrid": 0.5926,
+        "bm25": 0.6296,
+        "delta": -0.037
+      }
+    },
+    "Project Meeting Notes": {
+      "n_queries": 100,
+      "recall": {
+        "hybrid": 0.615,
+        "bm25": 0.6083,
+        "delta": 0.0067
+      },
+      "precision": {
+        "hybrid": 0.08,
+        "bm25": 0.08,
+        "delta": 0.0
+      },
+      "mrr": {
+        "hybrid": 0.4696,
+        "bm25": 0.388,
+        "delta": 0.0816
+      },
+      "ndcg": {
+        "hybrid": 0.4568,
+        "bm25": 0.4227,
+        "delta": 0.0341
+      },
+      "hit_rate": {
+        "hybrid": 0.78,
+        "bm25": 0.75,
+        "delta": 0.03
+      }
+    },
+    "Security Policies": {
+      "n_queries": 64,
+      "recall": {
+        "hybrid": 0.7266,
+        "bm25": 0.6172,
+        "delta": 0.1094
+      },
+      "precision": {
+        "hybrid": 0.075,
+        "bm25": 0.0641,
+        "delta": 0.0109
+      },
+      "mrr": {
+        "hybrid": 0.4267,
+        "bm25": 0.3317,
+        "delta": 0.095
+      },
+      "ndcg": {
+        "hybrid": 0.4965,
+        "bm25": 0.3931,
+        "delta": 0.1034
+      },
+      "hit_rate": {
+        "hybrid": 0.7344,
+        "bm25": 0.625,
+        "delta": 0.1094
+      }
+    },
+    "System Design Documents": {
+      "n_queries": 45,
+      "recall": {
+        "hybrid": 0.6111,
+        "bm25": 0.5111,
+        "delta": 0.1
+      },
+      "precision": {
+        "hybrid": 0.0733,
+        "bm25": 0.0667,
+        "delta": 0.0066
+      },
+      "mrr": {
+        "hybrid": 0.3043,
+        "bm25": 0.2363,
+        "delta": 0.068
+      },
+      "ndcg": {
+        "hybrid": 0.3778,
+        "bm25": 0.2956,
+        "delta": 0.0822
+      },
+      "hit_rate": {
+        "hybrid": 0.6444,
+        "bm25": 0.6222,
+        "delta": 0.0222
+      }
+    },
+    "Travel Policies": {
+      "n_queries": 49,
+      "recall": {
+        "hybrid": 1.0,
+        "bm25": 1.0,
+        "delta": 0.0
+      },
+      "precision": {
+        "hybrid": 0.1082,
+        "bm25": 0.1082,
+        "delta": -0.0
+      },
+      "mrr": {
+        "hybrid": 0.8465,
+        "bm25": 0.7435,
+        "delta": 0.103
+      },
+      "ndcg": {
+        "hybrid": 0.8812,
+        "bm25": 0.8068,
+        "delta": 0.0744
+      },
+      "hit_rate": {
+        "hybrid": 1.0,
+        "bm25": 1.0,
+        "delta": 0.0
+      }
+    }
+  },
+  "by_reasoning_type_k10": {
+    "aggregation": {
+      "n_queries": 35,
+      "recall": {
+        "hybrid": 0.9143,
+        "bm25": 0.9238,
+        "delta": -0.0095
+      },
+      "precision": {
+        "hybrid": 0.1029,
+        "bm25": 0.1057,
+        "delta": -0.0028
+      },
+      "mrr": {
+        "hybrid": 0.7683,
+        "bm25": 0.7748,
+        "delta": -0.0065
+      },
+      "ndcg": {
+        "hybrid": 0.7907,
+        "bm25": 0.7976,
+        "delta": -0.0069
+      },
+      "hit_rate": {
+        "hybrid": 1.0,
+        "bm25": 1.0,
+        "delta": 0.0
+      }
+    },
+    "comparison": {
+      "n_queries": 33,
+      "recall": {
+        "hybrid": 0.8485,
+        "bm25": 0.8182,
+        "delta": 0.0303
+      },
+      "precision": {
+        "hybrid": 0.1242,
+        "bm25": 0.1182,
+        "delta": 0.006
+      },
+      "mrr": {
+        "hybrid": 0.746,
+        "bm25": 0.6177,
+        "delta": 0.1283
+      },
+      "ndcg": {
+        "hybrid": 0.7583,
+        "bm25": 0.6573,
+        "delta": 0.101
+      },
+      "hit_rate": {
+        "hybrid": 0.9091,
+        "bm25": 0.8788,
+        "delta": 0.0303
+      }
+    },
+    "exception": {
+      "n_queries": 34,
+      "recall": {
+        "hybrid": 0.4118,
+        "bm25": 0.4118,
+        "delta": -0.0
+      },
+      "precision": {
+        "hybrid": 0.0412,
+        "bm25": 0.0412,
+        "delta": -0.0
+      },
+      "mrr": {
+        "hybrid": 0.1522,
+        "bm25": 0.1474,
+        "delta": 0.0048
+      },
+      "ndcg": {
+        "hybrid": 0.2112,
+        "bm25": 0.2075,
+        "delta": 0.0037
+      },
+      "hit_rate": {
+        "hybrid": 0.4118,
+        "bm25": 0.4118,
+        "delta": -0.0
+      }
+    },
+    "multi_hop": {
+      "n_queries": 53,
+      "recall": {
+        "hybrid": 0.5189,
+        "bm25": 0.5377,
+        "delta": -0.0188
+      },
+      "precision": {
+        "hybrid": 0.1038,
+        "bm25": 0.1075,
+        "delta": -0.0037
+      },
+      "mrr": {
+        "hybrid": 0.4907,
+        "bm25": 0.3434,
+        "delta": 0.1473
+      },
+      "ndcg": {
+        "hybrid": 0.4101,
+        "bm25": 0.3358,
+        "delta": 0.0743
+      },
+      "hit_rate": {
+        "hybrid": 0.7925,
+        "bm25": 0.8302,
+        "delta": -0.0377
+      }
+    },
+    "single_hop": {
+      "n_queries": 220,
+      "recall": {
+        "hybrid": 0.8227,
+        "bm25": 0.7636,
+        "delta": 0.0591
+      },
+      "precision": {
+        "hybrid": 0.0823,
+        "bm25": 0.0764,
+        "delta": 0.0059
+      },
+      "mrr": {
+        "hybrid": 0.5383,
+        "bm25": 0.4674,
+        "delta": 0.0709
+      },
+      "ndcg": {
+        "hybrid": 0.6065,
+        "bm25": 0.5389,
+        "delta": 0.0676
+      },
+      "hit_rate": {
+        "hybrid": 0.8227,
+        "bm25": 0.7636,
+        "delta": 0.0591
+      }
+    },
+    "temporal": {
+      "n_queries": 5,
+      "recall": {
+        "hybrid": 0.1,
+        "bm25": 0.2,
+        "delta": -0.1
+      },
+      "precision": {
+        "hybrid": 0.02,
+        "bm25": 0.04,
+        "delta": -0.02
+      },
+      "mrr": {
+        "hybrid": 0.02,
+        "bm25": 0.0422,
+        "delta": -0.0222
+      },
+      "ndcg": {
+        "hybrid": 0.0354,
+        "bm25": 0.0724,
+        "delta": -0.037
+      },
+      "hit_rate": {
+        "hybrid": 0.2,
+        "bm25": 0.4,
+        "delta": -0.2
+      }
+    }
+  },
+  "notable_improvements": [
+    {
+      "group": "Security Policies",
+      "type": "category",
+      "recall_delta": 0.1094
+    },
+    {
+      "group": "System Design Documents",
+      "type": "category",
+      "recall_delta": 0.1
+    },
+    {
+      "group": "single_hop",
+      "type": "reasoning_type",
+      "recall_delta": 0.0591
+    }
+  ],
+  "notable_regressions": [
+    {
+      "group": "temporal",
+      "type": "reasoning_type",
+      "recall_delta": -0.1
+    },
+    {
+      "group": "HR Policies",
+      "type": "category",
+      "recall_delta": -0.0371
+    }
+  ]
+}

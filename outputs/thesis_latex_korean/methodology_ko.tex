@@ -1,0 +1,155 @@
+%% methodology_ko.tex
+\chapter{연구 방법}
+\label{chap:methodology_ko}
+
+\section{연구 개요}
+\label{sec:method_overview_ko}
+
+실험 프로그램은 9개의 순차적 단계로 구성되며, 각 단계는 이전 단계에서 생성된 산출물을 기반으로 한다. 2--4단계는 평가 코퍼스와 질의 집합을 구축하고, 5--7단계는 고정 검색 기준선을 평가하며, 8단계는 규칙 기반 계획기를 평가하고, 9단계는 LLM 기반 계획기를 평가한다.
+
+\section{데이터셋: 합성 기업 지식 데이터셋(SEKD)}
+\label{sec:method_dataset_ko}
+
+\subsection{코퍼스 구축}
+
+합성 기업 지식 데이터셋(SEKD)은 기업 검색 방법의 통제된 평가 환경을 제공하기 위해 설계되었다. 코퍼스는 6개 기업 문서 범주에 걸쳐 120개 문서(범주당 20개)로 구성된다. 표~\ref{tab:dataset_ko}에 코퍼스 전체 통계가 제시되어 있다.
+
+\begin{table}[htbp]
+\centering
+\caption{SEKD 코퍼스 및 질의 집합 통계}
+\label{tab:dataset_ko}
+\begin{tabular}{ll}
+\toprule
+\textbf{통계 항목} & \textbf{값} \\
+\midrule
+\multicolumn{2}{l}{\textit{코퍼스}} \\
+\quad 총 문서 수 & 120 \\
+\quad 문서 범주 수 & 6 \\
+\quad 총 청크 수 (섹션 인식) & 1{,}206 \\
+\midrule
+\multicolumn{2}{l}{\textit{질의 집합}} \\
+\quad 총 질의 수 & 405 \\
+\quad 응답 가능 질의 수 & 380 \\
+\quad 응답 불가 질의 수 & 25 \\
+\midrule
+\multicolumn{2}{l}{\textit{추론 유형}} \\
+\quad 단일 홉 (single\_hop) & 220 (57.9\%) \\
+\quad 다중 홉 (multi\_hop) & 53 (13.9\%) \\
+\quad 집계 (aggregation) & 35 (9.2\%) \\
+\quad 비교 (comparison) & 33 (8.7\%) \\
+\quad 예외 (exception) & 34 (8.9\%) \\
+\quad 시간적 (temporal) & 5 (1.3\%) \\
+\midrule
+\multicolumn{2}{l}{\textit{기술 구성}} \\
+\quad 임베딩 모델 & BAAI/bge-small-en-v1.5 (dim=384) \\
+\quad BM25 파라미터 & $k_1{=}1.5$, $b{=}0.75$ \\
+\quad 하이브리드 융합 & RRF ($k{=}10$) \\
+\quad 규칙 계획기 규칙 수 & 7 \\
+\quad LLM 계획기 모델 & GPT-5 (구조화 프롬프트) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+6개 문서 범주는 다음과 같다:
+
+\begin{description}
+    \item[API 문서 (API Documentation)] 엔드포인트 설명, 요청/응답 스키마, 인증 방법, 버전 변경 이력 등을 포함하는 소프트웨어 API 기술 참조 문서.
+    \item[인사 정책 (HR Policies)] 채용, 보상, 휴가, 성과 관리 지침을 포함하는 인사 정책 문서.
+    \item[프로젝트 회의록 (Project Meeting Notes)] 결정 사항, 조치 항목, 참석자, 프로젝트 진행 요약을 포함하는 구조화된 회의록.
+    \item[보안 정책 (Security Policies)] 접근 통제, 사고 대응, 데이터 분류, 컴플라이언스 요건을 포함하는 기업 보안 기준.
+    \item[시스템 설계 문서 (System Design Documents)] 시스템 구성 요소, 통합 패턴, 용량 계획, 기술적 결정을 기술하는 아키텍처 설계 문서.
+    \item[출장 정책 (Travel Policies)] 예약 절차, 환급 한도, 승인 워크플로우를 포함하는 기업 출장 경비 정책.
+\end{description}
+
+각 문서는 Jinja2 기반 템플릿 파이프라인과 Pydantic v2 도메인 모델을 사용하여 생성되었으며, 구문적으로 다양하고 의미적으로 일관성 있는 기업 문서를 생성한다.
+
+\subsection{청크 분할}
+
+문서는 문서 섹션 경계를 존중하는 섹션 인식 청크 분할 전략을 사용하여 분할되었다. 청크 분할기는 총 1,206개의 청크를 생성하며, 각 청크에는 \texttt{chunk\_id}, \texttt{document\_id}, \texttt{category}, \texttt{section\_title}, \texttt{text}의 완전한 메타데이터가 포함된다. 평균 청크 길이는 약 220 토큰이다.
+
+\subsection{질의 생성 및 주석}
+
+질의 집합은 6가지 추론 유형에 걸쳐 405개의 질의로 구성된다. 각 질의에는 원본 문서 텍스트의 축어적 증거 범위에서 도출된 정답 청크 ID와 oracle 검색 전략 레이블(\texttt{bm25}, \texttt{dense}, \texttt{hybrid})이 포함된다.
+
+\textbf{추론 유형별 특성}:
+\begin{itemize}
+    \item \textbf{단일 홉} ($n{=}220$, 57.9\%): 단일 문서 섹션에서 답변 가능한 질의. 가장 많은 비중을 차지하는 직접 정보 조회 유형.
+    \item \textbf{다중 홉} ($n{=}53$, 13.9\%): 여러 문서 또는 섹션에 걸친 증거 합성이 필요한 질의.
+    \item \textbf{집계} ($n{=}35$, 9.2\%): 여러 인스턴스에 걸친 정보 수집 및 요약이 필요한 질의.
+    \item \textbf{비교} ($n{=}33$, 8.7\%): 지정된 속성에 대해 둘 이상의 개체를 비교하는 질의.
+    \item \textbf{예외} ($n{=}34$, 8.9\%): 문서 내 예외 조항, 조건부 제외, 특수 사례 정책을 대상으로 하는 질의.
+    \item \textbf{시간적} ($n{=}5$, 1.3\%): 시간적 순서 또는 날짜 기반 추론이 필요한 질의.
+\end{itemize}
+
+\subsection{Oracle 전략 레이블}
+\label{sec:method_oracle_ko}
+
+Oracle 레이블은 질의의 추론 유형과 난이도 요인에 기반하여 각 질의에 경험적으로 권장되는 검색 전략을 할당한다. 레이블 지정 휴리스틱은 다음과 같다:
+
+\begin{enumerate}
+    \item \textbf{시간적} $\rightarrow$ \texttt{bm25}: 시간적 질의는 희소 검색에서만 가능한 날짜 토큰 매칭이 필요.
+    \item \textbf{예외} $\rightarrow$ \texttt{dense}: 예외 조항 식별은 정확한 키워드 매칭보다 의미적 유사도에서 이점.
+    \item \textbf{다중 홉} $\rightarrow$ \texttt{hybrid}: 다중 홉 질의는 어휘적·의미적 신호 모두의 광범위한 커버리지에서 이점.
+    \item \textbf{집계} $\rightarrow$ \texttt{hybrid}: 집계는 하이브리드 RRF의 상보적 리콜에서 이점.
+    \item \textbf{문서 버전 충돌} $\rightarrow$ \texttt{bm25}: 버전 특화 질의는 정확한 식별자 매칭이 필요.
+    \item \textbf{표 종속성} $\rightarrow$ \texttt{dense}: 표 내용은 의미적으로 구조화되어 밀집 검색에서 이점.
+    \item \textbf{기본값} $\rightarrow$ \texttt{hybrid}: 나머지 모든 질의는 최선의 고정 전략 기준선으로 기본 설정.
+\end{enumerate}
+
+결과적인 oracle 분포는 hybrid(249, 65.5\%), dense(69, 18.2\%), bm25(62, 16.3\%)이다.
+
+\section{검색 시스템}
+\label{sec:method_retrieval_ko}
+
+\subsection{BM25 기준선}
+
+BM25 기준선은 파라미터 $k_1{=}1.5$, $b{=}0.75$, $\epsilon{=}0.25$의 \texttt{rank\_bm25} 라이브러리를 사용한다. 코퍼스는 소문자화와 공백/구두점 분할로 토큰화된다. BM25 색인은 1,206개 청크 텍스트 전체를 대상으로 구축된다. 질의 시점에 BM25는 BM25 점수 기준 상위 $k$개 청크를 반환한다.
+
+\subsection{밀집 검색 기준선}
+
+밀집 검색은 \texttt{sentence-transformers} 라이브러리를 통해 BAAI/bge-small-en-v1.5(384차원 임베딩)를 사용한다. 모든 청크 텍스트는 오프라인으로 인코딩되어 정규화 행렬로 저장된다. 질의 시점에 질의가 인코딩되고 코사인 유사도가 모든 청크 임베딩에 대해 계산되어 상위 $k$개 청크가 반환된다. 색인은 1,206개 청크의 관리 가능한 코퍼스 크기를 고려하여 정확한 최근접 이웃 검색을 사용한다.
+
+\subsection{하이브리드 상호 순위 융합}
+
+하이브리드 시스템은 \texttt{rrf\_k}{=}10으로 상호 순위 융합을 사용하여 BM25와 밀집 순위 리스트를 결합한다(식~\ref{eq:rrf_ko}). 각 시스템은 상위 $k_{\text{pool}}$개 결과를 검색하고(풀 크기 = $5k$), 두 리스트의 합집합에 대해 RRF 점수가 계산된다. RRF 점수 기준 상위 $k$개 문서가 최종 순위 리스트로 반환된다.
+
+\subsection{규칙 기반 계획기}
+
+규칙 계획기는 7개의 결정론적 규칙을 우선순위 순서로 구현한다. 각 규칙은 질의의 \texttt{reasoning\_type} 및 \texttt{difficulty\_factors} 메타데이터를 검사하여 적절한 검색 전략으로 라우팅한다:
+
+\begin{description}
+    \item[R01] 시간적(temporal) $\rightarrow$ \texttt{bm25}
+    \item[R02] 예외(exception) $\rightarrow$ \texttt{dense}
+    \item[R03] 다중 홉(multi\_hop) $\rightarrow$ \texttt{hybrid}
+    \item[R04] 집계(aggregation) $\rightarrow$ \texttt{hybrid}
+    \item[R05] 문서 버전 충돌(document\_version\_conflict) $\rightarrow$ \texttt{bm25}
+    \item[R06] 표 종속성(table\_dependency) $\rightarrow$ \texttt{dense}
+    \item[R07] (기본값) $\rightarrow$ \texttt{hybrid}
+\end{description}
+
+계획기는 각 질의에 대해 처음 매칭되는 규칙을 실행한다. 의사결정 지연 시간은 밀리초 미만이며, 훈련 데이터, 모델 추론, API 호출이 불필요하다.
+
+\subsection{LLM 기반 계획기(GPT-5)}
+
+LLM 계획기는 OpenAI Chat Completions API를 통해 GPT-5 모델에 각 질의와 메타데이터를 전송한다. 목(mock) 제공자를 사용한 3가지 프롬프트 변형 평가 결과: \texttt{zero\_shot}(질의 텍스트만), \texttt{structured}(질의 텍스트와 메타데이터: 추론 유형, 난이도 요인, 문서 범주), \texttt{few\_shot}(구조화 프롬프트와 6개 문맥 내 예시)이 평가되었다. 구조화 프롬프트는 목 평가 결과(SSA=82.1% 대 few\_shot의 81.8%, 2.3배 낮은 토큰 비용)를 바탕으로 전체 평가용으로 선정되었다.
+
+\textbf{추론 토큰 처리}: GPT-5는 \texttt{max\_completion\_tokens} 예산에서 내부 추론 토큰을 할당하는 추론 모델이다. 기본 예산 200토큰에서 추론 토큰이 전체 예산을 소진하여 가시적 출력이 비어있는 문제가 발생하였다. 수정 사항은 모든 추론 모델 변형(\texttt{gpt-5}, \texttt{o1}, \texttt{o3}, \texttt{o4} 접두사)에 대해 예산을 $\max(\texttt{요청} + 2000, 2000)$으로 증가시키는 것이다. 이 수정 후 380개 질의 모두 파싱 실패율 0.0\%를 달성하였다.
+
+\section{평가 프레임워크}
+\label{sec:method_eval_ko}
+
+\subsection{평가 지표}
+
+모든 검색 지표는 380개 응답 가능 질의에 대해 $k \in \{1, 3, 5, 10\}$에서 계산된다.
+
+\begin{description}
+    \item[Recall@$k$] 상위 $k$개 결과에서 발견된 필수 청크의 비율: $\frac{|\mathcal{R} \cap \text{top-}k|}{|\mathcal{R}|}$.
+    \item[MRR] 평균 역순위: $\frac{1}{N}\sum_{i=1}^{N}\frac{1}{\text{rank}_i}$.
+    \item[nDCG@$k$] 이진 관련성을 가진 정규화 할인 누적 이득 \citep{jaervelin2002ndcg}.
+    \item[Hit@$k$] 상위 $k$개에 최소 하나의 관련 청크가 포함되는지 여부.
+    \item[SSA] 전략 선택 정확도: 계획기의 선택 전략이 oracle 레이블과 일치하는 질의의 비율.
+\end{description}
+
+\subsection{효과 크기 분류}
+
+성능 차이는 절대 백분율 포인트 차이($\Delta$ pp)와 상대적 향상($\Delta$\%)으로 보고된다. $n{=}380$ 질의의 표본 크기와 관측된 차이 규모(상위 시스템 간 Recall@10 차이 0.5--3 pp)를 고려하여 다음 효과 크기 분류를 사용한다: $<{0.5}$ pp는 무시할 만한 수준, $0.5$--$2$ pp는 미미한 향상, $2$--$5$ pp는 의미 있는 향상, $>{5}$ pp는 실질적인 향상으로 분류한다.

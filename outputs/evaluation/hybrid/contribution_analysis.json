@@ -1,0 +1,4528 @@
+{
+  "k": 10,
+  "overall": {
+    "n_queries": 380,
+    "n_total_required_chunks": 466,
+    "bm25_only": {
+      "count": 40,
+      "pct": 8.6
+    },
+    "dense_only": {
+      "count": 46,
+      "pct": 9.9
+    },
+    "both": {
+      "count": 277,
+      "pct": 59.4
+    },
+    "hybrid_only": {
+      "count": 1,
+      "pct": 0.2
+    },
+    "not_found": {
+      "count": 102,
+      "pct": 21.9
+    },
+    "complementarity_score": 0.1845,
+    "hybrid_gain": 0.0021
+  },
+  "by_reasoning_type": {
+    "aggregation": {
+      "n_queries": 35,
+      "n_total_required_chunks": 45,
+      "bm25_only": {
+        "count": 4,
+        "pct": 8.9
+      },
+      "dense_only": {
+        "count": 1,
+        "pct": 2.2
+      },
+      "both": {
+        "count": 33,
+        "pct": 73.3
+      },
+      "hybrid_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "not_found": {
+        "count": 7,
+        "pct": 15.6
+      },
+      "complementarity_score": 0.1111,
+      "hybrid_gain": 0.0
+    },
+    "comparison": {
+      "n_queries": 33,
+      "n_total_required_chunks": 51,
+      "bm25_only": {
+        "count": 1,
+        "pct": 2.0
+      },
+      "dense_only": {
+        "count": 3,
+        "pct": 5.9
+      },
+      "both": {
+        "count": 38,
+        "pct": 74.5
+      },
+      "hybrid_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "not_found": {
+        "count": 9,
+        "pct": 17.6
+      },
+      "complementarity_score": 0.0784,
+      "hybrid_gain": 0.0
+    },
+    "exception": {
+      "n_queries": 34,
+      "n_total_required_chunks": 34,
+      "bm25_only": {
+        "count": 6,
+        "pct": 17.6
+      },
+      "dense_only": {
+        "count": 4,
+        "pct": 11.8
+      },
+      "both": {
+        "count": 8,
+        "pct": 23.5
+      },
+      "hybrid_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "not_found": {
+        "count": 16,
+        "pct": 47.1
+      },
+      "complementarity_score": 0.2941,
+      "hybrid_gain": 0.0
+    },
+    "multi_hop": {
+      "n_queries": 53,
+      "n_total_required_chunks": 106,
+      "bm25_only": {
+        "count": 15,
+        "pct": 14.2
+      },
+      "dense_only": {
+        "count": 10,
+        "pct": 9.4
+      },
+      "both": {
+        "count": 42,
+        "pct": 39.6
+      },
+      "hybrid_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "not_found": {
+        "count": 39,
+        "pct": 36.8
+      },
+      "complementarity_score": 0.2358,
+      "hybrid_gain": 0.0
+    },
+    "single_hop": {
+      "n_queries": 220,
+      "n_total_required_chunks": 220,
+      "bm25_only": {
+        "count": 12,
+        "pct": 5.5
+      },
+      "dense_only": {
+        "count": 28,
+        "pct": 12.7
+      },
+      "both": {
+        "count": 156,
+        "pct": 70.9
+      },
+      "hybrid_only": {
+        "count": 1,
+        "pct": 0.5
+      },
+      "not_found": {
+        "count": 23,
+        "pct": 10.5
+      },
+      "complementarity_score": 0.1818,
+      "hybrid_gain": 0.0045
+    },
+    "temporal": {
+      "n_queries": 5,
+      "n_total_required_chunks": 10,
+      "bm25_only": {
+        "count": 2,
+        "pct": 20.0
+      },
+      "dense_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "both": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "hybrid_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "not_found": {
+        "count": 8,
+        "pct": 80.0
+      },
+      "complementarity_score": 0.2,
+      "hybrid_gain": 0.0
+    }
+  },
+  "by_category": {
+    "API Documentation": {
+      "n_queries": 68,
+      "n_total_required_chunks": 76,
+      "bm25_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "dense_only": {
+        "count": 2,
+        "pct": 2.6
+      },
+      "both": {
+        "count": 74,
+        "pct": 97.4
+      },
+      "hybrid_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "not_found": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "complementarity_score": 0.0263,
+      "hybrid_gain": 0.0
+    },
+    "HR Policies": {
+      "n_queries": 54,
+      "n_total_required_chunks": 64,
+      "bm25_only": {
+        "count": 8,
+        "pct": 12.5
+      },
+      "dense_only": {
+        "count": 10,
+        "pct": 15.6
+      },
+      "both": {
+        "count": 31,
+        "pct": 48.4
+      },
+      "hybrid_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "not_found": {
+        "count": 15,
+        "pct": 23.4
+      },
+      "complementarity_score": 0.2812,
+      "hybrid_gain": 0.0
+    },
+    "Project Meeting Notes": {
+      "n_queries": 100,
+      "n_total_required_chunks": 145,
+      "bm25_only": {
+        "count": 18,
+        "pct": 12.4
+      },
+      "dense_only": {
+        "count": 7,
+        "pct": 4.8
+      },
+      "both": {
+        "count": 62,
+        "pct": 42.8
+      },
+      "hybrid_only": {
+        "count": 1,
+        "pct": 0.7
+      },
+      "not_found": {
+        "count": 57,
+        "pct": 39.3
+      },
+      "complementarity_score": 0.1724,
+      "hybrid_gain": 0.0069
+    },
+    "Security Policies": {
+      "n_queries": 64,
+      "n_total_required_chunks": 68,
+      "bm25_only": {
+        "count": 4,
+        "pct": 5.9
+      },
+      "dense_only": {
+        "count": 11,
+        "pct": 16.2
+      },
+      "both": {
+        "count": 37,
+        "pct": 54.4
+      },
+      "hybrid_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "not_found": {
+        "count": 16,
+        "pct": 23.5
+      },
+      "complementarity_score": 0.2206,
+      "hybrid_gain": 0.0
+    },
+    "System Design Documents": {
+      "n_queries": 45,
+      "n_total_required_chunks": 60,
+      "bm25_only": {
+        "count": 10,
+        "pct": 16.7
+      },
+      "dense_only": {
+        "count": 16,
+        "pct": 26.7
+      },
+      "both": {
+        "count": 20,
+        "pct": 33.3
+      },
+      "hybrid_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "not_found": {
+        "count": 14,
+        "pct": 23.3
+      },
+      "complementarity_score": 0.4333,
+      "hybrid_gain": 0.0
+    },
+    "Travel Policies": {
+      "n_queries": 49,
+      "n_total_required_chunks": 53,
+      "bm25_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "dense_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "both": {
+        "count": 53,
+        "pct": 100.0
+      },
+      "hybrid_only": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "not_found": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "complementarity_score": 0.0,
+      "hybrid_gain": 0.0
+    }
+  },
+  "per_query": [
+    {
+      "query_id": "Q-000001",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000002",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000003",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000004",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000005",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000006",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000007",
+      "n_required": 3,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000008",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000009",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000010",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000011",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000012",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000013",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000014",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000015",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000016",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000017",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000018",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000019",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000020",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000021",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000022",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000023",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000024",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000025",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000026",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000027",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000029",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000030",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000031",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000032",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000033",
+      "n_required": 2,
+      "bm25_only": 2,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000034",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000035",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000036",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000037",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000038",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000039",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000040",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000041",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000042",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000043",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000044",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 2,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000045",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000046",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000047",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000048",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000049",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000050",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000051",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000053",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000054",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000055",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "comparison",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000056",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000057",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000058",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000059",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000060",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000061",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000062",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000063",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000064",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000065",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000066",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000067",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000068",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000069",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000070",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000071",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000072",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000073",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000074",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000075",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000076",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000077",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000078",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000079",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000080",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000081",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000082",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000083",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000084",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000085",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000086",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000087",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000088",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000089",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000090",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000091",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000092",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000093",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000094",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000095",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000096",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000097",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000098",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000099",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000100",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000101",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000102",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000103",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000104",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000106",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000107",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000108",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000109",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000110",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000111",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000112",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000113",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000114",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000115",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000116",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000117",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000118",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000119",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000120",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000121",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000122",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000123",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000124",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000125",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000126",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000127",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000128",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000129",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000130",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000131",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000132",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000134",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000135",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000136",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000137",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000138",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000139",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000141",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000142",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000144",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000145",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000146",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "comparison",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000147",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000148",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000149",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000150",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000151",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000152",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000154",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000155",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000156",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000157",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000158",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000159",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000160",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000161",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000162",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000163",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000164",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000165",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000166",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000167",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000168",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000169",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000170",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000171",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000172",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000173",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000174",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000175",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000176",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000177",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000178",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000179",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000181",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000182",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000183",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000184",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000185",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000186",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000187",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000188",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000189",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000190",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000192",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000193",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000194",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000195",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000196",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000197",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000198",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000199",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000200",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000201",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000202",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000203",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000204",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000205",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000206",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000207",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000208",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000209",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000210",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000211",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000212",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000213",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000214",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000216",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000217",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000218",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000219",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000220",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000221",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000222",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000223",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000224",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000225",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000226",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000227",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000228",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000229",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000230",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000231",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000232",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000233",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000234",
+      "n_required": 3,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000235",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000236",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000237",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000238",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000239",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000240",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000241",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000242",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000243",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000244",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000245",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000246",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000247",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000248",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000249",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000250",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000251",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000252",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000253",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000254",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000255",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000257",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000258",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000259",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000260",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000262",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000263",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000264",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000265",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000266",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000268",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000269",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000270",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000271",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000272",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000273",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000274",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000275",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000276",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000277",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000278",
+      "n_required": 3,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000279",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "comparison",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000280",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000281",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000282",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000283",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000284",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000285",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000286",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000287",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000288",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000289",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000290",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000291",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000292",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000294",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000296",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "comparison",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000297",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000298",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000299",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000300",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000301",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000302",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000303",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000304",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000305",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000306",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000307",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000308",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000310",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000311",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000312",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000313",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000314",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000315",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000317",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000320",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000321",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000322",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000323",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000324",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000325",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000326",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000327",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000328",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000329",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000330",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000331",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000332",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000333",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 2,
+      "reasoning_type": "comparison",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000334",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000336",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000337",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000338",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000339",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000340",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000341",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000342",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000343",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000344",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 1,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000345",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000346",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000347",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000348",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000349",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000350",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000351",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000352",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000353",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000354",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000355",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000356",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000357",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000358",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000359",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000362",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000363",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000364",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000365",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000366",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000368",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000369",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000370",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000371",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000372",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000373",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000374",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "exception",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000375",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000377",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 2,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000378",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000379",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "comparison",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000380",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000381",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000382",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000383",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000384",
+      "n_required": 2,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "multi_hop",
+      "category": "System Design Documents"
+    },
+    {
+      "query_id": "Q-000385",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000386",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000387",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000388",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000389",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000390",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "API Documentation"
+    },
+    {
+      "query_id": "Q-000391",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000392",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000393",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000395",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000396",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "comparison",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000397",
+      "n_required": 3,
+      "bm25_only": 0,
+      "dense_only": 1,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000398",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000399",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000400",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000401",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Security Policies"
+    },
+    {
+      "query_id": "Q-000402",
+      "n_required": 3,
+      "bm25_only": 2,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "aggregation",
+      "category": "Project Meeting Notes"
+    },
+    {
+      "query_id": "Q-000403",
+      "n_required": 1,
+      "bm25_only": 1,
+      "dense_only": 0,
+      "both": 0,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "HR Policies"
+    },
+    {
+      "query_id": "Q-000404",
+      "n_required": 1,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 0,
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies"
+    },
+    {
+      "query_id": "Q-000405",
+      "n_required": 2,
+      "bm25_only": 0,
+      "dense_only": 0,
+      "both": 1,
+      "hybrid_only": 0,
+      "not_found": 1,
+      "reasoning_type": "multi_hop",
+      "category": "Project Meeting Notes"
+    }
+  ],
+  "interpretation": "moderate complementarity \u2014 methods partially overlap in what they retrieve; hybrid fusion provides minimal additional coverage (0.2% hybrid-only)"
+}

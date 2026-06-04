@@ -1,0 +1,7 @@
+retrieval:
+  method: fixed_hybrid
+  top_k: 10
+  fusion: reciprocal_rank_fusion
+  bm25_weight: 0.5
+  dense_weight: 0.5
+

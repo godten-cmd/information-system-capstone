@@ -1,0 +1,85 @@
+%% literature_review.tex
+\chapter{Related Work}
+\label{chap:litreview}
+
+\section{Information Retrieval Foundations}
+\label{sec:lit_ir}
+
+Information retrieval (IR) is the study of systems that retrieve material in response to an information need \citep{manning2008ir}. The canonical retrieval pipeline consists of indexing a document collection and, at query time, scoring each indexed document against the query to produce a ranked list. Modern enterprise retrieval systems inherit decades of IR research, particularly on sparse term-weighting and dense representation learning.
+
+\subsection{Sparse Retrieval: BM25}
+The Best Match 25 (BM25) retrieval function \citep{robertson1995okapi,robertson2009bm25} is the dominant sparse retrieval method in production systems. BM25 extends the classic TF-IDF weighting scheme with term frequency saturation (parameter $k_1$) and document length normalization (parameter $b$), computing a relevance score between a query $q$ and document $d$ as:
+\begin{equation}
+    \text{BM25}(d, q) = \sum_{t \in q} \text{IDF}(t) \cdot \frac{f(t,d) \cdot (k_1 + 1)}{f(t,d) + k_1 \cdot (1 - b + b \cdot \frac{|d|}{\text{avgdl}})}
+    \label{eq:bm25}
+\end{equation}
+where $f(t,d)$ is the term frequency of $t$ in $d$, $|d|$ is document length, and $\text{avgdl}$ is the average document length in the corpus. BM25 is computationally efficient via inverted index lookup, interpretable, and strong on exact-match queries involving named entities, version numbers, and policy codes. Its primary weakness is vocabulary mismatch: queries and documents that discuss the same concept using different vocabulary receive low BM25 scores.
+
+For enterprise corpora with both structured (policy codes, API endpoints) and unstructured (conceptual descriptions, meeting minutes) content, BM25's strengths and weaknesses are both highly relevant \citep{robertson2004understanding}. Queries involving exact identifiers benefit from BM25's precise token matching, while semantic queries about concepts or policies may suffer from vocabulary mismatch.
+
+\subsection{Dense Retrieval}
+Dense retrieval represents queries and documents as dense vectors in a continuous embedding space, computing relevance as vector similarity \citep{karpukhin2020dpr}. The Dense Passage Retrieval (DPR) model demonstrated that bi-encoder architectures trained on question-answer pairs could substantially outperform BM25 on open-domain question answering, particularly for queries where the answer was paraphrased rather than lexically identical to the query.
+
+Modern dense retrieval systems use pre-trained transformer encoders fine-tuned for retrieval tasks. The BAAI General Embedding series \citep{xiao2023bge} provides lightweight, high-quality encoders that achieve strong retrieval performance across diverse domains. The BGE-small-en-v1.5 model used in this study encodes text into 384-dimensional vectors and supports cosine similarity-based retrieval via approximate nearest-neighbor (ANN) indices. Dense models encode semantic relationships that BM25 cannot capture --- synonymy, paraphrase, and conceptual similarity --- making them particularly effective for comparison and single-hop semantic queries.
+
+However, dense retrieval has known failure modes. Static dense embeddings trained on general text corpora do not encode temporal ordering signals such as date sequences or version histories \citep{manning2008ir}. They also struggle with rare entities and exact string matching for specialized technical terms, where the embedding space may conflate semantically similar but functionally distinct concepts. For enterprise corpora with strong temporal or version-dependent content, these limitations are consequential.
+
+ColBERT \citep{khattab2020colbert} and SPLADE \citep{formal2021splade} represent hybrid sparse-dense approaches that aim to combine the complementary strengths of lexical and semantic matching within a single model. While these methods outperform both BM25 and bi-encoder dense retrieval on some benchmarks, they require specialized training and index structures not available for arbitrary domain-specific corpora.
+
+\subsection{Hybrid Retrieval and Reciprocal Rank Fusion}
+
+Given the complementarity of sparse and dense signals, hybrid retrieval systems that combine both methods have become widely adopted in enterprise search \citep{luan2021sparse_dense}. The Reciprocal Rank Fusion (RRF) algorithm \citep{cormack2009rrf} provides a simple, parameter-light method for combining ranked lists from multiple retrieval systems:
+\begin{equation}
+    \text{RRF}(d) = \sum_{r \in R} \frac{1}{k + r(d)}
+    \label{eq:rrf}
+\end{equation}
+where $R$ is the set of ranked lists, $r(d)$ is the rank of document $d$ in list $r$, and $k$ is a constant (typically 60 in the original formulation; we use $k=10$ following TREC practices). RRF has been shown to outperform individual rank learning methods and Condorcet voting on standard IR benchmarks \citep{cormack2009rrf}.
+
+The BEIR benchmark \citep{thakur2021beir} provides evidence that hybrid retrieval is robust across heterogeneous retrieval tasks including biomedical, legal, and general web search domains. This generalization motivates the application of Hybrid RRF to enterprise knowledge retrieval, where query distributions are similarly heterogeneous.
+
+\section{Retrieval-Augmented Generation}
+\label{sec:lit_rag}
+
+Retrieval-Augmented Generation (RAG) \citep{lewis2020rag} conditions a language model's generative output on retrieved passages, allowing the model to access domain-specific or up-to-date information not encoded in its parameters. The RAG architecture consists of: (1) a retriever that maps a query to a set of passages, and (2) a reader/generator that conditions on the query and retrieved passages to produce an answer.
+
+Subsequent work has extended the original RAG formulation in multiple directions. Fusion-in-Decoder (FiD) \citep{izacard2021fid} processes each retrieved passage independently and fuses their representations in the decoder, enabling the use of larger retrieval sets. RETRO \citep{borgeaud2022retro} integrates retrieval into the pretraining process, enabling trillion-token-scale knowledge retrieval. Self-RAG \citep{asai2023selfrag} augments the generator with learned reflection tokens that allow it to decide when to retrieve and how to evaluate retrieved passages.
+
+Active retrieval augmented generation \citep{jiang2023active} addresses multi-step reasoning scenarios where a single retrieval step may be insufficient: the system interleaves generation and retrieval, issuing new retrieval queries based on intermediate generation outputs. This approach is most relevant for multi-hop queries where answering requires synthesizing evidence from multiple documents retrieved in sequence.
+
+\section{Query Classification and Adaptive Retrieval}
+\label{sec:lit_adaptive}
+
+Query classification is the task of assigning an incoming query to one of a predefined set of categories or difficulty classes based on query features. In classical IR, query classification has been applied to route queries to specialized search backends (e.g., entity queries to structured databases, web queries to document indexes) or to select query expansion strategies \citep{baeza1999modern}. In the RAG context, query classification enables \emph{adaptive retrieval}: selecting the retrieval strategy most likely to return high-quality results for the given query.
+
+Domain-matched pretraining and fine-tuning have been shown to substantially improve dense retrieval performance for specialized corpora \citep{oguz2021domain}. However, fine-tuning is expensive and requires labeled data. A simpler alternative is to classify queries based on their structural features (query length, presence of named entities, detected reasoning type) and apply deterministic routing rules. This approach is analogous to rule-based expert systems and avoids the computational overhead of model-based classification.
+
+LLM-based query planning builds on the success of chain-of-thought prompting \citep{wei2022chain} and tool use \citep{schick2023toolformer,yao2023react} to enable language models to decompose complex queries, select retrieval strategies, and issue targeted retrieval requests. WebGPT \citep{nakano2022webgpt} demonstrated that language models can be trained to use web search tools effectively. Toolformer \citep{schick2023toolformer} showed that models can self-supervise tool use from examples. ReAct \citep{yao2023react} integrates reasoning traces and action execution in an interleaved manner, enabling multi-step retrieval-augmented reasoning.
+
+Query rewriting \citep{ma2023query_rewrite} is a related technique that rephrases queries to improve retrieval quality without changing the retrieval strategy. Rewriting can reduce vocabulary mismatch for BM25 and improve the semantic alignment of queries with dense encoder training distributions.
+
+\section{LLM-Based Planning and Augmented Language Models}
+\label{sec:lit_llm_planning}
+
+The augmented language model survey \citep{mialon2023augmented} identifies retrieval, tool use, and reasoning as the three primary augmentation dimensions for language models. Retrieval augmentation provides factual grounding; tool use extends the model's action space; reasoning augmentation (chain-of-thought, scratchpad, self-reflection) improves compositional problem-solving.
+
+Large language models have demonstrated strong zero-shot performance on structured classification tasks when provided with appropriate prompting \citep{wei2022chain}. The structured prompt approach \citep{mialon2023augmented} provides explicit metadata about the classification task in the prompt, enabling the model to apply decision logic without requiring in-context examples. This is directly analogous to the structured retrieval planning prompt evaluated in this thesis, which provides the model with the query's reasoning type, difficulty factors, and document category.
+
+However, LLMs have known failure modes on tasks that require precise logical rules. Shi et al. \citep{shi2023large} show that LLMs are easily distracted by irrelevant context, and that performance on reasoning tasks degrades when the problem framing includes confounding information. This is relevant to the retrieval planning context, where the optimal strategy for a query depends on specific, non-obvious features (e.g., the presence of exact identifiers suggesting BM25 routing) that may be overridden by the model's learned priors.
+
+GPT-5 is an extended reasoning model that uses internal chain-of-thought computation (``reasoning tokens'') before producing its visible output. This architecture requires careful configuration of the \texttt{max\_completion\_tokens} parameter, which provides a shared budget for both reasoning tokens and visible output tokens. Insufficient budget allocation causes the model to exhaust its reasoning budget before producing output, resulting in empty responses --- a failure mode specific to reasoning models.
+
+\section{Evaluation of Retrieval Systems}
+\label{sec:lit_eval}
+
+Standard IR evaluation metrics include Recall@$k$ (fraction of relevant documents found in the top-$k$ ranked results), Mean Reciprocal Rank (MRR; reciprocal of the rank of the first relevant result), normalized Discounted Cumulative Gain (nDCG; position-discounted gain normalized by ideal ranking), and Hit Rate@$k$ (binary indicator of at least one relevant document in top-$k$) \citep{manning2008ir,jaervelin2002ndcg}.
+
+The Text Retrieval Conference (TREC) \citep{voorhees2005trec} has been the primary driver of standardized IR evaluation since 1992, establishing the pooling and relevance judgment methodology used in large-scale retrieval benchmarks. The BEIR benchmark \citep{thakur2021beir} extends this tradition to dense and hybrid retrieval evaluation across 18 diverse datasets.
+
+For enterprise retrieval evaluation, the key evaluation challenge is ground-truth construction: identifying the complete set of relevant documents for each query requires human annotation or semi-automated construction from structured documents. The SEKD corpus used in this thesis employs a programmatic ground-truth construction approach, using the query generation process to embed evidence chunk identifiers in each query's metadata, enabling exact-match ground-truth evaluation without human annotation.
+
+\section{Summary}
+\label{sec:lit_summary}
+
+The literature establishes that: (1) BM25 and dense retrieval are complementary rather than competing methods; (2) Hybrid RRF is a well-motivated and broadly validated approach to combining their signals; (3) adaptive retrieval planning is theoretically motivated but empirically understudied for enterprise corpora; and (4) LLM-based planning offers potential advantages on semantically complex queries but has known failure modes on tasks requiring precise logical rules.
+
+This thesis provides the first controlled empirical comparison of all five approaches (BM25, Dense, Hybrid, Rule Planner, LLM Planner) on a purpose-built enterprise knowledge corpus, addressing the gap between the theoretical motivation for adaptive retrieval planning and its empirical validation in enterprise settings.

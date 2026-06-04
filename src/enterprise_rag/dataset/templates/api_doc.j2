@@ -1,0 +1,97 @@
+Title: {{ title }}
+API Doc ID: {{ api_doc_id }}
+Service: {{ service_name }}
+Version: {{ api_version }}
+Owner Team: {{ owner_team }}
+Authentication: {{ auth_method }}
+Stability: {{ stability }}
+Department: {{ department }}
+Effective Date: {{ effective_date }}
+{% if stability == 'deprecated' %}
+DEPRECATION NOTICE: This API version is deprecated. Migrate to {{ recommended_version }} before {{ deprecation_deadline }}.
+{% endif %}
+
+1. Overview
+This document describes the {{ api_version }} API for the {{ service_name }} service.
+{{ service_description }}
+Base URL: {{ base_url }}
+Authentication method: {{ auth_method }}
+All requests must include the Authorization header with a valid token.
+
+2. Authentication
+{% if auth_method == 'oauth2' %}
+Authentication uses OAuth 2.0 client credentials flow.
+Token endpoint: {{ token_endpoint }}
+Required scopes: {{ required_scopes | join(', ') }}
+Token expiry: {{ token_expiry_seconds }} seconds
+{% elif auth_method == 'api_key' %}
+Authentication uses API keys passed in the X-API-Key request header.
+Keys are provisioned through the HYTech Developer Portal.
+Keys must be rotated every {{ key_rotation_days }} days.
+{% elif auth_method == 'jwt' %}
+Authentication uses JSON Web Tokens (JWT) signed with RS256.
+Public keys are available at: {{ jwks_endpoint }}
+Token expiry: {{ token_expiry_seconds }} seconds
+{% else %}
+Authentication uses {{ auth_method }}. Refer to the HYTech Developer Portal for setup instructions.
+{% endif %}
+
+3. Endpoints
+{% for ep in endpoints %}
+### {{ ep.method }} {{ ep.path }}
+{{ ep.description }}
+{% if ep.deprecated %}
+**DEPRECATED**: Use {{ ep.deprecated_replacement }} instead.
+{% endif %}
+
+Parameters:
+{% for param in ep.parameters %}
+- `{{ param.name }}` ({{ param.location }}, {{ param.type }}{% if param.required %}, required{% endif %}): {{ param.description }}
+{% endfor %}
+{% if ep.example_response %}
+
+Example Response (200 OK):
+```json
+{{ ep.example_response }}
+```
+{% endif %}
+
+{% endfor %}
+
+4. Error Codes
+The following error codes may be returned by the {{ service_name }} {{ api_version }} API:
+
+| Code | Message | Description | Recommended Action |
+| --- | --- | --- | --- |
+{% for err in error_codes %}
+| {{ err.code }} | {{ err.message }} | {{ err.description }} | {{ err.action }} |
+{% endfor %}
+
+5. Rate Limits
+The following rate limits apply to the {{ service_name }} {{ api_version }} API:
+
+| Tier | Requests per Minute | Burst Limit | Daily Quota |
+| --- | --- | --- | --- |
+| Free | 100 | 150 | 10,000 |
+| Standard | 1,000 | 1,500 | 100,000 |
+| Enterprise | 10,000 | 15,000 | Unlimited |
+
+Clients exceeding the rate limit will receive a 429 Too Many Requests response.
+Retry after the duration specified in the Retry-After response header.
+
+6. Changelog
+{% for entry in changelog %}
+**{{ entry.version }}** ({{ entry.date }}): {{ entry.summary }}
+{% endfor %}
+
+7. Support
+For API support, contact the {{ owner_team }} via the internal developer portal.
+SLA for API support queries: {{ support_sla }}.
+Breaking changes are announced at least {{ deprecation_notice_days }} days before taking effect.
+
+8. Revision History
+| Version | Date | Author Role | Change |
+| --- | --- | --- | --- |
+{% for rev in revision_history %}
+| {{ rev.version }} | {{ rev.date }} | {{ rev.author_role }} | {{ rev.change }} |
+{% endfor %}

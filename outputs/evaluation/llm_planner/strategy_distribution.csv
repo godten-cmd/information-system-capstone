@@ -1,0 +1,4 @@
+selected_strategy,count,pct,n_correct,accuracy
+bm25,49,12.9,23,0.4694
+dense,88,23.2,56,0.6364
+hybrid,243,63.9,216,0.8889

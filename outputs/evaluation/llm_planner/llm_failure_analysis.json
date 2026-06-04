@@ -1,0 +1,308 @@
+{
+  "total_queries": 380,
+  "total_incorrect": 85,
+  "error_rate": 0.2237,
+  "parse_failures": 0,
+  "fallback_used": 0,
+  "error_categories": {
+    "category_confusion": {
+      "count": 47,
+      "pct": 55.3,
+      "description": "LLM did not use the document category signal correctly"
+    },
+    "oracle_disagreement": {
+      "count": 38,
+      "pct": 44.7,
+      "description": "Both strategies are plausible; oracle label may be ambiguous for this query"
+    }
+  },
+  "errors_by_reasoning_type": {
+    "single_hop": {
+      "total": 80,
+      "category_confusion": 47,
+      "oracle_disagreement": 33
+    },
+    "temporal": {
+      "total": 5,
+      "oracle_disagreement": 5
+    }
+  },
+  "errors_by_category": {
+    "API Documentation": 32,
+    "Project Meeting Notes": 16,
+    "System Design Documents": 15,
+    "HR Policies": 14,
+    "Travel Policies": 8
+  },
+  "representative_examples": [
+    {
+      "query_id": "Q-000003",
+      "prompt_version": "structured",
+      "selected_strategy": "bm25",
+      "oracle_strategy_mapped": "dense",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "API Documentation",
+      "difficulty_factors": [
+        "metadata_dependency"
+      ],
+      "error_category": "category_confusion",
+      "parsed_reasoning": "The query includes exact endpoint tokens (POST /api/v2/alerts, v2) and seeks specific parameter listings, which are best matched via keyword/symbol exactness in API docs.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000008",
+      "prompt_version": "structured",
+      "selected_strategy": "bm25",
+      "oracle_strategy_mapped": "hybrid",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "HR Policies",
+      "difficulty_factors": [],
+      "error_category": "oracle_disagreement",
+      "parsed_reasoning": "Straightforward HR policy lookup with clear keywords like \u2018performance review\u2019 and \u2018entitlement\u2019 is best matched via exact-term sparse retrieval.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000009",
+      "prompt_version": "structured",
+      "selected_strategy": "bm25",
+      "oracle_strategy_mapped": "hybrid",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes",
+      "difficulty_factors": [],
+      "error_category": "oracle_disagreement",
+      "parsed_reasoning": "Exact date and project ID tokens enable precise sparse matching to the specific meeting note, and identifying the first recorded decision aligns with keyword/section order in temporal notes.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000019",
+      "prompt_version": "structured",
+      "selected_strategy": "dense",
+      "oracle_strategy_mapped": "hybrid",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "API Documentation",
+      "difficulty_factors": [],
+      "error_category": "category_confusion",
+      "parsed_reasoning": "Single-hop API documentation question about the required authentication method is best handled with semantic semantic matching rather than exact keywords.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000027",
+      "prompt_version": "structured",
+      "selected_strategy": "dense",
+      "oracle_strategy_mapped": "bm25",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "API Documentation",
+      "difficulty_factors": [],
+      "error_category": "category_confusion",
+      "parsed_reasoning": "Single-hop conceptual lookup in API docs (authentication method) benefits from semantic matching rather than exact keywords.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000031",
+      "prompt_version": "structured",
+      "selected_strategy": "bm25",
+      "oracle_strategy_mapped": "dense",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "API Documentation",
+      "difficulty_factors": [
+        "metadata_dependency"
+      ],
+      "error_category": "category_confusion",
+      "parsed_reasoning": "The query contains an exact API path and HTTP method where parameters are named literally, so sparse keyword matching will best locate the specific endpoint definition.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000032",
+      "prompt_version": "structured",
+      "selected_strategy": "dense",
+      "oracle_strategy_mapped": "bm25",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents",
+      "difficulty_factors": [],
+      "error_category": "category_confusion",
+      "parsed_reasoning": "Single-hop conceptual lookup in a System Design document; \u201cuptime SLA\u201d and component name are better captured via semantic matching than exact keywords.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000038",
+      "prompt_version": "structured",
+      "selected_strategy": "bm25",
+      "oracle_strategy_mapped": "hybrid",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes",
+      "difficulty_factors": [],
+      "error_category": "oracle_disagreement",
+      "parsed_reasoning": "Exact project code and date make this a temporal, single-hop lookup in meeting notes where keyword/date matching via BM25 is optimal.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000045",
+      "prompt_version": "structured",
+      "selected_strategy": "bm25",
+      "oracle_strategy_mapped": "dense",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "API Documentation",
+      "difficulty_factors": [
+        "metadata_dependency"
+      ],
+      "error_category": "category_confusion",
+      "parsed_reasoning": "The query contains an exact HTTP method and path, so lexical matching will best retrieve the specific endpoint\u2019s parameter table/details.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000046",
+      "prompt_version": "structured",
+      "selected_strategy": "dense",
+      "oracle_strategy_mapped": "hybrid",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "API Documentation",
+      "difficulty_factors": [],
+      "error_category": "category_confusion",
+      "parsed_reasoning": "Single-hop conceptual lookup in API documentation where phrasing of the authentication requirement may vary, favoring semantic matching over exact keywords.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000047",
+      "prompt_version": "structured",
+      "selected_strategy": "dense",
+      "oracle_strategy_mapped": "hybrid",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents",
+      "difficulty_factors": [],
+      "error_category": "category_confusion",
+      "parsed_reasoning": "Single-hop conceptual lookup in a System Design document; semantic matching for \u201cuptime SLA\u201d fits dense retrieval best.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000048",
+      "prompt_version": "structured",
+      "selected_strategy": "dense",
+      "oracle_strategy_mapped": "hybrid",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "System Design Documents",
+      "difficulty_factors": [],
+      "error_category": "category_confusion",
+      "parsed_reasoning": "Single-hop lookup in a System Design document suits semantic retrieval to find the uptime SLA phrasing even if wording varies.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000049",
+      "prompt_version": "structured",
+      "selected_strategy": "hybrid",
+      "oracle_strategy_mapped": "bm25",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "HR Policies",
+      "difficulty_factors": [],
+      "error_category": "oracle_disagreement",
+      "parsed_reasoning": "Single-hop HR policy lookup for a specific eligibility threshold; hybrid ensures exact policy/title matching and captures semantic variants of \u201ctenure\u201d (e.g., length of service) and numeric values.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000054",
+      "prompt_version": "structured",
+      "selected_strategy": "bm25",
+      "oracle_strategy_mapped": "hybrid",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "Project Meeting Notes",
+      "difficulty_factors": [],
+      "error_category": "oracle_disagreement",
+      "parsed_reasoning": "The query includes exact project ID and a specific date with temporal ordering (\u201cfirst decision\u201d), which are best matched via keyword/date tokens using BM25 in meeting notes.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000059",
+      "prompt_version": "structured",
+      "selected_strategy": "hybrid",
+      "oracle_strategy_mapped": "bm25",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "HR Policies",
+      "difficulty_factors": [],
+      "error_category": "oracle_disagreement",
+      "parsed_reasoning": "General HR policy lookup where wording may vary (entitlement vs eligibility), so combining lexical and semantic signals best locates the exact remote work policy section.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000064",
+      "prompt_version": "structured",
+      "selected_strategy": "hybrid",
+      "oracle_strategy_mapped": "bm25",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies",
+      "difficulty_factors": [],
+      "error_category": "oracle_disagreement",
+      "parsed_reasoning": "This is a numeric table-style lookup in Travel Policies (currency and thresholds), so combining exact amount/currency tokens with semantic context via hybrid retrieval is optimal.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000069",
+      "prompt_version": "structured",
+      "selected_strategy": "dense",
+      "oracle_strategy_mapped": "hybrid",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "API Documentation",
+      "difficulty_factors": [],
+      "error_category": "category_confusion",
+      "parsed_reasoning": "Single-hop conceptual lookup in API documentation about required authentication is best handled by semantic retrieval, as phrasing may vary despite referring to the same method.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000070",
+      "prompt_version": "structured",
+      "selected_strategy": "hybrid",
+      "oracle_strategy_mapped": "bm25",
+      "oracle_strategy_source": "empirical_validation",
+      "reasoning_type": "temporal",
+      "category": "Project Meeting Notes",
+      "difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "error_category": "oracle_disagreement",
+      "parsed_reasoning": "Requires multi-document temporal reasoning across meeting notes; combines lexical project ID/date tokens (bm25) with semantic phrasing of decisions/outcomes (dense).",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000072",
+      "prompt_version": "structured",
+      "selected_strategy": "hybrid",
+      "oracle_strategy_mapped": "bm25",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies",
+      "difficulty_factors": [],
+      "error_category": "oracle_disagreement",
+      "parsed_reasoning": "Numeric threshold lookup in a travel policy is likely table-based and needs both exact currency/keywords and surrounding context, so hybrid is optimal.",
+      "parse_success": true
+    },
+    {
+      "query_id": "Q-000085",
+      "prompt_version": "structured",
+      "selected_strategy": "hybrid",
+      "oracle_strategy_mapped": "bm25",
+      "oracle_strategy_source": "heuristic_assignment",
+      "reasoning_type": "single_hop",
+      "category": "Travel Policies",
+      "difficulty_factors": [],
+      "error_category": "oracle_disagreement",
+      "parsed_reasoning": "This is a single-hop policy value lookup likely tied to a numeric threshold (often in tables), so combining exact keywords with semantic context is best.",
+      "parse_success": true
+    }
+  ]
+}

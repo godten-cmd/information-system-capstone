@@ -1,0 +1,241 @@
+%% v2_methodology_ko.tex — 제7장: V2 에이전틱 RAG 시스템 아키텍처 (한국어판)
+\chapter{V2 에이전틱 RAG: 시스템 아키텍처}
+\label{chap:v2_methodology_ko}
+
+본 장은 기업 검색 시스템의 두 번째 버전(V2)을 소개한다. V2는 V1의 적응형 검색 계획기를 확장하여, 5단계 에이전트 아키텍처와 반복적 자기 수정 기능을 갖춘 완전한 에이전틱(agentic) RAG 파이프라인이다. V1이 검색 전략 선택을 단일 단계 계획 문제로 다루었다면, V2는 전체 질의응답 파이프라인을 에이전트 루프로 구성하여 다중 홉 질의 분해, 관련성 기반 검색 검증, 초기 결과가 불충분할 때의 자동 재검색을 가능하게 한다.
+
+\section{설계 원칙}
+\label{sec:v2_design_ko}
+
+V2 아키텍처는 V1 실패 모드 분석(~\ref{sec:disc_failure_modes_ko}절)에서 도출된 세 가지 설계 원칙에 따라 구성된다.
+
+\textbf{(1) 라우팅이 아닌 추론을 분해한다.} V1은 각 질의를 원자 단위로 처리하여 하나의 전략을 선택하고 단일 검색 호출을 실행하였다. 다중 홉 질의와 집계 과제는 단일 검색 호출로 여러 문서의 증거를 충족할 수 없기 때문에 일관되게 낮은 성능을 보였다. V2는 복잡한 질의를 순서가 있는 하위 질의로 분해하는 질의 분석 에이전트(QAA)를 도입하여, 각 하위 질의에 독자적인 검색 계획을 부여한다.
+
+\textbf{(2) 검색만이 아닌 증거를 검증한다.} V1은 특정 질의에 대한 관련성 평가 없이 원시 순위 결과를 반환하였다. V2는 검색된 각 청크를 해당 하위 질의 텍스트와 비교하여 점수를 매기고, 관련성 신호가 약할 경우 재검색을 트리거하는 검증 에이전트(VA)를 추가한다. 이를 통해 검색 과정이 개루프(open-loop) 절차에서 폐루프(closed-loop) 피드백 과정으로 전환된다.
+
+\textbf{(3) V1 구성 요소를 폴백 기준선으로 보존한다.} V1 규칙 계획기는 V2 계획 에이전트의 핵심으로 유지된다. LLM 기반 구성 요소는 그 위에 계층화되고 폴백 경로로 래핑되어, LLM 제공자를 사용할 수 없는 경우 V2 파이프라인이 V1 동작으로 우아하게 저하(graceful degradation)될 수 있다.
+
+\section{파이프라인 아키텍처}
+\label{sec:v2_pipeline_ko}
+
+V2 파이프라인은 LangGraph StateGraph~\citep{langgraph2024}로 구현된다. 이는 공유 타입 상태 객체를 갖는 에이전트 노드들의 방향성 그래프이다. 5개의 에이전트가 순서대로 연결되며, 검증 에이전트 이후에 조건부 재검색 역방향 엣지가 존재한다.
+
+\begin{center}
+\textit{질의 분석} $\rightarrow$ \textit{계획} $\rightarrow$
+\textit{검색} $\rightarrow$ \textit{검증}
+$\xrightarrow{\text{통과}}$ \textit{응답} $\rightarrow$ \textit{종료}
+\end{center}
+\begin{center}
+\textit{검증} $\xrightarrow{\text{실패, 루프 < 3}}$
+\textit{루프 카운터} $\rightarrow$ \textit{계획} \quad (재검색)
+\end{center}
+
+공유 상태(\texttt{AgentState})는 11개 필드를 갖는 TypedDict이다. 각 에이전트 노드는 부분 딕셔너리를 반환하고, LangGraph가 이를 현재 상태에 병합한다. \texttt{trace} 필드는 추가(append) 의미론을 위해 \texttt{operator.add}로 어노테이션되어 모든 에이전트 결정의 출처를 누적한다. 나머지 필드는 각 쓰기 시 교체되므로 \texttt{retrieval\_outputs} 필드는 항상 가장 최근 검색 시도의 결과만을 보유한다. 표~\ref{tab:v2_state_ko}는 주요 상태 필드를 요약한다.
+
+\begin{table}[H]
+\centering
+\caption{V2 AgentState 주요 필드}
+\label{tab:v2_state_ko}
+\begin{tabular}{lll}
+\toprule
+\textbf{필드} & \textbf{타입} & \textbf{의미론} \\
+\midrule
+\texttt{query\_plan}         & QueryPlan               & 추론 유형, 하위 질의, 난이도 신호 \\
+\texttt{retrieval\_plans}    & list[RetrievalPlan]     & 하위 질의별 계획 (루프마다 교체) \\
+\texttt{retrieval\_outputs}  & list[RetrievalOutput]   & 하위 질의별 검색 청크 (루프마다 교체) \\
+\texttt{validation\_result}  & ValidationResult        & 점수, 통과/실패, 실패 진단 \\
+\texttt{validated\_evidence} & list[ChunkResult]       & 관련성 임계값을 통과한 청크 \\
+\texttt{answer}              & AgentAnswer             & 인용 ID가 포함된 합성 텍스트 \\
+\texttt{loop\_count}         & int                     & 완료된 재검색 반복 횟수 \\
+\texttt{trace}               & list[TraceEntry]        & 누적 이벤트 로그 (추가 전용) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{질의 분석 에이전트 (QAA)}
+\label{subsec:v2_qa_ko}
+
+질의 분석 에이전트(QAA)는 입력 질의를 6가지 추론 유형 중 하나로 분류하고, 난이도 신호를 추출하며, 다중 홉 질의를 순서가 있는 하위 질의로 분해한다.
+
+\textbf{분류.} LLM 경로는 원시 질의를 구조화된 JSON 프롬프트로 전송하여 \texttt{reasoning\_type}(\textit{single\_hop}, \textit{multi\_hop}, \textit{aggregation}, \textit{comparison}, \textit{exception}, \textit{temporal} 중 하나), \texttt{difficulty\_signals} 목록(예: \textit{temporal\_reasoning}, \textit{multi\_document\_dependency}), 불리언 \texttt{is\_decomposed}, 엔티티 슬롯 플레이스홀더가 있는 \texttt{sub\_queries} 목록을 요청한다.
+
+\textbf{휴리스틱 폴백.} LLM 제공자를 사용할 수 없는 경우, 에이전트는 6가지 패턴의 정규식 분류기를 적용한다. 휴리스틱은 \textit{confidence}~$= 0.6$을 할당하고 원시 질의와 동일한 단일 하위 질의를 생성한다. 정규식 패턴은 특이성 순으로 정렬된다.
+
+\textbf{Oracle 모드.} 평가 실험 E1--E3은 질의 메타데이터에 실제 \texttt{reasoning\_type}과 함께 \texttt{use\_oracle=True}를 전달한다. QAA는 LLM과 휴리스틱 경로를 우회하여 \textit{confidence}~$= 1.0$으로 메타데이터에서 직접 QueryPlan을 구성한다. 이를 통해 RQ8--RQ10을 측정할 때 검색 루프 및 스코어러의 효과를 분류 정확도로부터 분리한다.
+
+\subsection{계획 에이전트 (PA)}
+\label{subsec:v2_plan_ko}
+
+계획 에이전트(PA)는 3단계 결정 과정을 사용하여 각 하위 질의를 검색 전략으로 매핑한다.
+
+\textbf{(1) 재검색 재정의.} \texttt{loop\_count}~$> 0$이고 검증 에이전트가 \texttt{suggested\_strategy}를 제공한 경우, 해당 전략이 다른 모든 메커니즘에 우선한다. 이를 통해 실패 진단 피드백이 다음 검색 시도로 전파된다.
+
+\textbf{(2) V1 규칙 계획기.} V1과 동일한 7개 규칙(R01--R07, 표~\ref{tab:app_rules_ko} 참조)이 하위 질의의 추론 유형, 난이도 신호, 문서 범주에 적용된다. 각 규칙은 전략 선택의 경험적 신뢰도를 반영하는 \textit{confidence} 점수(0.0--1.0)를 보유한다.
+
+\textbf{(3) LLM 폴백.} 신뢰도가 \texttt{LLM\_FALLBACK\_THRESHOLD}(0.75) 미만인 규칙이 발동하고 LLM 제공자가 가용한 경우, 에이전트는 V1에서 사용한 것과 동일한 구조화된 프롬프트(부록~\ref{app:prompt_ko})를 통해 LLM에 쿼리를 전송한다.
+
+\subsection{검색 에이전트 (RA)}
+\label{subsec:v2_retrieval_ko}
+
+검색 에이전트(RA)는 MCP 도구 레이어~\citep{mcp2024}를 사용하여 검색 계획을 실행한다. 인프로세스 서버는 사전 구축된 SEKD 인덱스를 래핑하는 3가지 검색 도구(\texttt{bm25\_search}, \texttt{dense\_search}, \texttt{hybrid\_search})를 노출한다.
+
+RA는 QueryPlan의 추론 유형에 따라 실행 모드를 선택한다.
+
+\textbf{순차적 (\textit{multi\_hop}).} 하위 질의가 의존성에 따라 위상 정렬된다. 각 하위 질의는 순서대로 실행된다. 의존 하위 질의를 실행하기 전에 이전 하위 질의의 상위 결과에서 추출한 값으로 엔티티 슬롯이 채워진다.
+
+\textbf{병렬 병합 (\textit{aggregation}).} 모든 하위 질의가 독립적으로 실행되고, 청크가 풀링되어 \texttt{chunk\_id}에 따라 중복 제거된다.
+
+\textbf{독립 (기타 모든 유형).} 각 하위 질의가 독립적으로 실행되며 결과가 별도의 \texttt{RetrievalOutput} 객체로 반환된다.
+
+\subsection{검증 에이전트 (VA)}
+\label{subsec:v2_validation_ko}
+
+검증 에이전트(VA)는 V2 파이프라인의 핵심 피드백 메커니즘이다. 검색된 청크의 관련성을 점수화하고, 통과/실패 결정을 내리며, 실패 시 검색이 왜 실패했는지 진단하고 다음 시도에서 무엇을 변경해야 하는지 권고한다.
+
+\subsubsection*{스코어러 구현}
+
+VA는 \texttt{scorer} 구성 파라미터로 선택 가능한 5가지 상호 교환 가능한 관련성 스코어러를 구현한다(표~\ref{tab:v2_scorers_ko}).
+
+\begin{table}[H]
+\centering
+\caption{V2 검증 에이전트 스코어러 구현}
+\label{tab:v2_scorers_ko}
+\begin{tabular}{lll}
+\toprule
+\textbf{스코어러} & \textbf{신호} & \textbf{비용} \\
+\midrule
+\texttt{rank\_proxy}  & 점수 $= \max(0,\, 1 - (r{-}1) \cdot 0.1)$ (순위 $r$) & 없음 \\
+\texttt{bm25}         & 정규화 BM25 점수 (청크 vs. 하위 질의 텍스트) & 미미 \\
+\texttt{dense}        & \texttt{chunk.score} (코사인 유사도, $[0,1]$ 범위) & 없음 \\
+\texttt{adaptive}     & \texttt{chunk.strategy\_used}에 따라 bm25/dense/평균으로 라우팅 & 미미 \\
+\texttt{llm}          & GPT-4o-mini 배치 점수화 (5개 청크/호출) & $\sim$\$0.001/10청크 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{통과 조건 및 임계값}
+
+청크는 추론 유형별 임계값 $\theta_{\tau}$를 초과하는 관련성 점수를 가질 때 \emph{관련}으로 간주된다. 검증은 관련 청크 수 $|\mathcal{R}|$이 최소 증거 요건을 충족할 때 통과된다.
+
+\begin{equation}
+\text{통과} \iff |\mathcal{R}| \geq \delta, \quad
+|\mathcal{R}| = |\{c \in \mathcal{C} : \text{score}(c, q_c) \geq \theta_{\tau_c}\}|
+\label{eq:v2_pass_ko}
+\end{equation}
+
+여기서 $\mathcal{C}$는 검색된 청크 집합, $q_c$는 청크 $c$와 연관된 하위 질의 텍스트, $\tau_c$는 추론 유형, $\delta = 3$은 최소 통과 청크 수이다. 추론 유형별 임계값은 표~\ref{tab:v2_thresholds_ko}에 제시된다.
+
+\begin{table}[H]
+\centering
+\caption{추론 유형별 관련성 임계값}
+\label{tab:v2_thresholds_ko}
+\begin{tabular}{ll}
+\toprule
+\textbf{추론 유형} & \textbf{임계값 $\theta$} \\
+\midrule
+single\_hop, comparison, aggregation & 0.30 \\
+exception                            & 0.22 \\
+multi\_hop                           & 0.20 \\
+temporal                             & 0.20 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{temporal}, \textit{exception}, \textit{multi\_hop} 질의에 더 낮은 임계값을 적용하는 것은 이 질의 유형들의 희소 신호 또는 낮은 어휘 중첩 특성을 반영한다.
+
+\subsubsection*{실패 진단}
+
+검증이 실패하면 VA의 \texttt{\_diagnose\_failure} 함수가 점수 분포를 분석하여 실패를 분류하고 수정 전략을 권고한다. 표~\ref{tab:v2_failure_ko}는 6가지 실패 범주와 권고 사항을 나열한다.
+
+\begin{table}[H]
+\centering
+\caption{V2 실패 진단 범주}
+\label{tab:v2_failure_ko}
+\begin{tabular}{lll}
+\toprule
+\textbf{진단} & \textbf{조건} & \textbf{권고} \\
+\midrule
+\texttt{no\_chunks}             & 검색된 청크 없음 & hybrid로 전환 \\
+\texttt{wrong\_strategy}        & 모든 점수 $\approx 0$; 오라클 $\neq$ 현재 & 오라클 전략으로 전환 \\
+\texttt{too\_narrow}            & 모든 점수 $\approx 0$; 이미 hybrid 사용 중 & 질의 확장 \\
+\texttt{missing\_entity}        & 다중 홉: 미채워진 슬롯 \texttt{\{...\}} & 슬롯 재채움 \\
+\texttt{insufficient\_coverage} & 일부 관련 ($0 < |\mathcal{R}| < 3$); 현재 $\neq$ hybrid & hybrid로 전환 \\
+\texttt{low\_quality}           & 일반적 저품질; 현재 $\neq$ hybrid & hybrid로 전환 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{응답 에이전트 (AA)}
+\label{subsec:v2_answer_ko}
+
+응답 에이전트(AA)는 검증된 증거 청크(\texttt{validated\_evidence})로부터 텍스트 응답을 합성한다.
+
+\textbf{LLM 합성.} 상위 $N$개 증거 청크(기본 $N = 10$, 순위 기준 정렬)가 번호가 매겨진 목록으로 포맷된다. LLM은 근거 지침(``인라인 \texttt{[N]} 마커로 출처 인용''), 질문, 증거 블록으로 프롬프트된다. 응답은 정규식 \texttt{\textbackslash[(\textbackslash d+)\textbackslash]}으로 파싱되어 인용 인덱스 순으로 정렬된 인용 청크 ID 목록을 생성한다.
+
+\textbf{추출형 폴백.} LLM 제공자를 사용할 수 없는 경우, 상위 3개 증거 청크가 \texttt{[1]}, \texttt{[2]}, \texttt{[3]} 접두사와 함께 간단한 추출형 응답으로 연결된다.
+
+\subsection{재검색 루프 및 상태 관리}
+\label{subsec:v2_loop_ko}
+
+LangGraph의 조건부 엣지 메커니즘이 재검색 루프를 구현한다. 검증 에이전트 노드 이후, \texttt{route\_after\_validation} 함수가 상태를 검사하고 세 가지 라우팅 결정 중 하나를 반환한다.
+
+\begin{itemize}
+  \item \texttt{"answer"}: 검증 통과 ($|\mathcal{R}| \geq \delta$) --- 응답 에이전트로 진행.
+  \item \texttt{"re\_retrieve"}: 검증 실패이고 \texttt{loop\_count}~$<$~\texttt{MAX\_LOOPS}(기본 3) --- 루프 카운터 노드로 라우팅한 후 계획 에이전트로 복귀.
+  \item \texttt{"end"}: 루프 한도 도달, 복구 불가능 오류, 또는 \texttt{validation\_result} 없음 --- 응답 생성 없이 그래프 종료.
+\end{itemize}
+
+계획 에이전트로 재진입 시, 이전 반복의 \texttt{validation\_result}가 상태에서 가시적이다. 재검색 재정의 메커니즘(\ref{subsec:v2_plan_ko}절)은 \texttt{validation\_result.suggested\_strategy}를 사용하여 실패한 전략과 다른 검색 전략을 선택한다. 이를 통해 각 루프 반복이 실패 진단 시스템이 식별한 전략 불일치를 수정할 수 있다.
+
+\section{평가 프레임워크}
+\label{sec:v2_eval_framework_ko}
+
+\subsection{실험 구성}
+\label{subsec:v2_experiments_ko}
+
+4개의 실험이 QA 에이전트 분류 정확도, 검증 에이전트 스코어러, 재검색 루프의 독립적 기여를 제거(ablation)하도록 설계된다. 표~\ref{tab:v2_experiments_ko}는 구성을 요약한다.
+
+\begin{table}[H]
+\centering
+\caption{V2 실험 구성}
+\label{tab:v2_experiments_ko}
+\begin{tabular}{lllll}
+\toprule
+\textbf{실험} & \textbf{이름} & \textbf{QA 모드} & \textbf{스코어러} & \textbf{최대 루프} \\
+\midrule
+E1 & \texttt{v2\_oracle}            & Oracle    & 적응형       & 3 \\
+E2 & \texttt{v2\_oracle\_noloop}    & Oracle    & 적응형       & 0 \\
+E3 & \texttt{v2\_oracle\_rankproxy} & Oracle    & 순위 프록시  & 3 \\
+E4 & \texttt{v2\_heuristic}         & 휴리스틱  & 적응형       & 3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{E1 (v2\_oracle)}은 기본 V2 구성이다: 완벽한 질의 분류, 적응형 스코어러, 최대 3회 재검색 루프. 이 실험은 이상적인 분류 조건 하에서 에이전틱 파이프라인의 최대 잠재력을 측정한다.
+
+\textbf{E2 (v2\_oracle\_noloop)}는 \texttt{MAX\_LOOPS}$=0$으로 설정하여 재검색을 비활성화한다. E2와 E1이 동일한 QA 분류 및 검색 전략 선택을 공유하므로, 검색 지표의 모든 차이는 재검색 루프에만 귀속될 수 있다.
+
+\textbf{E3 (v2\_oracle\_rankproxy)}는 적응형 스코어러를 순위-프록시 휴리스틱으로 교체한다. E3와 E1을 비교하면 관련성 기반 검증의 기여를 분리할 수 있다.
+
+\textbf{E4 (v2\_heuristic)}는 Oracle 분류 대신 정규식 휴리스틱 분류기(신뢰도 0.6)를 사용한다. E4는 실제 배포 시나리오에서 QA 분류 오류를 측정한다.
+
+\subsection{연구 질문}
+\label{subsec:v2_rqs_ko}
+
+V2 평가는 6가지 추가 연구 질문(RQ8--RQ13)을 다룬다.
+
+\begin{description}
+  \item[RQ8] V2 에이전틱 파이프라인(E1: Oracle QA, 적응형 스코어러, 재검색)은 최우수 V1 기준선(규칙 계획기)보다 높은 Recall@10과 MRR을 달성하는가?
+  \item[RQ9] 적응형 재검색 루프(E1 vs.\ E2)는 초기 검증 실패 시 검색 성능을 향상시키는가?
+  \item[RQ10] 적응형 관련성 스코어러(E1 vs.\ E3)는 순위-프록시 점수화보다 더 정확한 재검색 트리거 결정을 가능하게 하는가?
+  \item[RQ11] Oracle 질의 분류(E1 vs.\ E4)가 휴리스틱 분류를 능가하며, 그 차이는 어느 정도인가?
+  \item[RQ12] V2 파이프라인 성능은 6가지 추론 유형에 걸쳐 어떻게 달라지는가?
+  \item[RQ13] V2 파이프라인의 주요 실패 모드는 무엇이며, 실패 진단 시스템은 이를 어떻게 특성화하는가?
+\end{description}
+
+\subsection{지표 및 비교}
+\label{subsec:v2_metrics_ko}
+
+검색 지표(Recall@K, MRR, nDCG@K, Hit@K, $K \in \{1,3,5,10\}$)는 V1과 동일한 평가 인프라(~\ref{subsec:eval_metrics_ko}절)를 사용하여 최종 파이프라인 상태의 \texttt{retrieval\_outputs}에서 계산된다. 재검색이 있는 실험에서는 최종 상태의 \texttt{retrieval\_outputs}이 마지막 검색 시도의 결과를 나타낸다. 청크는 \texttt{chunk\_id}로 중복 제거(가장 높은 점수 유지)되고 점수 내림차순으로 재순위화된다.
+
+파이프라인 통계(검증 통과율, 루프 횟수 분포, 실패 이유 분포)는 per-query \texttt{trace} 필드에서 보고되며, V1에는 없는 파이프라인 내부 결정 경로에 대한 시각을 제공한다. 모든 V2 실험은 V1과 동일한 380개의 응답 가능 질의에서 평가되어 직접적인 지표 비교가 가능하다.

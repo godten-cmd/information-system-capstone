@@ -1,0 +1,79 @@
+Title: {{ title }}
+Policy ID: {{ travel_policy_id }}
+Owner: {{ document_owner }}
+Department: {{ department }}
+Effective Date: {{ effective_date }}
+Version: {{ version }}
+Status: {{ status }}
+Currency: {{ currency }}
+Expense Type: {{ expense_type }}
+Approval Required: {{ approval_required }}
+
+1. Purpose
+This policy defines the reimbursement rules and spending limits for {{ expense_type }} expenses
+incurred by HYTech Solutions employees on approved business activities.
+All claims must be submitted within {{ submission_deadline_days }} calendar days of the expense date.
+
+2. Scope
+This policy applies to all HYTech Solutions employees and contractors who incur {{ expense_type }}
+expenses in the course of authorised business travel or remote work activities.
+Expenses claimed in currencies other than {{ currency }} will be converted at the corporate rate
+on the date of expenditure.
+
+3. Spending Limits
+The following table specifies the maximum reimbursable amounts per {{ expense_type }} event
+by employee role and region. Amounts are in {{ currency }}.
+
+| Expense Type | Role | Region | Limit ({{ currency }}) | Approval Required |
+| --- | --- | --- | --- | --- |
+{% for row in spending_limit_rows %}
+| {{ row.expense_type }} | {{ row.role }} | {{ row.region }} | {{ row.limit }} | {{ row.approval_required }} |
+{% endfor %}
+
+4. Receipt Requirements
+Receipts are mandatory for all expenses exceeding {{ receipt_required_threshold }} {{ currency }}.
+Itemised receipts must be uploaded via the Expense Management Portal within {{ receipt_upload_days }} days.
+Missing receipts for amounts above the threshold will result in claim rejection.
+{% if digital_receipt_accepted %}
+Digital receipts (PDF, email confirmation) are accepted in lieu of physical receipts.
+{% endif %}
+
+5. Approval Process
+{% if approval_required %}
+All {{ expense_type }} expenses require pre-approval from the direct manager before commitment.
+Claims above {{ senior_approval_threshold }} {{ currency }} require secondary approval from the Finance Lead.
+Pre-approval requests must be submitted at least {{ pre_approval_lead_days }} business days before travel.
+{% else %}
+{{ expense_type }} expenses below the spending limit do not require pre-approval.
+Expenses above the spending limit require manager approval before reimbursement is processed.
+{% endif %}
+
+6. Exceptions
+Expenses that exceed the stated limits may be approved in exceptional circumstances:
+- Client entertainment events with documented business justification
+- Emergency travel or accommodation required due to safety concerns
+- Events in high-cost locations where standard limits are insufficient (requires Finance Lead sign-off)
+Exceptions must be approved in writing before the expense is incurred where reasonably practicable.
+
+7. Reimbursement Timeline
+Approved claims are reimbursed within {{ reimbursement_timeline_days }} calendar days of approval.
+Claims submitted after the {{ submission_deadline_days }}-day window may be rejected at the discretion
+of the Finance Lead. Queries regarding pending claims should be directed to {{ finance_owner }}.
+
+8. Non-Reimbursable Expenses
+The following {{ expense_type }} expenses are not reimbursable under any circumstances:
+{% for item in non_reimbursable %}
+- {{ item }}
+{% endfor %}
+
+9. Policy Compliance and Audit
+The Finance Operations team conducts quarterly audits of {{ expense_type }} expense claims.
+Policy violations may result in repayment obligations and disciplinary action.
+All records are retained for {{ audit_retention_years }} years in compliance with statutory requirements.
+
+10. Revision History
+| Version | Date | Author Role | Change |
+| --- | --- | --- | --- |
+{% for rev in revision_history %}
+| {{ rev.version }} | {{ rev.date }} | {{ rev.author_role }} | {{ rev.change }} |
+{% endfor %}

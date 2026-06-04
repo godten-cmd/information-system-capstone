@@ -1,0 +1,226 @@
+%% results_ko.tex
+\chapter{실험 결과}
+\label{chap:results_ko}
+
+본 장은 SEKD 코퍼스에서 수행된 모든 검색 및 계획 실험의 결과를 제시한다. 별도 언급이 없는 한 모든 결과는 380개의 응답 가능 질의에 대해 보고된다. 1차 비교 지표는 Recall@10(커버리지), MRR(첫 번째 관련 결과의 순위 품질), nDCG@10(등급별 순위 품질)이다.
+
+\section{검색 기준선 결과}
+\label{sec:results_baselines_ko}
+
+\subsection{BM25 (희소 검색)}
+
+파라미터 $k_1{=}1.5$, $b{=}0.75$의 BM25는 희소 검색 기준선으로 사용된다. 표~\ref{tab:retrieval_performance_ko}는 모든 시스템의 성능을 요약한다.
+
+BM25는 Recall@10$={0.713}$, MRR$={0.457}$을 달성한다. 정확한 식별자와 관련된 질의에서 강점을 보이며, 문서 버전 충돌 질의의 Recall@1$={0.583}$, 표 종속성 질의의 Recall@10$={0.887}$을 기록한다. BM25는 예외 질의(Recall@10$={0.412}$)에서 낮은 성능을 보이며, 5개의 시간적 질의에서 Recall@10$={0.200}$을 달성하는 데 그친다. 이러한 약점은 예외 조항에 대한 어휘 불일치와 날짜 추론 능력의 한계를 반영한다.
+
+\begin{table}[htbp]
+\centering
+\caption{전체 검색 성능 비교 ($n{=}380$개 응답 가능 질의). 각 열의 최댓값은 굵게 표시.}
+\label{tab:retrieval_performance_ko}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{시스템} & \textbf{Recall@1} & \textbf{Recall@5} & \textbf{Recall@10} & \textbf{MRR} & \textbf{nDCG@10} & \textbf{Hit@10} \\
+\midrule
+BM25                & 0.298 & 0.602 & 0.713 & 0.457 & 0.509 & 0.768 \\
+Dense (BGE-small)   & 0.346 & 0.629 & 0.740 & 0.501 & 0.548 & 0.787 \\
+Hybrid (RRF)        & 0.368 & 0.623 & 0.745 & 0.530 & 0.566 & 0.797 \\
+규칙 계획기         & 0.358 & 0.629 & \textbf{0.755} & 0.522 & 0.563 & \textbf{0.808} \\
+GPT-5 계획기        & \textbf{0.368} & \textbf{0.649} & 0.750 & \textbf{0.533} & \textbf{0.570} & 0.803 \\
+\midrule
+\multicolumn{7}{l}{\textit{향상도: Hybrid 대비 BM25}} \\
+$\Delta$ (pp)       & +7.0  & +2.1  & +3.2  & +7.3  & +5.8  & +2.9  \\
+\multicolumn{7}{l}{\textit{향상도: 규칙 계획기 대비 Hybrid}} \\
+$\Delta$ (pp)       & $-$1.1 & +0.7  & +1.1  & $-$0.8 & $-$0.3 & +1.1  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{fig1_retrieval_baselines.png}
+\caption{$k \in \{1,3,5,10\}$에서 BM25, Dense, Hybrid 기준선의 검색 성능. Hybrid RRF는 모든 $k$ 값에서 최고의 MRR과 nDCG를 달성한다. Dense는 $k{=}5$에서 최고의 Recall을 보이다가 Hybrid가 $k{=}10$에서 상보적 커버리지를 통해 회복한다.}
+\label{fig:baselines_ko}
+\end{figure}
+
+\subsection{밀집 검색 (BGE-small-en-v1.5)}
+
+BAAI/bge-small-en-v1.5(384차원, 정규화 코사인 유사도)를 사용하는 밀집 검색은 대부분의 지표에서 BM25를 능가한다: Recall@10$={0.740}$ (+2.8 pp), MRR$={0.501}$ (+4.4 pp). MRR의 +9.6\% 향상은 의미적 임베딩이 관련 문서를 순위에서 더 높이 배치함을 나타낸다. 밀집 검색은 특히 비교 질의(MRR$={0.730}$ 대 BM25의 $0.618$)에서 우수하며, API 문서와 출장 정책 범주에서 완벽한 Recall@10을 달성한다.
+
+그러나 밀집 검색은 5개의 시간적 질의 모두에서 \textbf{완전한 리콜 실패}(Recall@10$={0.000}$)를 보인다. 이는 정적 밀집 임베딩이 시간적 순서 신호를 인코딩하지 못하는 잘 알려진 한계를 반영한다 \citep{manning2008ir}.
+
+\subsection{하이브리드 검색 (RRF, $k{=}10$)}
+
+하이브리드 RRF는 고정 전략 중 최고의 성능을 달성한다: Recall@10$={0.745}$, MRR$={0.530}$, nDCG@10$={0.566}$. BM25 대비 향상은 MRR +15.8\%, Recall@1 +23.4\%이며, Dense 대비 향상은 MRR +5.6\%, nDCG@10 +3.4\%이다(그림~\ref{fig:baselines_ko} 참조).
+
+상보성 분석에 따르면 BM25는 Dense가 검색하지 못하는 필수 청크의 8.6\%를 고유하게 검색하고, Dense는 BM25가 놓치는 9.9\%를 고유하게 검색하며, 두 시스템이 공동으로 필수 청크의 59.4\%를 검색한다. 이는 융합의 이론적 근거를 실증적으로 확인한다 \citep{cormack2009rrf}.
+
+\subsection{추론 유형별 기준선 비교}
+
+표~\ref{tab:reasoning_type_ko}는 모든 시스템에 걸쳐 추론 유형별 Recall@10을 제공한다. 그림~\ref{fig:heatmap_ko}는 전체 성능 히트맵을 시각화한다.
+
+\begin{table}[htbp]
+\centering
+\caption{모든 시스템에 걸친 추론 유형별 Recall@10. 시간적 및 예외 질의는 모든 방법에서 지속적인 약점이다.}
+\label{tab:reasoning_type_ko}
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{추론 유형} & \textbf{$n$} & \textbf{BM25} & \textbf{Dense} & \textbf{Hybrid} & \textbf{규칙} & \textbf{GPT-5} \\
+\midrule
+집계   & 35  & 0.924 & 0.895 & 0.914 & \textbf{0.914} & 0.914 \\
+비교   & 33  & 0.818 & 0.848 & 0.848 & \textbf{0.879} & 0.848 \\
+예외   & 34  & \textbf{0.412} & 0.382 & \textbf{0.412} & 0.368 & 0.382 \\
+다중 홉 & 53  & \textbf{0.538} & 0.491 & 0.519 & 0.531 & 0.519 \\
+단일 홉 & 220 & 0.764 & 0.832 & 0.823 & \textbf{0.836} & \textbf{0.836} \\
+시간적  & 5   & \textbf{0.200} & 0.000 & 0.100 & \textbf{0.200} & 0.100 \\
+\midrule
+\multicolumn{7}{l}{\textit{주: 예외 및 시간적 질의는 모든 검색 전략에서 공통적으로 어려운 유형이다.}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{fig3_reasoning_type_heatmap.png}
+\caption{추론 유형 및 시스템별 Recall@10 히트맵. 더 어두운 셀은 높은 리콜을 나타낸다. 예외 및 시간적 행이 일관되게 가장 밝으며, 이러한 질의 유형에 대한 보편적인 검색 어려움을 반영한다.}
+\label{fig:heatmap_ko}
+\end{figure}
+
+주요 관찰 사항은 다음과 같다:
+\begin{itemize}
+    \item \textbf{단일 홉에서 Dense 우위}: Dense는 Recall@10$={0.832}$로 BM25의 $0.764$ 대비 +8.9\% 향상, 패러프레이즈된 단일 홉 질의에 대한 의미적 매칭 이점을 반영.
+    \item \textbf{시간적 질의에서 BM25 필수}: Dense는 Recall@10$={0.000}$ 달성; BM25는 $0.200$.
+    \item \textbf{예외 처리 보편적 저조}: 모든 방법이 Recall@10 $\leq{0.412}$, 평균 대비 약 30 pp 낮음.
+    \item \textbf{집계 및 비교 양호}: 모든 방법이 Recall@10 $>{0.818}$.
+\end{itemize}
+
+\FloatBarrier
+\section{규칙 기반 계획기 결과}
+\label{sec:results_rule_ko}
+
+\subsection{전략 선택 정확도}
+
+7개 규칙 계획기는 SSA$={78.4\%}$(298/380 올바른 결정)를 달성한다. 6개 추론 유형 중 4개 유형에서 100\% SSA를 달성한다: 시간적(bm25), 예외(dense), 다중 홉(hybrid), 집계(hybrid). 비교 질의는 SSA 87.9%를 달성한다. 단일 홉 질의가 주요 약점(SSA 64.5\%)이며, 이는 강한 난이도 신호가 없는 일반 단일 홉 질의에서 최적 전략의 진정한 모호성을 반영한다.
+
+\subsection{검색 성능}
+
+규칙 계획기는 모든 평가 시스템 중 가장 높은 Recall@10($0.755$)과 Hit@10($0.808$)을 달성하며, Hybrid 대비 각각 +1.4\%, +1.3\% 향상한다. MRR($0.522$)과 nDCG@10($0.563$)은 Hybrid($0.530$, $0.566$)보다 약간 낮아, 적응형 라우팅이 순위 품질에서 약간의 손실을 수반하면서 커버리지를 향상시킴을 나타낸다. 규칙 계획기의 비용은 밀리초 미만의 결정 지연 시간으로 \$0.00이다.
+
+\FloatBarrier
+\section{GPT-5 LLM 계획기 결과}
+\label{sec:results_gpt5_ko}
+
+\subsection{API 신뢰성 및 파싱}
+
+GPT-5(구조화 프롬프트)는 380개 응답 가능 질의 모두에 대해 실제 OpenAI API 호출로 평가되었다. 추론 토큰 소진 문제 해결 후 380건 모두 유효한 JSON을 반환하였다(파싱 실패율: 0.0\%, API 성공률: 100\%).
+
+\subsection{전략 선택 정확도}
+
+GPT-5의 전체 SSA는 $77.6\%$(295/380 올바름)로 규칙 계획기보다 0.8 pp 낮다. 집계, 비교, 예외, 다중 홉 질의에서 100\% SSA를 달성한다. 단일 홉 정확도(63.6\%)는 규칙 계획기(64.5\%)와 유사하다. 결정적 차이는 시간적 질의에서 나타난다: GPT-5는 5개의 시간적 질의 모두에 대해 hybrid를 예측하여 SSA 0\%를 기록하는 반면, 규칙 계획기는 전용 시간적 규칙(R01)을 통해 100\%를 달성한다.
+
+GPT-5는 dense를 과다 예측하고(88 대 oracle 69, +27.5\%) bm25를 과소 예측한다(49 대 oracle 62, -21.0\%). 이는 API 문서와 시스템 설계 질의에 대한 체계적인 범주 혼동을 반영한다.
+
+\subsection{검색 성능 및 비용}
+
+GPT-5는 모든 시스템 중 최고의 MRR($0.533$)과 nDCG@10($0.570$)을 달성한다. 그림~\ref{fig:planners_ko}은 규칙 계획기와 GPT-5의 비교를 보여준다. 전체 계획기 비교는 표~\ref{tab:planner_comparison_ko}에 제시되어 있다.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{fig2_planner_comparison.png}
+\caption{6개 지표에서 규칙 계획기와 GPT-5 계획기 성능 비교. 규칙 계획기는 Recall@10과 Hit@10(커버리지)에서 우위를 보인다. GPT-5는 MRR, nDCG@10, Recall@1, Recall@5(순위 품질)에서 우위를 보인다.}
+\label{fig:planners_ko}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{적응형 계획기 비교: 규칙 기반 대 GPT-5 (구조화 프롬프트, $n{=}380$). 양수 $\Delta$는 GPT-5에 유리함을 나타냄.}
+\label{tab:planner_comparison_ko}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{지표} & \textbf{규칙} & \textbf{GPT-5} & $\Delta$ & \textbf{유리한 시스템} \\
+\midrule
+SSA             & 0.784 & 0.776 & $-$0.008 & 규칙 \\
+Recall@1        & 0.358 & 0.368 & +0.011   & GPT-5 \\
+Recall@3        & 0.549 & 0.566 & +0.017   & GPT-5 \\
+Recall@5        & 0.629 & 0.649 & +0.020   & GPT-5 \\
+Recall@10       & 0.755 & 0.750 & $-$0.005 & 규칙 \\
+MRR             & 0.522 & 0.533 & +0.011   & GPT-5 \\
+nDCG@10         & 0.563 & 0.570 & +0.007   & GPT-5 \\
+Hit@10          & 0.808 & 0.803 & $-$0.005 & 규칙 \\
+\midrule
+파싱 실패       & 0     & 0     & ---      & --- \\
+비용 (USD)      & \$0.00 & \$6.18 & +\$6.18 & 규칙 \\
+지연 시간 (ms)  & ${<}1$  & 5{,}649 & +5{,}648 & 규칙 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+GPT-5 평가는 380개 질의에 \$6.18(\$0.016/질의)이 소요되었다. 평균 API 지연 시간은 5,649 ms(중앙값: 5,044 ms; p95: 10,368 ms)였다. 비용 비교는 표~\ref{tab:cost_latency_ko}에 제시되어 있다.
+
+\begin{table}[htbp]
+\centering
+\caption{전체 시스템에 걸친 비용 및 지연 시간 비교}
+\label{tab:cost_latency_ko}
+\begin{tabular}{lrrrc}
+\toprule
+\textbf{시스템} & \textbf{질의당 비용} & \textbf{총계 (380Q)} & \textbf{평균 지연} & \textbf{유형} \\
+\midrule
+BM25            & \$0.000 & \$0.00 & ${<}1$~ms & 고정 \\
+Dense           & \$0.000 & \$0.00 & ${<}5$~ms & 고정 \\
+Hybrid          & \$0.000 & \$0.00 & ${<}5$~ms & 고정 \\
+규칙 계획기     & \$0.000 & \$0.00 & ${\sim}0.001$~ms & 적응형 \\
+GPT-5 계획기    & \$0.016 & \$6.18 & 5{,}649~ms & 적응형 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\FloatBarrier
+\section{범주별 결과}
+\label{sec:results_category_ko}
+
+표~\ref{tab:category_ko}는 문서 범주별 Recall@10과 MRR을 제공한다. 그림~\ref{fig:category_ko}는 범주별 성능을 시각화한다.
+
+\begin{table}[htbp]
+\centering
+\caption{문서 범주별 Recall@10 및 MRR. 범주별 최고 Recall@10은 굵게 표시.}
+\label{tab:category_ko}
+\begin{tabular}{lrcccccccc}
+\toprule
+ & & \multicolumn{4}{c}{\textbf{Recall@10}} & \multicolumn{4}{c}{\textbf{MRR}} \\
+\cmidrule(lr){3-6}\cmidrule(lr){7-10}
+\textbf{범주} & \textbf{$n$} & \textbf{BM25} & \textbf{Dense} & \textbf{Hybrid} & \textbf{규칙} & \textbf{BM25} & \textbf{Dense} & \textbf{Hybrid} & \textbf{규칙} \\
+\midrule
+API 문서     & 68  & 0.971 & \textbf{1.000} & \textbf{1.000} & \textbf{1.000} & 0.794 & 0.818 & 0.836 & 0.860 \\
+인사 정책    & 54  & 0.602 & 0.611 & 0.565 & 0.546 & 0.235 & 0.278 & 0.277 & 0.274 \\
+회의록       & 100 & 0.608 & 0.528 & \textbf{0.615} & 0.605 & 0.388 & 0.400 & 0.470 & 0.476 \\
+보안 정책    & 64  & 0.617 & \textbf{0.734} & 0.727 & 0.711 & 0.332 & 0.411 & 0.427 & 0.424 \\
+시스템 설계  & 45  & 0.511 & 0.700 & 0.611 & \textbf{0.722} & 0.236 & 0.289 & 0.304 & 0.285 \\
+출장 정책    & 49  & \textbf{1.000} & \textbf{1.000} & \textbf{1.000} & \textbf{1.000} & 0.744 & 0.830 & 0.847 & 0.847 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{fig4_category_performance.png}
+\caption{문서 범주 및 검색 시스템별 Recall@10. API 문서와 출장 정책은 $k{=}10$에서 상한 효과를 보인다. 시스템 설계 문서와 보안 정책은 밀집 검색에서 우위를 보인다. 프로젝트 회의록은 Hybrid에서 가장 높은 성능을 보인다.}
+\label{fig:category_ko}
+\end{figure}
+
+\section{비용-성능 상충관계}
+\label{sec:results_cost_ko}
+
+그림~\ref{fig:cost_tradeoff_ko}는 5개 시스템에 걸친 비용-성능 상충관계를 보여준다.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{fig5_cost_performance_tradeoff.png}
+\caption{5개 평가 시스템의 비용 대 MRR 상충관계. BM25, Dense, Hybrid, 규칙 계획기는 \$0 비용에 집중된다. GPT-5는 규칙 계획기 대비 미미한 MRR 향상(+2.0\%)을 380개 질의 총 비용 \$6.18로 달성한다.}
+\label{fig:cost_tradeoff_ko}
+\end{figure}
+
+\section{통계적 효과 크기 요약}
+\label{sec:results_effects_ko}
+
+제3장의 효과 크기 분류를 사용하면: BM25$\rightarrow$Hybrid MRR 향상(+7.3 pp)은 \emph{실질적}, Dense$\rightarrow$Hybrid MRR 향상(+2.8 pp)은 \emph{의미 있는}, Hybrid$\rightarrow$규칙 계획기 Recall@10(+1.1 pp)은 \emph{미미한}, 규칙$\rightarrow$GPT-5 MRR(+1.1 pp)은 \emph{미미한} 수준이다.
+
+본 비교의 핵심 발견은 검색 아키텍처가 계획 이득을 지배한다는 것이다. BM25$\rightarrow$Hybrid 향상(MRR +15.8\%)은 최선의 계획기 향상(GPT-5의 MRR +2.0\%)보다 8배 크다. 이 발견은 기업 RAG 시스템 설계에 직접적인 시사점을 제공한다: 아키텍처 선택이 1차적 성능 레버이며, 계획은 2차적이고 미미한 향상을 제공한다.

@@ -1,0 +1,136 @@
+{
+  "planner_type": "llm_based",
+  "prompt_version": "structured",
+  "model": "gpt-5",
+  "timestamp": "2026-06-02T15:49:17.908474+00:00",
+  "parse_failures": 0,
+  "fallback_count": 0,
+  "overall": {
+    "n_queries": 380,
+    "n_correct": 295,
+    "n_discrepancy": 0,
+    "accuracy": 0.7763,
+    "accuracy_excluding_discrepancy": 0.7763,
+    "per_strategy": {
+      "bm25": {
+        "precision": 0.4694,
+        "recall": 0.371,
+        "f1": 0.4144,
+        "oracle_support": 62,
+        "predicted": 49
+      },
+      "dense": {
+        "precision": 0.6364,
+        "recall": 0.8116,
+        "f1": 0.7134,
+        "oracle_support": 69,
+        "predicted": 88
+      },
+      "hybrid": {
+        "precision": 0.8889,
+        "recall": 0.8675,
+        "f1": 0.878,
+        "oracle_support": 249,
+        "predicted": 243
+      }
+    }
+  },
+  "by_reasoning_type": {
+    "aggregation": {
+      "n": 35,
+      "accuracy": 1.0,
+      "distribution": {
+        "hybrid": 35
+      }
+    },
+    "comparison": {
+      "n": 33,
+      "accuracy": 1.0,
+      "distribution": {
+        "hybrid": 33
+      }
+    },
+    "exception": {
+      "n": 34,
+      "accuracy": 1.0,
+      "distribution": {
+        "dense": 34
+      }
+    },
+    "multi_hop": {
+      "n": 53,
+      "accuracy": 1.0,
+      "distribution": {
+        "hybrid": 53
+      }
+    },
+    "single_hop": {
+      "n": 220,
+      "accuracy": 0.6364,
+      "distribution": {
+        "bm25": 49,
+        "hybrid": 117,
+        "dense": 54
+      }
+    },
+    "temporal": {
+      "n": 5,
+      "accuracy": 0.0,
+      "distribution": {
+        "hybrid": 5
+      }
+    }
+  },
+  "by_category": {
+    "API Documentation": {
+      "n": 68,
+      "accuracy": 0.5294,
+      "distribution": {
+        "bm25": 13,
+        "dense": 24,
+        "hybrid": 31
+      }
+    },
+    "HR Policies": {
+      "n": 54,
+      "accuracy": 0.7407,
+      "distribution": {
+        "hybrid": 34,
+        "bm25": 6,
+        "dense": 14
+      }
+    },
+    "Project Meeting Notes": {
+      "n": 100,
+      "accuracy": 0.84,
+      "distribution": {
+        "hybrid": 70,
+        "bm25": 30
+      }
+    },
+    "Security Policies": {
+      "n": 64,
+      "accuracy": 1.0,
+      "distribution": {
+        "dense": 20,
+        "hybrid": 44
+      }
+    },
+    "System Design Documents": {
+      "n": 45,
+      "accuracy": 0.6667,
+      "distribution": {
+        "hybrid": 15,
+        "dense": 30
+      }
+    },
+    "Travel Policies": {
+      "n": 49,
+      "accuracy": 0.8367,
+      "distribution": {
+        "hybrid": 49
+      }
+    }
+  },
+  "oracle_discrepancies": []
+}

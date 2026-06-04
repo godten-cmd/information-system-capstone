@@ -1,0 +1,2 @@
+prompt_version,n_queries,n_correct,accuracy,parse_failures,parse_failure_rate,bm25_precision,bm25_recall,bm25_f1,dense_precision,dense_recall,dense_f1,hybrid_precision,hybrid_recall,hybrid_f1,avg_prompt_tokens,avg_completion_tokens,total_cost_usd
+structured,380,295,0.7763,0,0.0,0.4694,0.371,0.4144,0.6364,0.8116,0.7134,0.8889,0.8675,0.878,355.5,318.0,6.18453

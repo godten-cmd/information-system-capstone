@@ -1,0 +1,84 @@
+%% introduction.tex
+\chapter{Introduction}
+\label{chap:introduction}
+
+\section{Motivation}
+\label{sec:intro_motivation}
+
+Modern enterprises generate and maintain vast quantities of structured and semi-structured knowledge: technical API references, HR policy manuals, architectural design documents, meeting minutes, security compliance guides, and operational travel policies. As these corpora grow in volume and heterogeneity, the challenge of locating relevant information efficiently becomes a first-order organizational problem. Employees searching across hundreds of policy documents, engineers querying system design archives, and automated agents performing compliance checks all require retrieval systems that surface the right information reliably and quickly.
+
+Retrieval-Augmented Generation (RAG) has emerged as a leading paradigm for knowledge-intensive natural language processing \citep{lewis2020rag}. A RAG system retrieves a set of candidate documents or passages from a corpus and conditions a generative language model's output on those retrieved passages. The retrieval step is therefore the critical upstream dependency: if relevant documents are not retrieved, no amount of downstream generation quality can compensate. The quality of retrieval is measured along two primary dimensions --- \emph{coverage} (does the system find all relevant documents?) and \emph{ranking quality} (does it place the most relevant documents highest?).
+
+Enterprise corpora present distinctive challenges for standard retrieval methods. Unlike web search or open-domain question answering, enterprise queries span a wide range of reasoning types --- from simple single-hop factual lookups to complex multi-hop reasoning across multiple documents, temporal ordering queries, policy exception clause extraction, and multi-attribute aggregation tasks. Different reasoning types benefit from different retrieval signals: temporal queries require exact date-token matching that dense embeddings cannot capture; exception clause queries require semantic identification of negation and conditional language; multi-hop queries benefit from broad document coverage. No single retrieval method is optimal across this full distribution of enterprise query types.
+
+\emph{Adaptive retrieval planning} addresses this challenge by dynamically selecting the retrieval strategy best suited to each incoming query, rather than applying a single fixed strategy to all queries. A retrieval planner examines query characteristics --- its reasoning type, semantic content, named entities, or difficulty factors --- and routes the query to the most appropriate retrieval backend. This routing decision has the potential to improve retrieval quality at minimal computational overhead, provided the planner's strategy selection aligns with the empirically optimal strategy for each query type.
+
+This thesis investigates adaptive retrieval planning in the enterprise knowledge management context. We ask: can a retrieval planner --- either a lightweight deterministic rule system or a large language model --- outperform the best fixed-strategy retrieval baseline, and at what cost? We evaluate both planning paradigms on a controlled, fully annotated enterprise corpus and measure their performance against seven pre-defined research questions.
+
+\section{Problem Statement}
+\label{sec:intro_problem}
+
+This thesis addresses the following core problem:
+
+\begin{quote}
+\textit{Given a heterogeneous enterprise knowledge corpus containing documents of multiple types and a set of queries spanning diverse reasoning types, what is the most effective and cost-efficient retrieval strategy selection mechanism, and to what extent does adaptive retrieval planning improve over fixed-strategy retrieval baselines?}
+\end{quote}
+
+We decompose this problem into three sub-problems:
+
+\begin{enumerate}
+    \item \textbf{Retrieval baseline selection}: Among BM25 (sparse), dense embedding retrieval, and Hybrid Reciprocal Rank Fusion, which method performs best overall and by document category and query reasoning type?
+    \item \textbf{Rule-based adaptive planning}: Can a small set of deterministic rules mapping query metadata to retrieval strategies outperform the best fixed-strategy baseline on enterprise knowledge queries?
+    \item \textbf{LLM-based adaptive planning}: Can a large language model (GPT-5) perform zero-shot retrieval strategy planning that surpasses both the fixed-strategy baseline and the rule-based planner, and is the resulting quality improvement cost-justified?
+\end{enumerate}
+
+\section{Research Questions}
+\label{sec:intro_rqs}
+
+We organize our investigation around seven research questions (RQ1--RQ7):
+
+\begin{description}
+    \item[RQ1] Does hybrid retrieval (BM25 + Dense) outperform single-method baselines on enterprise knowledge queries?
+    \item[RQ2] Which retrieval method performs best across different enterprise document categories?
+    \item[RQ3] How does retrieval performance vary across query reasoning types?
+    \item[RQ4] Can a rule-based adaptive planner outperform fixed-strategy retrieval?
+    \item[RQ5] Which LLM prompt strategy is optimal for retrieval planning?
+    \item[RQ6] Does GPT-5 outperform the rule-based planner on Strategy Selection Accuracy?
+    \item[RQ7] What are the primary failure modes of LLM-based retrieval planning?
+\end{description}
+
+RQ1--RQ3 establish the retrieval baseline landscape. RQ4 evaluates deterministic adaptive planning. RQ5--RQ7 evaluate LLM-based planning. Together, these questions span the full design space for retrieval strategy selection in enterprise knowledge management.
+
+\subsection*{Extension: V2 Agentic RAG (RQ8--RQ13)}
+\label{sec:intro_rqs_v2}
+
+The V1 experiments reveal that all static planning approaches share a structural limitation: retrieval strategy selection is made once per query and cannot be corrected when the initial strategy fails. Two query types that proved consistently intractable under V1 --- exception handling (Recall@10 $\leq 0.412$) and temporal reasoning (Recall@10 $\leq 0.200$) --- motivate a fundamentally different architecture. Chapters~\ref{chap:v2_methodology}--\ref{chap:v2_results} introduce the V2 Agentic RAG pipeline, which wraps the V1 retrieval infrastructure in a LangGraph state machine that supports iterative re-retrieval conditioned on a learned validation signal. Six additional research questions govern this extension:
+
+\begin{description}
+    \item[RQ8]  Does the V2 agentic pipeline outperform the best V1 planner (Rule Planner, Recall@10$={0.755}$) on overall retrieval quality?
+    \item[RQ9]  What is the contribution of the iterative re-retrieval loop over a single-pass agentic baseline?
+    \item[RQ10] Does signal-matched (adaptive) validation scoring outperform rank-order scoring for retrieval validation?
+    \item[RQ11] How much does oracle query analysis contribute to V2 performance compared with heuristic LLM-based query analysis?
+    \item[RQ12] Does the targeted re-retrieval mechanism specifically address the exception and temporal query failure modes identified in V1?
+    \item[RQ13] What are the primary failure modes of the V2 agentic pipeline after all re-retrieval loops are exhausted?
+\end{description}
+
+\section{Research Contributions}
+\label{sec:intro_contributions}
+
+This thesis makes the following contributions:
+
+\textbf{Methodological}: We construct the Synthetic Enterprise Knowledge Dataset (SEKD), a fully annotated enterprise corpus comprising 120 documents across 6 categories, 1,206 section-aware chunks, and 405 queries with ground-truth answer chunks and oracle retrieval strategy labels. SEKD supports controlled, reproducible evaluation of retrieval and planning methods and is made available for future research.
+
+\textbf{Empirical}: We report the first systematic comparison of BM25, dense retrieval, Hybrid RRF, rule-based planning, LLM-based planning, and agentic re-retrieval on a controlled enterprise knowledge corpus. Our results quantify the performance contribution of each architectural layer and identify the specific query types where each method excels or fails.
+
+\textbf{Practical}: We demonstrate that a seven-rule deterministic planner achieves the highest Recall@10 (0.755) among V1 systems at zero operational cost, and that GPT-5-based planning provides ranking quality advantages (MRR: +2.0\%) that may justify LLM planning costs in precision-critical enterprise applications. The V2 agentic extension provides an iterative correction mechanism for the exception and temporal query types that are intractable under all V1 approaches.
+
+\textbf{Analytical}: We characterize the primary failure modes of LLM-based retrieval planning --- category confusion on fine-grained single-hop queries (55.3\% of errors) and systematic temporal query mis-routing (0\% Strategy Selection Accuracy) --- and identify the structural causes of exception and temporal query failure across all evaluated retrieval methods. The V2 pipeline's failure mode taxonomy (Section~\ref{sec:v2_pipeline_stats}) extends this analysis to the agentic setting.
+
+\textbf{Systems}: We implement and release the V2 Agentic RAG system as a fully operational LangGraph pipeline, comprising five specialised agents and a structured evaluation harness. The implementation serves as a reproducible foundation for future work on iterative enterprise retrieval.
+
+\section{Thesis Structure}
+\label{sec:intro_structure}
+
+The remainder of this thesis is organized as follows. Chapter~\ref{chap:litreview} reviews related work in information retrieval, dense retrieval, hybrid fusion methods, and LLM-augmented systems. Chapter~\ref{chap:methodology} describes the SEKD corpus construction, retrieval system designs, planner architectures, and evaluation framework. Chapter~\ref{chap:results} presents the experimental results for all five V1 systems. Chapter~\ref{chap:discussion} discusses why each V1 system performed as it did and draws implications for enterprise RAG design. Chapter~\ref{chap:conclusion} summarizes the V1 principal findings. Chapter~\ref{chap:v2_methodology} introduces the V2 Agentic RAG pipeline architecture and evaluation design. Chapter~\ref{chap:v2_results} presents the V2 evaluation results addressing RQ8--RQ13.

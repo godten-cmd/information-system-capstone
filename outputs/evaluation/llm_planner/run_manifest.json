@@ -1,0 +1,29 @@
+{
+  "phase": "Phase 9 \u2014 LLM-Based Retrieval Planner",
+  "planner_type": "llm_based",
+  "provider": "openai",
+  "model": "gpt-5",
+  "prompt_version": "structured",
+  "run_prompt_comparison": false,
+  "prompt_versions_run": [
+    "structured"
+  ],
+  "timestamp": "2026-06-02T15:49:17.922873+00:00",
+  "total_wall_clock_s": 2147.46,
+  "n_queries": 380,
+  "parse_failures": 0,
+  "parse_failure_rate": 0.0,
+  "total_cost_usd": 6.18453,
+  "cache_dir": "outputs/cache/planner_gpt5_structured_full",
+  "output_files": [
+    "outputs/evaluation/llm_planner/planner_metrics.json",
+    "outputs/evaluation/llm_planner/metrics.json",
+    "outputs/evaluation/llm_planner/strategy_distribution.csv",
+    "outputs/evaluation/llm_planner/prompt_comparison.csv",
+    "outputs/evaluation/llm_planner/failure_analysis.json",
+    "outputs/evaluation/llm_planner/llm_failure_analysis.json",
+    "outputs/evaluation/llm_planner/cost_analysis.json",
+    "outputs/evaluation/llm_planner/comparison_vs_rule_planner.json",
+    "outputs/evaluation/llm_planner/llm_decisions.jsonl"
+  ]
+}

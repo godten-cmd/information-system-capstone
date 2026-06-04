@@ -1,0 +1,326 @@
+%% thesis.tex — Main driver for SEKD thesis manuscript
+%% Adaptive Retrieval Planning for Enterprise Knowledge Management:
+%% A Controlled Evaluation on the Synthetic Enterprise Knowledge Dataset (SEKD)
+%%
+%% Author: Pingu / Information Systems Capstone Design
+%% Date: June 2026
+%% Compile: pdflatex thesis.tex && bibtex thesis && pdflatex thesis.tex && pdflatex thesis.tex
+
+\documentclass[12pt, a4paper, twoside]{report}
+
+%% ────────────── Encoding & Fonts ──────────────
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+%% ────────────── Page Layout ──────────────
+\usepackage[
+  a4paper,
+  top=30mm,
+  bottom=30mm,
+  inner=35mm,
+  outer=25mm,
+  headheight=15pt
+]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ────────────── Math & Symbols ──────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+%% ────────────── Tables ──────────────
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{siunitx}
+\sisetup{group-separator={,}, group-minimum-digits=4}
+
+%% ────────────── Figures ──────────────
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{font=small, labelfont=bf}
+
+%% ────────────── Colors ──────────────
+\usepackage[dvipsnames]{xcolor}
+
+%% ────────────── Hyperlinks ──────────────
+\usepackage[
+  colorlinks=true,
+  linkcolor=NavyBlue,
+  citecolor=OliveGreen,
+  urlcolor=MidnightBlue,
+  pdfauthor={Won Young Shin},
+  pdftitle={Adaptive Retrieval Planning for Enterprise Knowledge Management},
+  pdfsubject={Information Systems, Retrieval-Augmented Generation, Enterprise Search},
+  pdfkeywords={BM25, Dense Retrieval, Hybrid RRF, Adaptive Planning, GPT-5, Enterprise RAG, Agentic RAG, LangGraph, Re-retrieval}
+]{hyperref}
+
+%% ────────────── Code Listings ──────────────
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny,
+  keywordstyle=\color{NavyBlue}\bfseries,
+  commentstyle=\color{OliveGreen},
+  stringstyle=\color{BrickRed}
+}
+
+%% ────────────── Bibliography ──────────────
+\usepackage[round,authoryear]{natbib}
+\bibliographystyle{plainnat}
+
+%% ────────────── Misc Formatting ──────────────
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{enumitem}
+\setlist[description]{leftmargin=2em, labelindent=0em, style=nextline}
+\usepackage{placeins}  % \FloatBarrier to prevent figures drifting past sections
+\clubpenalty=10000     % suppress orphan lines
+\widowpenalty=10000    % suppress widow lines
+\microtypesetup{activate={true,nocompatibility}}  % suppress setspace/microtype warning
+
+%% ────────────── Chapter Title Style ──────────────
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}
+  {\chaptertitlename\ \thechapter}
+  {20pt}
+  {\Huge}
+\titlespacing*{\chapter}{0pt}{30pt}{20pt}
+
+%% ────────────── Abstract Environment ──────────────
+\renewenvironment{abstract}{
+  \cleardoublepage
+  \chapter*{Abstract}
+  \addcontentsline{toc}{chapter}{Abstract}
+}{}
+
+%% ────────────── Figure Path ──────────────
+\graphicspath{{../final_report/figures/}}
+
+%% ─────────────────────────────────────────────────────────────────────────────
+\begin{document}
+
+%% ────────────── Title Page ──────────────
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Large\textbf{Hanyang University}}\\[0.5em]
+{\large Department of Information Systems}\\[3em]
+
+\rule{\textwidth}{1.5pt}\\[0.5em]
+{\huge\bfseries Adaptive Retrieval Planning for\\[0.3em]
+Enterprise Knowledge Management:\\[0.3em]
+A Controlled Evaluation on the\\[0.3em]
+Synthetic Enterprise Knowledge Dataset}\\[0.5em]
+\rule{\textwidth}{1.5pt}\\[3em]
+
+{\large Capstone Design Thesis}\\[2em]
+
+{\large\bfseries Won Young Shin}\\[0.3em]
+{\large Information System Capstone Design}\\[1em]
+{\large pingu090@hanyang.ac.kr}\\[4em]
+
+\vfill
+
+{\large June 2026}\\[1em]
+
+{\normalsize
+Submitted in partial fulfilment of the requirements for the\\
+Bachelor of Science in Information Systems\\[1em]
+Supervisor: Prof. Ook Lee
+}
+
+\end{titlepage}
+
+%% ────────────── Front Matter ──────────────
+\pagenumbering{roman}
+
+\input{abstract}
+
+\clearpage
+\tableofcontents
+
+\clearpage
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+
+\clearpage
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+
+%% ────────────── Acronym / Notation ──────────────
+\clearpage
+\chapter*{Notation and Abbreviations}
+\addcontentsline{toc}{chapter}{Notation and Abbreviations}
+
+\begin{tabular}{ll}
+\toprule
+\textbf{Abbreviation} & \textbf{Meaning} \\
+\midrule
+AA      & Answer Agent \\
+ANN     & Approximate Nearest Neighbor \\
+API     & Application Programming Interface \\
+BM25    & Best Match 25 (Okapi BM25 retrieval function) \\
+Dense   & Dense embedding-based retrieval \\
+DPR     & Dense Passage Retrieval \\
+EMNLP  & Conference on Empirical Methods in NLP \\
+HR      & Human Resources \\
+IR      & Information Retrieval \\
+LLM     & Large Language Model \\
+MCP     & Model Context Protocol \\
+MRR     & Mean Reciprocal Rank \\
+nDCG    & Normalized Discounted Cumulative Gain \\
+PA      & Planning Agent \\
+QAA     & Query Analysis Agent \\
+RA      & Retrieval Agent \\
+RAG     & Retrieval-Augmented Generation \\
+RRF     & Reciprocal Rank Fusion \\
+SEKD    & Synthetic Enterprise Knowledge Dataset \\
+SSA     & Strategy Selection Accuracy \\
+TF-IDF  & Term Frequency–Inverse Document Frequency \\
+VA      & Validation Agent \\
+\bottomrule
+\end{tabular}
+
+%% ────────────── Main Matter ──────────────
+\pagenumbering{arabic}
+
+\input{introduction}
+\input{literature_review}
+\input{methodology}
+\input{results}
+\input{discussion}
+\input{conclusion}
+\input{v2_methodology}
+\input{v2_results}
+
+%% ────────────── Appendices ──────────────
+\appendix
+
+\chapter{SEKD Corpus: Category Descriptions and Sample Queries}
+\label{app:sekd}
+
+\section{Document Category Summaries}
+
+The SEKD corpus contains 120 documents across six categories (20 per category). Each document was generated using a Jinja2 template with randomized entity values (project names, employee IDs, API endpoint paths, policy section codes). The following table summarizes each category's structural properties.
+
+\begin{table}[H]
+\centering
+\caption{SEKD Document Category Properties}
+\label{tab:app_categories}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Category} & \textbf{Docs} & \textbf{Avg Sections} & \textbf{Avg Chunks} & \textbf{Queries} \\
+\midrule
+API Documentation     & 20 & 8.2  & 16.4 & 68  \\
+HR Policies           & 20 & 6.1  & 12.3 & 54  \\
+Project Meeting Notes & 20 & 5.4  & 10.8 & 100 \\
+Security Policies     & 20 & 7.3  & 14.6 & 64  \\
+System Design Docs    & 20 & 5.6  & 11.2 & 45  \\
+Travel Policies       & 20 & 6.0  & 12.0 & 49  \\
+\midrule
+\textbf{Total}        & \textbf{120} & \textbf{6.5} & \textbf{12.9} & \textbf{380} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Sample Queries by Reasoning Type}
+
+\begin{description}
+    \item[single\_hop] ``What is the maximum daily hotel expense allowed under the travel reimbursement policy?''
+    \item[multi\_hop] ``Which API endpoints require the same authentication method used by the data export service documented in the system design spec?''
+    \item[aggregation] ``List all security policy sections that mandate two-factor authentication.''
+    \item[comparison] ``Compare the leave entitlement for senior engineers versus junior engineers under the HR policy.''
+    \item[exception] ``Under what conditions is an employee exempt from the standard expense pre-approval requirement?''
+    \item[temporal] ``Which version of the API was released before the authentication overhaul documented in Q3 2024?''
+\end{description}
+
+\chapter{GPT-5 Structured Prompt Template}
+\label{app:prompt}
+
+The following is the structured prompt template used for GPT-5 retrieval planning evaluation.
+
+\begin{lstlisting}[language={},caption={GPT-5 Structured Retrieval Planning Prompt},label={lst:prompt}]
+You are a retrieval strategy planner for an enterprise knowledge
+management system. Given a query and its metadata, select the
+optimal retrieval strategy.
+
+STRATEGIES:
+- bm25: Use for exact keyword matching, date sequences, version
+        numbers, policy codes, or specific identifiers.
+- dense: Use for semantic similarity, exception clauses,
+         conceptual comparisons, or paraphrased queries.
+- hybrid: Use for multi-hop queries, aggregation, or when both
+          lexical and semantic signals are relevant.
+
+GUIDANCE:
+- temporal -> bm25
+- exception -> dense
+- multi_hop -> hybrid
+- aggregation -> hybrid
+- comparison -> hybrid (usually)
+- single_hop -> depends on query content
+
+QUERY: {query_text}
+REASONING TYPE: {reasoning_type}
+DIFFICULTY FACTORS: {difficulty_factors}
+DOCUMENT CATEGORY: {document_category}
+
+Respond with valid JSON only:
+{"strategy": "<bm25|dense|hybrid>", "rationale": "<one sentence>"}
+\end{lstlisting}
+
+\chapter{Rule Planner Decision Logic}
+\label{app:rules}
+
+The rule planner evaluates rules R01--R07 in priority order. The first matching rule fires and determines the retrieval strategy. Rule R07 is the unconditional default.
+
+\begin{table}[H]
+\centering
+\caption{Rule Planner: Seven Rules in Priority Order}
+\label{tab:app_rules}
+\begin{tabular}{llll}
+\toprule
+\textbf{Rule} & \textbf{Condition} & \textbf{Strategy} & \textbf{SSA} \\
+\midrule
+R01 & reasoning\_type == temporal & bm25   & 100\% \\
+R02 & reasoning\_type == exception & dense  & 100\% \\
+R03 & reasoning\_type == multi\_hop & hybrid & 100\% \\
+R04 & reasoning\_type == aggregation & hybrid & 100\% \\
+R05 & difficulty == document\_version\_conflict & bm25   & N/A \\
+R06 & difficulty == table\_dependency & dense  & N/A \\
+R07 & (default) & hybrid & 83.9\% \\
+\midrule
+\multicolumn{3}{l}{\textbf{Overall SSA}} & \textbf{78.4\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ────────────── Tables ──────────────
+%% Note: Main tables are included inline in results.tex using \ref.
+%% The complete publication-ready tables with booktabs formatting
+%% are available in outputs/final_report/tables/tables.tex.
+
+%% ────────────── Bibliography ──────────────
+\cleardoublepage
+\bibliography{references}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\end{document}

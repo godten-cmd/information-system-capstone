@@ -1,0 +1,220 @@
+{
+  "model": "gpt-5",
+  "max_tokens_tested": 200,
+  "system_prompt_len": 191,
+  "user_prompt_len": 290,
+  "calls": [
+    {
+      "api": "chat_completions",
+      "max_completion_tokens": 200,
+      "latency_s": 4.514,
+      "content": "",
+      "content_length": 0,
+      "usage": {
+        "completion_tokens": 200,
+        "prompt_tokens": 124,
+        "total_tokens": 324,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 200,
+          "rejected_prediction_tokens": 0
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cached_tokens": 0
+        }
+      },
+      "full_response": {
+        "id": "chatcmpl-DmL0or5KuACqHyrPPyN0hNfKY474D",
+        "choices": [
+          {
+            "finish_reason": "length",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "",
+              "refusal": null,
+              "role": "assistant",
+              "annotations": [],
+              "audio": null,
+              "function_call": null,
+              "tool_calls": null
+            }
+          }
+        ],
+        "created": 1780412886,
+        "model": "gpt-5-2025-08-07",
+        "object": "chat.completion",
+        "service_tier": "default",
+        "system_fingerprint": null,
+        "usage": {
+          "completion_tokens": 200,
+          "prompt_tokens": 124,
+          "total_tokens": 324,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 200,
+            "rejected_prediction_tokens": 0
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "api": "chat_completions_large_budget",
+      "max_completion_tokens": 2000,
+      "latency_s": 6.984,
+      "content": "{\"selected_strategy\":\"hybrid\",\"confidence\":0.82,\"reasoning\":\"Hybrid retrieval best captures multi-document API details by combining exact endpoint keywords with semantic links between HYDeploy v2 and HYID authentication dependencies.\"}",
+      "content_length": 235,
+      "usage": {
+        "completion_tokens": 437,
+        "prompt_tokens": 124,
+        "total_tokens": 561,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 384,
+          "rejected_prediction_tokens": 0
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cached_tokens": 0
+        }
+      },
+      "full_response": {
+        "id": "chatcmpl-DmL0sj0tKiwmKMGhkszkZqEObRguM",
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"selected_strategy\":\"hybrid\",\"confidence\":0.82,\"reasoning\":\"Hybrid retrieval best captures multi-document API details by combining exact endpoint keywords with semantic links between HYDeploy v2 and HYID authentication dependencies.\"}",
+              "refusal": null,
+              "role": "assistant",
+              "annotations": [],
+              "audio": null,
+              "function_call": null,
+              "tool_calls": null
+            }
+          }
+        ],
+        "created": 1780412890,
+        "model": "gpt-5-2025-08-07",
+        "object": "chat.completion",
+        "service_tier": "default",
+        "system_fingerprint": null,
+        "usage": {
+          "completion_tokens": 437,
+          "prompt_tokens": 124,
+          "total_tokens": 561,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 384,
+            "rejected_prediction_tokens": 0
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "api": "responses_api",
+      "max_output_tokens": 200,
+      "latency_s": 2.933,
+      "output_text": "",
+      "content_length": 0,
+      "usage": {
+        "input_tokens": 124,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 192,
+        "output_tokens_details": {
+          "reasoning_tokens": 192
+        },
+        "total_tokens": 316
+      },
+      "full_response": {
+        "id": "resp_0d8006d227cd1c9c006a1ef1e1b0f8819ab2b70dc46a400776",
+        "created_at": 1780412897.0,
+        "error": null,
+        "incomplete_details": {
+          "reason": "max_output_tokens"
+        },
+        "instructions": "You are a retrieval strategy planner. Respond ONLY with valid JSON \u2014 no markdown, no extra text: {\"selected_strategy\": \"bm25|dense|hybrid\", \"confidence\": 0.0-1.0, \"reasoning\": \"one sentence\"}",
+        "metadata": {},
+        "model": "gpt-5-2025-08-07",
+        "object": "response",
+        "output": [
+          {
+            "id": "rs_0d8006d227cd1c9c006a1ef1e21680819ab52a29fb90982b08",
+            "summary": [],
+            "type": "reasoning",
+            "content": null,
+            "encrypted_content": null,
+            "status": null
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 1.0,
+        "background": false,
+        "conversation": null,
+        "max_output_tokens": 200,
+        "max_tool_calls": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "reasoning": {
+          "effort": "medium",
+          "generate_summary": null,
+          "summary": null,
+          "context": "current_turn"
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "incomplete",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 124,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 192,
+          "output_tokens_details": {
+            "reasoning_tokens": 192
+          },
+          "total_tokens": 316
+        },
+        "user": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "completed_at": null,
+        "frequency_penalty": 0.0,
+        "moderation": null,
+        "presence_penalty": 0.0,
+        "prompt_cache_retention": "in_memory",
+        "store": true
+      }
+    }
+  ]
+}

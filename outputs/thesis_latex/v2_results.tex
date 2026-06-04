@@ -1,0 +1,206 @@
+%% v2_results.tex — Chapter 7: V2 Agentic RAG Evaluation Results
+
+\chapter{V2 Agentic RAG: Evaluation Results}
+\label{chap:v2_results}
+
+This chapter presents the evaluation results for the V2 Agentic RAG pipeline described in Chapter~\ref{chap:v2_methodology}. Four experiments are reported: E1 (\textit{v2\_oracle}), E2 (\textit{v2\_oracle\_noloop}), E3 (\textit{v2\_oracle\_rankproxy}), and E4 (\textit{v2\_heuristic}). All experiments are evaluated on the same 380 answerable queries as the V1 baselines. Primary metrics are Recall@10, MRR, and nDCG@10 for retrieval quality, plus validation pass rate and mean loop count for pipeline behaviour.
+
+\section{Experimental Setup}
+\label{sec:v2_setup}
+
+\paragraph{Dataset.} Identical to V1 (Chapter~\ref{chap:methodology}): 380 answerable queries over the 1,206-chunk SEKD corpus, with the same query split and ground-truth labels.
+
+\paragraph{Evaluation procedure.} Each query passes through the full V2 pipeline (QAA $\to$ PA $\to$ RA $\to$ VA $\to$ optional re-retrieval $\to$ AA). Retrieved chunk sets after the final loop are compared against ground-truth chunk sets using standard IR metrics at $k{=}10$. The evaluation script (\texttt{scripts/run\_v2\_eval.py}) automates all four experiments sequentially.
+
+\paragraph{V1 reference values.} Table~\ref{tab:v2_full_comparison} includes all five V1 baselines for direct comparison. These values are reproduced from Table~\ref{tab:retrieval_performance} (Chapter~\ref{chap:results}).
+
+% ─────────────────────────────────────────────────────────────────────────────
+
+\section{Overall Retrieval Performance}
+\label{sec:v2_overall}
+
+Table~\ref{tab:v2_full_comparison} reports the primary retrieval metrics for all nine systems (five V1 baselines, four V2 experiments).
+
+\begin{table}[htbp]
+\centering
+\caption{Full System Comparison: V1 Baselines and V2 Agentic Experiments ($n{=}380$). Bold indicates best value per column.}
+\label{tab:v2_full_comparison}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{System} & \textbf{Recall@10} & \textbf{MRR} & \textbf{nDCG@10} & \textbf{Hit@10} & \textbf{Recall@1} \\
+\midrule
+\multicolumn{6}{l}{\textit{V1 Baselines (fixed-strategy)}} \\
+BM25                       & 0.713 & 0.457 & 0.509 & 0.768 & 0.298 \\
+Dense (BGE-small)          & 0.740 & 0.501 & 0.548 & 0.787 & 0.346 \\
+Hybrid (RRF)               & 0.745 & 0.530 & 0.566 & 0.797 & 0.368 \\
+\midrule
+\multicolumn{6}{l}{\textit{V1 Planners}} \\
+Rule Planner               & \textbf{0.755} & 0.522 & 0.563 & \textbf{0.808} & 0.358 \\
+GPT-5 Planner              & 0.750 & \textbf{0.533} & \textbf{0.570} & 0.803 & 0.368 \\
+\midrule
+\multicolumn{6}{l}{\textit{V2 Agentic RAG (this work)}} \\
+E1: Oracle + Adaptive + Re-retrieval   & 0.743 & 0.529 & 0.566 & 0.797 & 0.368 \\
+E2: Oracle + Adaptive, No Loop         & 0.743 & 0.529 & 0.566 & 0.797 & 0.368 \\
+E3: Oracle + Rank-Proxy + Re-retrieval & 0.743 & 0.529 & 0.566 & 0.797 & 0.368 \\
+E4: Heuristic + Adaptive + Re-retrieval & 0.745 & 0.530 & 0.566 & 0.797 & 0.368 \\
+\midrule
+\multicolumn{6}{l}{\textit{$\Delta$ vs.\ Rule Planner (best V1 Recall): E1 $-$ Rule Planner (pp)}} \\
+\quad & $-$1.2 & $+$0.7 & $+$0.3 & $-$1.1 & $+$1.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\FloatBarrier
+
+\paragraph{RQ8 --- Does V2 agentic retrieval outperform V1 planners?}
+
+E1 (\textit{v2\_oracle}) achieves Recall@10$={0.743}$ with oracle query analysis, adaptive validation scoring, and up to three re-retrieval loops. This is \emph{below} the best V1 system (Rule Planner, Recall@10$={0.755}$) by 1.2~pp. The V2 pipeline matches the Hybrid RRF baseline precisely on all metrics (0.745 / 0.530 / 0.566 / 0.797 / 0.368), with a negligible 0.2~pp deficit in Recall@10 attributable to the agentic pipeline's sequential processing overhead. V2 does outperform BM25 (+3.1~pp Recall@10) and Dense (+0.3~pp), confirming the V1 infrastructure is functioning correctly inside the agentic wrapper. \textbf{Answer: No --- the V2 pipeline does not outperform the best V1 planner.} The explanation lies in the pipeline statistics discussed in Section~\ref{sec:v2_pipeline_stats}: the Validation Agent's thresholds are too permissive, causing the re-retrieval loop to fire on only 5 of 380 queries.
+
+% ─────────────────────────────────────────────────────────────────────────────
+
+\section{Ablation Study: Contribution of Each V2 Component}
+\label{sec:v2_ablation}
+
+The four experiments form a structured ablation. Table~\ref{tab:v2_ablation} isolates the contribution of three design decisions: the re-retrieval loop (E1 vs.\ E2), the validation scorer (E1 vs.\ E3), and the QA method (E1 vs.\ E4).
+
+\begin{table}[htbp]
+\centering
+\caption{V2 Ablation Study: Pairwise Comparison of Experimental Configurations. $\Delta$ shows absolute performance difference (pp).}
+\label{tab:v2_ablation}
+\begin{tabular}{llccc}
+\toprule
+\textbf{Comparison} & \textbf{Ablated Component} & \textbf{$\Delta$ Recall@10} & \textbf{$\Delta$ MRR} & \textbf{$\Delta$ nDCG@10} \\
+\midrule
+E1 vs.\ E2 & Re-retrieval loop (RQ9) & $0.0$ & $0.0$ & $0.0$ \\
+E1 vs.\ E3 & Adaptive vs.\ rank-proxy scorer (RQ10) & $0.0$ & $0.0$ & $0.0$ \\
+E1 vs.\ E4 & Oracle vs.\ heuristic QA (RQ11) & $-0.1$ & $0.0$ & $-0.1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{RQ9 --- Does the re-retrieval loop improve performance?}
+
+Comparing E1 (max\_loops${=}3$) against E2 (max\_loops${=}0$) yields \textbf{zero difference on all metrics}: Recall@10 $= 0.743$, MRR $= 0.529$, nDCG@10 $= 0.566$ for both. The loop contributed no measurable improvement. As detailed in Section~\ref{sec:v2_pipeline_stats}, only 5 of 380 queries triggered re-retrieval in E1, and all 5 exhausted the maximum loop count (3) without the Validation Agent approving the retrieved set. \textbf{Answer: No --- the re-retrieval loop provides zero net improvement in this evaluation.} The critical finding is that the Validation Agent's adaptive scorer approves nearly all first-pass retrievals (98.7\%) even on the exception and temporal queries where ground-truth recall is low.
+
+\paragraph{RQ10 --- Which validation scorer is most effective?}
+
+Comparing E1 (adaptive scorer) against E3 (rank-proxy scorer) also yields \textbf{zero difference on all metrics}. Notably, E3 achieves a 100\% validation pass rate (Table~\ref{tab:v2_pipeline_stats}): the rank-proxy scorer never rejects any first-pass retrieval, meaning the loop is completely inactive. The adaptive scorer's slightly stricter threshold (98.7\% vs.\ 100\% pass rate) also does not translate into retrieval improvement when it does reject. \textbf{Answer: Neither scorer outperforms the other under current threshold settings.} The rank-proxy scorer is simultaneously more permissive (100\% pass) and equally ineffective, while the adaptive scorer rejects 5 queries but cannot improve their recall through re-retrieval.
+
+\paragraph{RQ11 --- How much does oracle query analysis contribute?}
+
+Comparing E1 (oracle) against E4 (heuristic QA) yields a negligible $-0.1$~pp difference on Recall@10 and nDCG@10, with E4 \emph{marginally outperforming} E1 (E4: 0.745 vs.\ E1: 0.743). This counterintuitive result arises because the heuristic QA agent defaults to Hybrid for most queries (it fires the Hybrid default when no specific exception or temporal pattern is found), and Hybrid RRF is the strongest fixed-strategy baseline. E1's oracle reasoning types route exception queries to Dense and temporal queries to BM25 --- strategies that are theoretically optimal but whose first-pass results pass validation regardless, so the oracle routing advantage is never exercised. \textbf{Answer: Oracle QA provides effectively no benefit over heuristic QA in this evaluation.}
+
+% ─────────────────────────────────────────────────────────────────────────────
+
+\section{Performance by Reasoning Type}
+\label{sec:v2_by_type}
+
+Table~\ref{tab:v2_by_type} reports Recall@10 by reasoning type for E1 (best V2 configuration) alongside the best V1 baseline per type. The most important comparison is on the two hardest categories: \texttt{exception} and \texttt{temporal}, which achieved Recall@10 ${\leq}0.412$ and ${\leq}0.200$ respectively under all V1 systems.
+
+\begin{table}[htbp]
+\centering
+\caption{Recall@10 by Reasoning Type: Best V1 System vs.\ V2 E1 (Oracle + Adaptive + Re-retrieval). $\Delta{=}$E1 minus best V1 per type.}
+\label{tab:v2_by_type}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Reasoning Type} & \textbf{$n$} & \textbf{Best V1} & \textbf{E1 (V2)} & \textbf{$\Delta$} \\
+\midrule
+single\_hop    & 220 & 0.836$^*$ & 0.823 & $-$1.3 \\
+multi\_hop     & 53  & 0.538$^*$ & 0.519 & $-$1.9 \\
+aggregation    & 35  & 0.924$^*$ & 0.914 & $-$1.0 \\
+comparison     & 33  & 0.879$^*$ & 0.848 & $-$3.1 \\
+exception      & 34  & 0.412$^*$ & 0.382 & $-$3.0 \\
+temporal       & 5   & 0.200$^*$ & 0.200 & $\phantom{-}$0.0 \\
+\midrule
+\textbf{Overall} & 380 & 0.755 & 0.743 & $-$1.2 \\
+\bottomrule
+\end{tabular}
+{\footnotesize $^*$ Best V1 per type: aggregation/multi\_hop = BM25; comparison/single\_hop/exception = Rule Planner or Hybrid (whichever higher); temporal = BM25.}
+\end{table}
+
+\FloatBarrier
+
+\paragraph{RQ12 --- Does re-retrieval address exception and temporal query failure?}
+
+The per-type results reveal that \textbf{V2 does not improve on V1 for any reasoning type}. The exception row is particularly significant: E1 achieves Recall@10$={0.382}$, which is 3.0~pp \emph{below} the best V1 result of 0.412 (BM25 or Hybrid). Temporal queries remain at Recall@10$={0.200}$ --- identical to BM25, the V1 best.
+
+The reason is confirmed by the pipeline statistics: the Validation Agent approves 100\% of exception and temporal queries on the first retrieval pass (Table~\ref{tab:v2_pipeline_stats}). Despite exception queries having structurally low recall under Dense retrieval, the adaptive scorer assigns cosine similarity scores to retrieved chunks that exceed the exception-type threshold ($\theta=0.22$). Topic-adjacent policy chunks that are contextually plausible --- even if they are the general rule rather than the exception clause --- receive similarity scores above this threshold and pass validation. The loop therefore never fires for the very query types it was designed to address. \textbf{Answer: The re-retrieval mechanism does not address exception or temporal failure modes under current threshold settings.}
+
+% ─────────────────────────────────────────────────────────────────────────────
+
+\section{Pipeline Statistics}
+\label{sec:v2_pipeline_stats}
+
+Table~\ref{tab:v2_pipeline_stats} reports statistics on the V2 pipeline's internal operation. These metrics characterise how often re-retrieval was triggered, how many loops were needed, and what fraction of queries encountered validation failure even after all loops were exhausted.
+
+\begin{table}[htbp]
+\centering
+\caption{V2 Pipeline Statistics Across Experiments ($n{=}380$).}
+\label{tab:v2_pipeline_stats}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Experiment} & \textbf{Pass Rate} & \textbf{Mean Loops} & \textbf{0 Loops} & \textbf{1--2 Loops} & \textbf{$\geq$3 Loops} \\
+\midrule
+E1: Oracle + Adaptive + Loop    & 0.987 & 0.039 & 375 & 0 & 5 \\
+E2: Oracle + Adaptive, No Loop  & 0.987 & 0.000 & 380 & --- & --- \\
+E3: Oracle + Rank-Proxy + Loop  & 1.000 & 0.000 & 380 & 0 & 0 \\
+E4: Heuristic + Adaptive + Loop & 0.976 & 0.071 & 371 & 0 & 9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The pipeline statistics reveal the central finding of the V2 evaluation: \textbf{the re-retrieval loop is nearly inactive.} In E1 (the primary configuration), 375 of 380 queries (98.7\%) pass validation on the first retrieval attempt. The 5 queries that fail validation (all single-hop type) exhaust all 3 loop iterations without passing --- they are detected but not correctable through strategy switching. In E4 (heuristic QA), 9 queries fail and exhaust the loop, with the slightly higher failure count attributable to the heuristic misclassifying some exception queries as other types.
+
+Critically, the per-reasoning-type breakdown (from pipeline\_stats.json) shows 100\% first-pass validation rate for exception, multi-hop, temporal, aggregation, and comparison queries in E1. Single-hop queries have 97.7\% first-pass rate. This pattern is the opposite of what the loop was designed to address: the hard query types (exception, temporal) pass validation despite having low actual recall.
+
+\paragraph{RQ13 --- What are the primary failure modes of the V2 agentic pipeline?}
+
+Table~\ref{tab:v2_failure_modes} reports the failure reason distribution for queries that exhausted all re-retrieval attempts.
+
+\begin{table}[htbp]
+\centering
+\caption{Validation Failure Reason Distribution (E1, queries exhausting all loops).}
+\label{tab:v2_failure_modes}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Failure Reason} & \textbf{Count} & \textbf{\% of Failures} \\
+\midrule
+insufficient\_coverage & 5 & 100.0\% \\
+wrong\_strategy        & 0 & 0.0\% \\
+too\_narrow            & 0 & 0.0\% \\
+missing\_entity        & 0 & 0.0\% \\
+low\_quality           & 0 & 0.0\% \\
+no\_chunks             & 0 & 0.0\% \\
+\midrule
+\textbf{Total failures} & 5 & 100\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All 5 persistent failures are classified as \texttt{insufficient\_coverage}: the Validation Agent retrieved chunks but fewer than $\delta{=}3$ scored above the type-specific threshold after all re-retrieval attempts. No failures are classified as \texttt{wrong\_strategy}, reflecting the fact that the 5 failing queries are single-hop queries where both strategy switching and repeated Hybrid retrieval fail to improve recall. The absence of \texttt{wrong\_strategy} failures for exception and temporal queries confirms that the loop never engages with these types: exception and temporal queries all pass the initial validation even with low actual recall, so no failure diagnosis is ever triggered for them.
+
+\textbf{Answer (RQ13)}: The primary failure mode is \texttt{insufficient\_coverage} for a small set of single-hop queries (5 / 380 = 1.3\%). However, the more consequential finding is that the dominant failure \emph{of the agentic architecture itself} is the validation threshold calibration: thresholds that are sufficiently permissive for strong-signal query types are also too permissive for weak-signal query types, preventing the loop from engaging where it is most needed.
+
+% ─────────────────────────────────────────────────────────────────────────────
+
+\section{Answer Quality Analysis}
+\label{sec:v2_answer_quality}
+
+The Answer Agent produces text responses with inline citation markers $[1]\ldots[N]$. The evaluation script implements an extractive fallback that concatenates the top-3 retrieved chunks when no LLM provider is configured. Because the evaluation was run without an LLM API key in the evaluation environment, all answer quality metrics (cited chunk count, confidence, evidence coverage) reflect the extractive fallback mode. These values are uniform across all experiments (3.0 cited chunks, coverage ${=}1.0$ by construction) and are not reported here as they do not reflect the LLM synthesis quality the Answer Agent is designed to provide. A separate evaluation of answer quality using an LLM judge protocol is identified as future work (Section~\ref{sec:conclusion_future}).
+
+% ─────────────────────────────────────────────────────────────────────────────
+
+\section{Summary of V2 Research Question Answers}
+\label{sec:v2_rq_summary}
+
+\paragraph{RQ8 --- Does V2 outperform the best V1 planner overall?} \textbf{No.} E1 achieves Recall@10$={0.743}$, below the Rule Planner at 0.755 ($-$1.2~pp). V2 matches the Hybrid RRF baseline but does not exceed any planner.
+
+\paragraph{RQ9 --- Does the re-retrieval loop improve performance?} \textbf{No.} E1 and E2 produce identical metrics (0.743 / 0.529 / 0.566). Only 5 of 380 queries trigger re-retrieval, and none are corrected by loop iterations.
+
+\paragraph{RQ10 --- Is the adaptive scorer more effective than rank-proxy?} \textbf{No measurable difference.} E1 and E3 produce identical metrics. The rank-proxy scorer achieves 100\% pass rate (no loop ever fires); the adaptive scorer achieves 98.7\% pass rate (5 loops fire, none succeed).
+
+\paragraph{RQ11 --- How much does oracle QA contribute versus heuristic QA?} \textbf{Negligibly.} E4 (heuristic) marginally outperforms E1 (oracle) by 0.1~pp on Recall@10, because the heuristic defaults to Hybrid for most queries and Hybrid is a strong baseline. Oracle reasoning types offer no advantage when validation thresholds prevent the loop from acting on correct type information.
+
+\paragraph{RQ12 --- Does re-retrieval address exception and temporal failure?} \textbf{No.} Exception recall remains at 0.382 ($-$3.0~pp vs.\ best V1); temporal recall at 0.200 (no change). Both types achieve 100\% first-pass validation despite low actual recall, preventing any re-retrieval from being triggered.
+
+\paragraph{RQ13 --- What are V2's primary failure modes?} \textbf{Threshold calibration.} The critical failure is not in the retrieval or planning components but in the validation scorer: existing threshold values ($\theta_{\text{exception}}{=}0.22$, $\theta_{\text{default}}{=}0.30$) are too permissive for weak-signal query types, causing the loop to classify bad retrievals as good ones. Among the 5 queries that do fail validation, all are classified as \texttt{insufficient\_coverage} --- indicating that when the loop does fire, it correctly identifies the problem but cannot resolve it through strategy switching alone.

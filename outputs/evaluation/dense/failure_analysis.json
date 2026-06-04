@@ -1,0 +1,851 @@
+{
+  "k": 10,
+  "total_queries": 380,
+  "total_zero_recall": 81,
+  "total_perfect_recall": 264,
+  "overall_avg_recall": 0.7404,
+  "top_failures": [
+    {
+      "query_id": "Q-000007",
+      "query": "How many total decisions were recorded across all PRJ-HYID-BETA project meetings?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 3,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "aggregation",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-007-C003",
+        "MTG-008-C003",
+        "MTG-009-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-001-C003",
+        "MTG-014-C003",
+        "MTG-013-C003",
+        "MTG-012-C001",
+        "MTG-011-C003",
+        "MTG-010-C001",
+        "MTG-009-C001",
+        "MTG-018-C003",
+        "MTG-026-C003",
+        "MTG-023-C003"
+      ]
+    },
+    {
+      "query_id": "Q-000402",
+      "query": "How many total decisions were recorded across all PRJ-BILLING-REVAMP project meetings?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 3,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "aggregation",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-025-C003",
+        "MTG-026-C003",
+        "MTG-027-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-028-C001",
+        "MTG-027-C001",
+        "MTG-030-C001",
+        "MTG-001-C003",
+        "MTG-029-C001",
+        "MTG-011-C003",
+        "MTG-028-C003",
+        "MTG-029-C003",
+        "MTG-013-C003",
+        "MTG-021-C003"
+      ]
+    },
+    {
+      "query_id": "Q-000002",
+      "query": "What authentication service and method does HYMonitor Event Ingestion Design \u2013 Data Flow and Integration use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-005-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-005-C002",
+        "SYS-DES-006-C004",
+        "SYS-DES-006-C002",
+        "SYS-DES-004-C002",
+        "SYS-DES-005-C004",
+        "SYS-DES-004-C004",
+        "SYS-DES-006-C005",
+        "SYS-DES-005-C005",
+        "SYS-DES-011-C004",
+        "SYS-DES-004-C007"
+      ]
+    },
+    {
+      "query_id": "Q-000016",
+      "query": "What authentication service and method does HYDataLake Partitioning Architecture \u2013 Decision Records and Failure Modes use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-009-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-008-C005",
+        "SYS-DES-009-C005",
+        "SYS-DES-009-C002",
+        "SYS-DES-007-C005",
+        "SYS-DES-007-C002",
+        "SYS-DES-008-C002",
+        "SYS-DES-011-C005",
+        "SYS-DES-010-C005",
+        "SYS-DES-002-C005",
+        "SYS-DES-003-C005"
+      ]
+    },
+    {
+      "query_id": "Q-000030",
+      "query": "The PRJ-DATALAKE-V2 meeting on 2023-12-04 referenced HR-POL-002. What entitlement does the Sick Leave Policy \u2013 KR define?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-021-C001",
+        "HR-POL-002-C004"
+      ],
+      "retrieved_chunk_ids": [
+        "HR-POL-012-C001",
+        "HR-POL-002-C001",
+        "HR-POL-017-C002",
+        "HR-POL-015-C002",
+        "HR-POL-014-C002",
+        "HR-POL-010-C002",
+        "HR-POL-002-C002",
+        "HR-POL-010-C003",
+        "HR-POL-002-C003",
+        "HR-POL-011-C001"
+      ]
+    },
+    {
+      "query_id": "Q-000033",
+      "query": "The PRJ-SECURITY-AUDIT meeting on 2023-08-28 referenced SEC-POL-018. What does control HY-DS-05 require under that security policy?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-015-C001",
+        "SEC-POL-018-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "SEC-POL-016-C003",
+        "SEC-POL-002-C003",
+        "SEC-POL-010-C003",
+        "SEC-POL-006-C003",
+        "SEC-POL-017-C003",
+        "SEC-POL-007-C003",
+        "SEC-POL-020-C003",
+        "SEC-POL-003-C003",
+        "SEC-POL-019-C003",
+        "SEC-POL-005-C003"
+      ]
+    },
+    {
+      "query_id": "Q-000056",
+      "query": "What authentication service and method does HYDataLake Partitioning Architecture \u2013 Data Flow and Integration use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-008-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-009-C002",
+        "SYS-DES-009-C004",
+        "SYS-DES-007-C002",
+        "SYS-DES-007-C004",
+        "SYS-DES-008-C002",
+        "SYS-DES-008-C004",
+        "API-DOC-018-C001",
+        "API-DOC-017-C001",
+        "SYS-DES-008-C005",
+        "API-DOC-020-C001"
+      ]
+    },
+    {
+      "query_id": "Q-000070",
+      "query": "What was the first decision made in the initial PRJ-BILLING-REVAMP meeting and what was the key outcome of the final meeting?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "temporal",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-025-C003",
+        "MTG-030-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-028-C001",
+        "MTG-027-C001",
+        "MTG-029-C001",
+        "MTG-030-C001",
+        "MTG-026-C001",
+        "MTG-025-C001",
+        "MTG-015-C001",
+        "MTG-016-C001",
+        "MTG-011-C001",
+        "MTG-017-C001"
+      ]
+    },
+    {
+      "query_id": "Q-000117",
+      "query": "What authentication service and method does HYMonitor Event Ingestion Design \u2013 Architecture Overview use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-004-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-005-C002",
+        "SYS-DES-006-C002",
+        "SYS-DES-004-C002",
+        "SYS-DES-006-C004",
+        "SYS-DES-006-C005",
+        "SYS-DES-005-C005",
+        "SYS-DES-005-C004",
+        "SYS-DES-004-C004",
+        "SYS-DES-004-C005",
+        "SYS-DES-004-C007"
+      ]
+    },
+    {
+      "query_id": "Q-000146",
+      "query": "What is the difference in exception handling between the Data Classification and Handling (critical) and Encryption Standards (high) policies?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Security Policies",
+      "reasoning_type": "comparison",
+      "difficulty": "hard",
+      "oracle_strategy": "metadata_filtered",
+      "difficulty_factors": [
+        "exception_handling",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SEC-POL-006-C003",
+        "SEC-POL-007-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "SEC-POL-006-C004",
+        "SEC-POL-011-C004",
+        "SEC-POL-008-C004",
+        "SEC-POL-007-C004",
+        "SEC-POL-001-C004",
+        "SEC-POL-016-C004",
+        "SEC-POL-006-C008",
+        "SEC-POL-003-C004",
+        "SEC-POL-002-C004",
+        "SEC-POL-013-C004"
+      ]
+    },
+    {
+      "query_id": "Q-000171",
+      "query": "What was the first decision made in the initial PRJ-SECURITY-AUDIT meeting and what was the key outcome of the final meeting?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "temporal",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-013-C003",
+        "MTG-018-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-016-C001",
+        "MTG-015-C001",
+        "MTG-018-C001",
+        "MTG-017-C001",
+        "MTG-013-C001",
+        "MTG-014-C001",
+        "MTG-001-C003",
+        "MTG-011-C001",
+        "MTG-010-C001",
+        "MTG-009-C001"
+      ]
+    },
+    {
+      "query_id": "Q-000181",
+      "query": "What was the first decision made in the initial PRJ-HYID-BETA meeting and what was the key outcome of the final meeting?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "temporal",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-007-C003",
+        "MTG-012-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-012-C001",
+        "MTG-009-C001",
+        "MTG-010-C001",
+        "MTG-011-C001",
+        "MTG-007-C001",
+        "MTG-008-C001",
+        "MTG-006-C001",
+        "MTG-010-C004",
+        "MTG-004-C001",
+        "MTG-003-C001"
+      ]
+    },
+    {
+      "query_id": "Q-000185",
+      "query": "What authentication service and method does HYDeploy Deployment Pipeline \u2013 Decision Records and Failure Modes use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-003-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-002-C005",
+        "SYS-DES-001-C002",
+        "SYS-DES-002-C002",
+        "SYS-DES-003-C002",
+        "SYS-DES-003-C005",
+        "SYS-DES-001-C005",
+        "API-DOC-010-C001",
+        "API-DOC-009-C001",
+        "API-DOC-008-C001",
+        "API-DOC-007-C001"
+      ]
+    },
+    {
+      "query_id": "Q-000219",
+      "query": "The PRJ-HYD-ALPHA meeting on 2023-05-07 referenced HR-POL-005. What entitlement does the Training and Development Reimbursement Policy \u2013 US define?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-005-C001",
+        "HR-POL-005-C004"
+      ],
+      "retrieved_chunk_ids": [
+        "HR-POL-005-C001",
+        "HR-POL-018-C004",
+        "HR-POL-008-C004",
+        "HR-POL-013-C004",
+        "HR-POL-003-C004",
+        "HR-POL-002-C004",
+        "HR-POL-017-C004",
+        "HR-POL-007-C004",
+        "HR-POL-011-C004",
+        "HR-POL-001-C004"
+      ]
+    },
+    {
+      "query_id": "Q-000265",
+      "query": "What authentication service and method does HYDeploy Deployment Pipeline \u2013 Data Flow and Integration use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-002-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-001-C002",
+        "SYS-DES-002-C002",
+        "SYS-DES-003-C002",
+        "SYS-DES-001-C004",
+        "SYS-DES-003-C004",
+        "API-DOC-010-C001",
+        "API-DOC-009-C001",
+        "API-DOC-008-C001",
+        "API-DOC-007-C001",
+        "API-DOC-006-C001"
+      ]
+    },
+    {
+      "query_id": "Q-000273",
+      "query": "The PRJ-HYD-ALPHA meeting on 2023-03-12 referenced HR-POL-002. What entitlement does the Sick Leave Policy \u2013 KR define?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-003-C001",
+        "HR-POL-002-C004"
+      ],
+      "retrieved_chunk_ids": [
+        "HR-POL-012-C001",
+        "HR-POL-002-C001",
+        "HR-POL-011-C001",
+        "HR-POL-001-C001",
+        "HR-POL-017-C002",
+        "HR-POL-015-C002",
+        "HR-POL-014-C002",
+        "HR-POL-010-C002",
+        "HR-POL-002-C002",
+        "HR-POL-012-C004"
+      ]
+    },
+    {
+      "query_id": "Q-000279",
+      "query": "What is the difference in exception handling between the Security Incident Classification and Response (critical) and Data Breach Notification (high) policies?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Security Policies",
+      "reasoning_type": "comparison",
+      "difficulty": "hard",
+      "oracle_strategy": "metadata_filtered",
+      "difficulty_factors": [
+        "exception_handling",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SEC-POL-011-C003",
+        "SEC-POL-012-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "SEC-POL-011-C004",
+        "SEC-POL-013-C004",
+        "SEC-POL-012-C004",
+        "SEC-POL-001-C004",
+        "SEC-POL-006-C004",
+        "SEC-POL-008-C004",
+        "SEC-POL-007-C004",
+        "SEC-POL-009-C005",
+        "SEC-POL-008-C005",
+        "SEC-POL-007-C005"
+      ]
+    },
+    {
+      "query_id": "Q-000290",
+      "query": "What authentication service and method does HYDeploy Deployment Pipeline \u2013 Architecture Overview use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-001-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-001-C002",
+        "SYS-DES-002-C002",
+        "SYS-DES-003-C002",
+        "API-DOC-010-C001",
+        "API-DOC-009-C001",
+        "API-DOC-006-C001",
+        "API-DOC-008-C001",
+        "API-DOC-007-C001",
+        "SYS-DES-002-C005",
+        "SYS-DES-002-C001"
+      ]
+    },
+    {
+      "query_id": "Q-000298",
+      "query": "What authentication service and method does HYMonitor Event Ingestion Design \u2013 Decision Records and Failure Modes use for identity management?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "System Design Documents",
+      "reasoning_type": "multi_hop",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "SYS-DES-006-C001",
+        "API-DOC-002-C001"
+      ],
+      "retrieved_chunk_ids": [
+        "SYS-DES-006-C005",
+        "SYS-DES-005-C005",
+        "SYS-DES-005-C002",
+        "SYS-DES-004-C005",
+        "SYS-DES-006-C002",
+        "SYS-DES-004-C002",
+        "SYS-DES-006-C004",
+        "SYS-DES-005-C004",
+        "SYS-DES-004-C004",
+        "SYS-DES-011-C005"
+      ]
+    },
+    {
+      "query_id": "Q-000313",
+      "query": "What was the first decision made in the initial PRJ-DATALAKE-V2 meeting and what was the key outcome of the final meeting?",
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0,
+      "n_relevant": 2,
+      "n_retrieved_relevant": 0,
+      "category": "Project Meeting Notes",
+      "reasoning_type": "temporal",
+      "difficulty": "hard",
+      "oracle_strategy": "multi_hop",
+      "difficulty_factors": [
+        "temporal_reasoning",
+        "multi_document_dependency"
+      ],
+      "required_chunk_ids": [
+        "MTG-019-C003",
+        "MTG-024-C003"
+      ],
+      "retrieved_chunk_ids": [
+        "MTG-022-C001",
+        "MTG-021-C001",
+        "MTG-024-C001",
+        "MTG-023-C001",
+        "MTG-028-C003",
+        "MTG-019-C001",
+        "MTG-020-C001",
+        "MTG-004-C001",
+        "MTG-003-C001",
+        "MTG-009-C001"
+      ]
+    }
+  ],
+  "failure_patterns": {
+    "by_reasoning_type": {
+      "aggregation": {
+        "total": 35,
+        "zero_recall": 2,
+        "partial_recall": 3,
+        "perfect_recall": 30,
+        "zero_recall_rate": 0.0571,
+        "avg_recall": 0.8952
+      },
+      "comparison": {
+        "total": 33,
+        "zero_recall": 4,
+        "partial_recall": 2,
+        "perfect_recall": 27,
+        "zero_recall_rate": 0.1212,
+        "avg_recall": 0.8485
+      },
+      "exception": {
+        "total": 34,
+        "zero_recall": 21,
+        "partial_recall": 0,
+        "perfect_recall": 13,
+        "zero_recall_rate": 0.6176,
+        "avg_recall": 0.3824
+      },
+      "multi_hop": {
+        "total": 53,
+        "zero_recall": 12,
+        "partial_recall": 30,
+        "perfect_recall": 11,
+        "zero_recall_rate": 0.2264,
+        "avg_recall": 0.4906
+      },
+      "single_hop": {
+        "total": 220,
+        "zero_recall": 37,
+        "partial_recall": 0,
+        "perfect_recall": 183,
+        "zero_recall_rate": 0.1682,
+        "avg_recall": 0.8318
+      },
+      "temporal": {
+        "total": 5,
+        "zero_recall": 5,
+        "partial_recall": 0,
+        "perfect_recall": 0,
+        "zero_recall_rate": 1.0,
+        "avg_recall": 0.0
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "total": 177,
+        "zero_recall": 34,
+        "partial_recall": 0,
+        "perfect_recall": 143,
+        "zero_recall_rate": 0.1921,
+        "avg_recall": 0.8079
+      },
+      "hard": {
+        "total": 81,
+        "zero_recall": 23,
+        "partial_recall": 35,
+        "perfect_recall": 23,
+        "zero_recall_rate": 0.284,
+        "avg_recall": 0.4979
+      },
+      "medium": {
+        "total": 122,
+        "zero_recall": 24,
+        "partial_recall": 0,
+        "perfect_recall": 98,
+        "zero_recall_rate": 0.1967,
+        "avg_recall": 0.8033
+      }
+    },
+    "by_category": {
+      "API Documentation": {
+        "total": 68,
+        "zero_recall": 0,
+        "partial_recall": 0,
+        "perfect_recall": 68,
+        "zero_recall_rate": 0.0,
+        "avg_recall": 1.0
+      },
+      "HR Policies": {
+        "total": 54,
+        "zero_recall": 20,
+        "partial_recall": 2,
+        "perfect_recall": 32,
+        "zero_recall_rate": 0.3704,
+        "avg_recall": 0.6111
+      },
+      "Project Meeting Notes": {
+        "total": 100,
+        "zero_recall": 33,
+        "partial_recall": 28,
+        "perfect_recall": 39,
+        "zero_recall_rate": 0.33,
+        "avg_recall": 0.5283
+      },
+      "Security Policies": {
+        "total": 64,
+        "zero_recall": 17,
+        "partial_recall": 0,
+        "perfect_recall": 47,
+        "zero_recall_rate": 0.2656,
+        "avg_recall": 0.7344
+      },
+      "System Design Documents": {
+        "total": 45,
+        "zero_recall": 11,
+        "partial_recall": 5,
+        "perfect_recall": 29,
+        "zero_recall_rate": 0.2444,
+        "avg_recall": 0.7
+      },
+      "Travel Policies": {
+        "total": 49,
+        "zero_recall": 0,
+        "partial_recall": 0,
+        "perfect_recall": 49,
+        "zero_recall_rate": 0.0,
+        "avg_recall": 1.0
+      }
+    },
+    "by_difficulty_factor": {
+      "document_version_conflict": {
+        "total": 12,
+        "zero_recall": 0,
+        "partial_recall": 0,
+        "perfect_recall": 12,
+        "zero_recall_rate": 0.0,
+        "avg_recall": 1.0
+      },
+      "exception_handling": {
+        "total": 38,
+        "zero_recall": 24,
+        "partial_recall": 0,
+        "perfect_recall": 14,
+        "zero_recall_rate": 0.6316,
+        "avg_recall": 0.3684
+      },
+      "keyword_ambiguity": {
+        "total": 10,
+        "zero_recall": 1,
+        "partial_recall": 2,
+        "perfect_recall": 7,
+        "zero_recall_rate": 0.1,
+        "avg_recall": 0.8
+      },
+      "metadata_dependency": {
+        "total": 38,
+        "zero_recall": 1,
+        "partial_recall": 2,
+        "perfect_recall": 35,
+        "zero_recall_rate": 0.0263,
+        "avg_recall": 0.9474
+      },
+      "multi_document_dependency": {
+        "total": 81,
+        "zero_recall": 23,
+        "partial_recall": 35,
+        "perfect_recall": 23,
+        "zero_recall_rate": 0.284,
+        "avg_recall": 0.4979
+      },
+      "none": {
+        "total": 117,
+        "zero_recall": 30,
+        "partial_recall": 0,
+        "perfect_recall": 87,
+        "zero_recall_rate": 0.2564,
+        "avg_recall": 0.7436
+      },
+      "table_dependency": {
+        "total": 124,
+        "zero_recall": 7,
+        "partial_recall": 0,
+        "perfect_recall": 117,
+        "zero_recall_rate": 0.0565,
+        "avg_recall": 0.9435
+      },
+      "temporal_reasoning": {
+        "total": 5,
+        "zero_recall": 5,
+        "partial_recall": 0,
+        "perfect_recall": 0,
+        "zero_recall_rate": 1.0,
+        "avg_recall": 0.0
+      }
+    }
+  }
+}

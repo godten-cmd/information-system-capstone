@@ -1,0 +1,27 @@
+{
+  "method": "v2_heuristic",
+  "description": "V2 heuristic QA + adaptive scorer + re-retrieval (ablation)",
+  "config": {
+    "use_oracle": false,
+    "scorer": "adaptive",
+    "max_loops": 3
+  },
+  "n_queries_total": 405,
+  "n_answerable": 380,
+  "answerable_only": true,
+  "k_values": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "recall_at_10": 0.7447,
+  "mrr": 0.5295,
+  "ndcg_at_10": 0.5664,
+  "hit_rate_at_10": 0.7974,
+  "validation_pass_rate": 0.9763,
+  "mean_loops": 0.071,
+  "n_errors": 0,
+  "duration_seconds": 3.808,
+  "timestamp": "2026-06-04T06:42:50.684574+00:00"
+}
